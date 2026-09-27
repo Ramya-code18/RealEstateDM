@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lead Management CRM - EstateLead</title>
+  <meta name="description" content="Centralized lead management CRM with algorithmic intent scoring, pipeline stages, agent assignments, and dynamic follow-up history.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .crm-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .crm-stat-card {
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      padding: 20px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .crm-stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--accent);
+    }
+    .crm-stat-val {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-top: 4px;
+    }
+    .crm-filter-bar {
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      padding: 20px;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .lead-table-container {
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      overflow-x: auto;
+      box-shadow: var(--shadow-sm);
+    }
+    .lead-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      text-align: left;
+    }
+    .lead-table th {
+      background: var(--bg-main);
+      padding: 14px 18px;
+      font-weight: 700;
+      color: var(--text-muted);
+      border-bottom: 2px solid var(--border);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .lead-table td {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    .lead-table tr:hover td {
+      background: #f8fafc;
+    }
+    .score-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+    .score-badge.HOT {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
+    .score-badge.WARM {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+    .score-badge.COLD {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+    }
+    .status-select-inline {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: #ffffff;
+      cursor: pointer;
+    }
+    /* Modal / Drawer */
+    .crm-drawer-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      display: flex;
+      justify-content: flex-end;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .crm-drawer-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .crm-drawer {
+      background: #ffffff;
+      width: 100%;
+      max-width: 650px;
+      height: 100vh;
+      overflow-y: auto;
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .crm-drawer-overlay.open .crm-drawer {
+      transform: translateX(0);
+    }
+    .timeline-item {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 20px;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 24px;
+      bottom: -16px;
+      width: 2px;
+      background: var(--border);
+    }
+    .timeline-item:last-child::before {
+      display: none;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: 0;
+      top: 4px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 3px solid #ffffff;
+      box-shadow: 0 0 0 1px var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="/" class="brand-logo">
+        <div class="logo-icon">🏢</div>
+        <span>EstateLead</span>
+        <span class="brand-badge" style="background: var(--primary); color: var(--accent-gold);">CRM System</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="/properties.html" class="nav-link">Properties</a></li>
+        <li><a href="/crm.html" class="nav-link active">Lead CRM</a></li>
+        <li><a href="/dashboard.html" class="nav-link">Customer View</a></li>
+      </ul>
+
+      <div class="nav-actions" id="nav-auth-actions"></div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: 30px; padding-bottom: 60px;">
+    <!-- CRM Top Header -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+      <div>
+        <h1 style="font-size: 2rem;">Lead Pipeline & CRM Management</h1>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">
+          Real-time lead qualification, explainable scoring, agent assignment, and follow-up tracking
+        </p>
+      </div>
+
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <button onclick="handleExportLeads()" class="btn btn-outline" id="btn-export-leads">
+          📥 Export Leads (CSV)
+        </button>
+        <button onclick="loadCRMData()" class="btn btn-primary" title="Refresh Live Leads">
+          🔄 Refresh
+        </button>
+      </div>
+    </div>
+
+    <!-- Metric Summary KPI Cards -->
+    <div class="crm-stats-grid">
+      <div class="crm-stat-card" onclick="filterByQuickCategory('ALL')">
+        <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Total Leads</div>
+        <div id="stat-crm-total" class="crm-stat-val">0</div>
+      </div>
+
+      <div class="crm-stat-card" onclick="filterByQuickCategory('HOT')" style="border-left: 4px solid var(--danger);">
+        <div style="font-size: 0.78rem; font-weight: 700; color: var(--danger); text-transform: uppercase;">🔥 Hot Leads</div>
+        <div id="stat-crm-hot" class="crm-stat-val" style="color: var(--danger);">0</div>
+      </div>
+
+      <div class="crm-stat-card" onclick="filterByQuickCategory('WARM')" style="border-left: 4px solid var(--warning);">
+        <div style="font-size: 0.78rem; font-weight: 700; color: var(--warning); text-transform: uppercase;">⚡ Warm Leads</div>
+        <div id="stat-crm-warm" class="crm-stat-val" style="color: var(--warning);">0</div>
+      </div>
+
+      <div class="crm-stat-card" onclick="filterByQuickCategory('COLD')" style="border-left: 4px solid var(--text-muted);">
+        <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">❄️ Cold Leads</div>
+        <div id="stat-crm-cold" class="crm-stat-val">0</div>
+      </div>
+
+      <div class="crm-stat-card" onclick="filterByQuickStatus('Converted')" style="border-left: 4px solid var(--success);">
+        <div style="font-size: 0.78rem; font-weight: 700; color: var(--success); text-transform: uppercase;">🏆 Converted</div>
+        <div id="stat-crm-converted" class="crm-stat-val" style="color: var(--success);">0</div>
+      </div>
+
+      <div class="crm-stat-card" style="border-left: 4px solid var(--accent);">
+        <div style="font-size: 0.78rem; font-weight: 700; color: var(--accent); text-transform: uppercase;">📈 Conversion Rate</div>
+        <div id="stat-crm-rate" class="crm-stat-val" style="color: var(--accent);">0%</div>
+      </div>
+    </div>
+
+    <!-- Advanced Filter & Search Toolbar -->
+    <div class="crm-filter-bar">
+      <div style="flex: 2; min-width: 240px;">
+        <input type="text" id="crm-search-input" class="form-control" placeholder="🔍 Search by lead name, phone, email, city..." oninput="debounceSearch()">
+      </div>
+
+      <div style="flex: 1; min-width: 140px;">
+        <select id="crm-category-filter" class="form-select" onchange="loadLeadsTable()">
+          <option value="ALL">All Categories</option>
+          <option value="HOT">🔥 Hot Leads (>= 75)</option>
+          <option value="WARM">⚡ Warm Leads (50-74)</option>
+          <option value="COLD">❄️ Cold Leads (< 50)</option>
+        </select>
+      </div>
+
+      <div style="flex: 1; min-width: 150px;">
+        <select id="crm-status-filter" class="form-select" onchange="loadLeadsTable()">
+          <option value="ALL">All Pipeline Stages</option>
+          <option value="New">New</option>
+          <option value="Contacted">Contacted</option>
+          <option value="Site Visit">Site Visit Scheduled</option>
+          <option value="Negotiation">Negotiation</option>
+          <option value="Converted">Converted (Deal Closed)</option>
+          <option value="Lost">Lost / Archived</option>
+        </select>
+      </div>
+
+      <div style="flex: 1; min-width: 150px;">
+        <select id="crm-agent-filter" class="form-select" onchange="loadLeadsTable()">
+          <option value="ALL">All Consultants</option>
+        </select>
+      </div>
+
+      <div style="flex: 1; min-width: 140px;">
+        <select id="crm-sort-filter" class="form-select" onchange="loadLeadsTable()">
+          <option value="id_desc">Newest First</option>
+          <option value="score_desc">Highest Score First</option>
+          <option value="score_asc">Lowest Score First</option>
+          <option value="date_asc">Oldest First</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Leads Table Container -->
+    <div class="lead-table-container">
+      <table class="lead-table">
+        <thead>
+          <tr>
+            <th>Lead #</th>
+            <th>Prospect Info</th>
+            <th>Interest & Property</th>
+            <th>Lead Score</th>
+            <th>Timeline</th>
+            <th>Pipeline Status</th>
+            <th>Assigned Consultant</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="crm-leads-tbody">
+          <tr>
+            <td colspan="8" style="text-align: center; padding: 40px; color: var(--text-muted);">
+              Loading real estate leads database...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top: 16px; display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 0.88rem;">
+      <div>Showing <span id="crm-showing-count">0</span> of <span id="crm-total-count">0</span> leads</div>
+      <div style="font-size: 0.8rem;">🔒 PII Masking Active for Non-Privileged Viewers</div>
+    </div>
+  </main>
+
+  <!-- Lead Detail & Follow-up Drawer -->
+  <div id="lead-drawer" class="crm-drawer-overlay">
+    <div class="crm-drawer">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 16px;">
+        <div>
+          <span id="drawer-lead-ref" class="brand-badge">Lead #L0</span>
+          <h2 id="drawer-lead-name" style="font-size: 1.4rem; margin-top: 4px;">Prospect Name</h2>
+        </div>
+        <button onclick="closeLeadDrawer()" style="border: none; background: transparent; font-size: 1.8rem; cursor: pointer; color: var(--text-muted);">&times;</button>
+      </div>
+
+      <!-- Score & Intent Rationale Card -->
+      <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Algorithmic Lead Score</span>
+          <span id="drawer-score-badge" class="score-badge HOT">🔥 95/100 (HOT)</span>
+        </div>
+        <p id="drawer-score-reason" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+          Intent Breakdown...
+        </p>
+      </div>
+
+      <!-- Prospect Contact & Criteria Details -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; font-size: 0.88rem;">
+        <div>
+          <span style="color: var(--text-muted); font-size: 0.78rem; font-weight: 700;">PHONE NUMBER</span>
+          <div id="drawer-lead-phone" style="font-weight: 700; margin-top: 2px;">+91 98401 00000</div>
+        </div>
+        <div>
+          <span style="color: var(--text-muted); font-size: 0.78rem; font-weight: 700;">EMAIL ADDRESS</span>
+          <div id="drawer-lead-email" style="font-weight: 700; margin-top: 2px;">email@example.com</div>
+        </div>
+        <div>
+          <span style="color: var(--text-muted); font-size: 0.78rem; font-weight: 700;">TARGET CITY / BUDGET</span>
+          <div id="drawer-lead-budget" style="font-weight: 700; margin-top: 2px;">Chennai • ₹80L-₹1.5Cr</div>
+        </div>
+        <div>
+          <span style="color: var(--text-muted); font-size: 0.78rem; font-weight: 700;">ENQUIRY TYPE</span>
+          <div id="drawer-lead-type" style="font-weight: 700; margin-top: 2px;">Property Enquiry</div>
+        </div>
+      </div>
+
+      <!-- Quick Action: Update Status & Reassign Agent -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+        <div>
+          <label class="form-label" style="font-size: 0.82rem;">Pipeline Stage</label>
+          <select id="drawer-status-select" class="form-select" onchange="handleDrawerStatusChange()">
+            <option value="New">New</option>
+            <option value="Contacted">Contacted</option>
+            <option value="Site Visit">Site Visit Scheduled</option>
+            <option value="Negotiation">Negotiation</option>
+            <option value="Converted">Converted</option>
+            <option value="Lost">Lost</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="form-label" style="font-size: 0.82rem;">Assigned Consultant</label>
+          <select id="drawer-agent-select" class="form-select" onchange="handleDrawerAgentChange()">
+          </select>
+        </div>
+      </div>
+
+      <hr style="border: none; border-top: 1px solid var(--border); margin: 4px 0;">
+
+      <!-- Log New Follow-up Form -->
+      <div>
+        <h3 style="font-size: 1.1rem; margin-bottom: 12px;">Log Follow-up Interaction</h3>
+        <form id="drawer-followup-form" onsubmit="handleDrawerFollowupSubmit(event)">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+            <div>
+              <label class="form-label" style="font-size: 0.8rem;">Follow-up Date</label>
+              <input type="date" id="followup-date-input" class="form-control" required min="${new Date().toISOString().split('T')[0]}">
+            </div>
+            <div>
+              <label class="form-label" style="font-size: 0.8rem;">Interaction Type</label>
+              <select id="followup-type-input" class="form-select">
+                <option value="Phone Call">📞 Phone Call</option>
+                <option value="Site Visit Tour">🏡 On-Site Tour</option>
+                <option value="WhatsApp / SMS">💬 WhatsApp / SMS</option>
+                <option value="Price Negotiation">🤝 Negotiation Meeting</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label class="form-label" style="font-size: 0.8rem;">Interaction Notes & Client Feedback</label>
+            <textarea id="followup-notes-input" class="form-control" rows="2" required placeholder="Client discussed 3 BHK requirements, requested floor plans for tower B..."></textarea>
+          </div>
+
+          <button type="submit" id="btn-save-followup" class="btn btn-primary" style="width: 100%;">
+            💾 Record Follow-up Interaction
+          </button>
+        </form>
+      </div>
+
+      <!-- Follow-up Timeline History -->
+      <div>
+        <h3 style="font-size: 1.1rem; margin-bottom: 16px;">Interaction History & Activity Log</h3>
+        <div id="drawer-timeline-container">
+          <div style="color: var(--text-muted); font-size: 0.88rem;">Loading interaction history...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-bottom" style="border: none;">
+      <div>&copy; 2026 EstateLead Properties. All rights reserved.</div>
+      <div>Zero External Ad Trackers • 100% Privacy Compliant</div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    let activeLeadId = null;
+    let cachedAgents = [];
+    let searchDebounceTimeout = null;
+
+    async function initCRM() {
+      if (!EstateLead.token) {
+        window.location.href = 'login.html?redirect=crm.html';
+        return;
+      }
+
+      if (EstateLead.user && EstateLead.user.role !== 'admin' && EstateLead.user.role !== 'agent') {
+        EstateLead.showToast('Access denied: Staff / Agent credentials required.', 'error');
+        setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+        return;
+      }
+
+      await loadAgentsList();
+      await loadCRMData();
+    }
+
+    async function loadAgentsList() {
+      try {
+        const res = await fetch('/api/crm/agents', {
+          headers: { Authorization: `Bearer ${EstateLead.token}` },
+        });
+        const data = await res.json();
+        if (data.success) {
+          cachedAgents = data.agents;
+          const agentFilter = document.getElementById('crm-agent-filter');
+          const drawerAgentSelect = document.getElementById('drawer-agent-select');
+
+          const options = cachedAgents.map(a => `<option value="${a.id}">${EstateLead.escapeHTML(a.name)} (${a.role})</option>`).join('');
+          agentFilter.innerHTML = '<option value="ALL">All Consultants</option>' + options;
+          drawerAgentSelect.innerHTML = options;
+        }
+      } catch (err) {
+        console.error('Failed to load agents:', err);
+      }
+    }
+
+    async function loadCRMData() {
+      await Promise.all([loadStats(), loadLeadsTable()]);
+    }
+
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/crm/stats', {
+          headers: { Authorization: `Bearer ${EstateLead.token}` },
+        });
+        const data = await res.json();
+        if (data.success) {
+          const s = data.stats;
+          document.getElementById('stat-crm-total').innerText = s.total_leads;
+          document.getElementById('stat-crm-hot').innerText = s.hot_leads;
+          document.getElementById('stat-crm-warm').innerText = s.warm_leads;
+          document.getElementById('stat-crm-cold').innerText = s.cold_leads;
+          document.getElementById('stat-crm-converted').innerText = s.converted_leads;
+          document.getElementById('stat-crm-rate').innerText = s.conversion_rate;
+        }
+      } catch (err) {
+        console.error('Failed to load stats:', err);
+      }
+    }
+
+    async function loadLeadsTable() {
+      const search = document.getElementById('crm-search-input').value;
+      const category = document.getElementById('crm-category-filter').value;
+      const status = document.getElementById('crm-status-filter').value;
+      const agentId = document.getElementById('crm-agent-filter').value;
+      const sortBy = document.getElementById('crm-sort-filter').value;
+
+      let url = `/api/crm/leads?sort_by=${sortBy}`;
+      if (search) url += `&search=${encodeURIComponent(search)}`;
+      if (category !== 'ALL') url += `&category=${category}`;
+      if (status !== 'ALL') url += `&status=${status}`;
+      if (agentId !== 'ALL') url += `&agent_id=${agentId}`;
+
+      try {
+        const res = await fetch(url, {
+          headers: { Authorization: `Bearer ${EstateLead.token}` },
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          renderLeadsTable(data.leads);
+          document.getElementById('crm-showing-count').innerText = data.count;
+          document.getElementById('crm-total-count').innerText = data.total;
+        }
+      } catch (err) {
+        console.error('Failed to load leads:', err);
+      }
+    }
+
+    function renderLeadsTable(leads) {
+      const tbody = document.getElementById('crm-leads-tbody');
+      if (!leads || leads.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" style="text-align: center; padding: 48px; color: var(--text-muted);">
+              <div style="font-size: 2rem; margin-bottom: 6px;">🔍</div>
+              <strong>No leads matching selected filters</strong>
+              <div style="font-size: 0.85rem; margin-top: 4px;">Try clearing your search query or category filters.</div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = leads.map(lead => {
+        const cat = lead.lead_category || lead.score_category || 'COLD';
+        const score = lead.lead_score || lead.score || 0;
+        const assigned = lead.assigned_agent_name || 'Unassigned';
+
+        return `
+          <tr data-lead-id="${lead.id}">
+            <td><strong style="color: var(--primary);">#L${lead.id}</strong></td>
+            <td>
+              <div style="font-weight: 700; color: var(--primary);">${EstateLead.escapeHTML(lead.name)}</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">📞 ${EstateLead.escapeHTML(lead.phone)}</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">✉️ ${EstateLead.escapeHTML(lead.email)}</div>
+            </td>
+            <td>
+              <div style="font-weight: 600; font-size: 0.88rem;">${EstateLead.escapeHTML(lead.property_title || lead.property_type || 'General Interest')}</div>
+              <div style="font-size: 0.78rem; color: var(--text-muted);">📍 ${EstateLead.escapeHTML(lead.location || lead.preferred_location || 'Chennai')} • ${lead.budget ? EstateLead.escapeHTML(lead.budget) : 'Standard'}</div>
+            </td>
+            <td>
+              <span class="score-badge ${cat}">
+                ${cat === 'HOT' ? '🔥' : cat === 'WARM' ? '⚡' : '❄️'} ${score}/100 (${cat})
+              </span>
+            </td>
+            <td>
+              <span style="font-size: 0.82rem; font-weight: 600;">${EstateLead.escapeHTML(lead.timeline || 'Within 1-3 mos')}</span>
+            </td>
+            <td>
+              <select class="status-select-inline" onchange="handleInlineStatusChange(${lead.id}, this.value)">
+                ${['New', 'Contacted', 'Site Visit', 'Negotiation', 'Converted', 'Lost'].map(st => {
+                  return `<option value="${st}" ${lead.status === st ? 'selected' : ''}>${st}</option>`;
+                }).join('')}
+              </select>
+            </td>
+            <td>
+              <span class="brand-badge" style="background: var(--bg-main); color: var(--primary);">
+                👤 ${EstateLead.escapeHTML(assigned)}
+              </span>
+            </td>
+            <td>
+              <button onclick="openLeadDrawer(${lead.id})" class="btn btn-outline btn-sm" style="padding: 6px 10px;">
+                👁️ Inspect
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function debounceSearch() {
+      clearTimeout(searchDebounceTimeout);
+      searchDebounceTimeout = setTimeout(loadLeadsTable, 300);
+    }
+
+    function filterByQuickCategory(cat) {
+      document.getElementById('crm-category-filter').value = cat;
+      loadLeadsTable();
+    }
+
+    function filterByQuickStatus(st) {
+      document.getElementById('crm-status-filter').value = st;
+      loadLeadsTable();
+    }
+
+    async function handleInlineStatusChange(leadId, newStatus) {
+      try {
+        const res = await fetch(`/api/crm/leads/${leadId}/status`, {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${EstateLead.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ status: newStatus }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          EstateLead.showToast(`Lead #${leadId} status updated to ${newStatus}`, 'success');
+          loadStats();
+        } else {
+          EstateLead.showToast(data.error || 'Failed to update status', 'error');
+          loadLeadsTable();
+        }
+      } catch (err) {
+        EstateLead.showToast('Network error updating lead status', 'error');
+      }
+    }
+
+    async function openLeadDrawer(leadId) {
+      activeLeadId = leadId;
+      document.getElementById('lead-drawer').classList.add('open');
+
+      try {
+        const res = await fetch(`/api/crm/leads/${leadId}`, {
+          headers: { Authorization: `Bearer ${EstateLead.token}` },
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          const l = data.lead;
+          document.getElementById('drawer-lead-ref').innerText = `Lead #L${l.id}`;
+          document.getElementById('drawer-lead-name').innerText = l.name;
+          document.getElementById('drawer-lead-phone').innerText = l.phone;
+          document.getElementById('drawer-lead-email').innerText = l.email;
+          document.getElementById('drawer-lead-budget').innerText = `${l.location || 'Chennai'} • ${l.budget || '₹50L - ₹80L'}`;
+          document.getElementById('drawer-lead-type').innerText = `${l.enquiry_type || 'General'} (${l.property_type || 'Apartments'})`;
+
+          const cat = l.lead_category || 'COLD';
+          const scoreBadge = document.getElementById('drawer-score-badge');
+          scoreBadge.className = `score-badge ${cat}`;
+          scoreBadge.innerText = `${cat === 'HOT' ? '🔥' : cat === 'WARM' ? '⚡' : '❄️'} ${l.lead_score || 0}/100 (${cat})`;
+
+          document.getElementById('drawer-score-reason').innerText = l.score_reason || 'Score calculated based on standard engagement parameters.';
+          document.getElementById('drawer-status-select').value = l.status || 'New';
+
+          if (l.assigned_to || l.assigned_agent_id) {
+            document.getElementById('drawer-agent-select').value = l.assigned_to || l.assigned_agent_id;
+          }
+
+          // Pre-fill tomorrow for follow-up date
+          const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+          document.getElementById('followup-date-input').value = tomorrow;
+
+          renderTimeline(data.followups || []);
+        }
+      } catch (err) {
+        console.error('Failed to load single lead drawer:', err);
+      }
+    }
+
+    function renderTimeline(followups) {
+      const container = document.getElementById('drawer-timeline-container');
+      if (!followups || followups.length === 0) {
+        container.innerHTML = `<div style="color: var(--text-muted); font-size: 0.85rem;">No prior interaction logs for this lead yet.</div>`;
+        return;
+      }
+
+      container.innerHTML = followups.map(f => {
+        return `
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">
+              ${new Date(f.created_at).toLocaleDateString()} at ${f.followup_time || '10:00 AM'} • Logged by ${EstateLead.escapeHTML(f.agent_name || 'Consultant')}
+            </div>
+            <div style="font-weight: 700; color: var(--primary); font-size: 0.92rem; margin-top: 2px;">
+              Scheduled: ${f.followup_date}
+            </div>
+            <p style="font-size: 0.88rem; color: var(--text-main); margin-top: 4px; background: var(--bg-main); padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+              ${EstateLead.escapeHTML(f.notes)}
+            </p>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function closeLeadDrawer() {
+      document.getElementById('lead-drawer').classList.remove('open');
+      activeLeadId = null;
+    }
+
+    async function handleDrawerStatusChange() {
+      if (!activeLeadId) return;
+      const status = document.getElementById('drawer-status-select').value;
+      await handleInlineStatusChange(activeLeadId, status);
+      loadLeadsTable();
+    }
+
+    async function handleDrawerAgentChange() {
+      if (!activeLeadId) return;
+      const agent_id = document.getElementById('drawer-agent-select').value;
+
+      try {
+        const res = await fetch(`/api/crm/leads/${activeLeadId}/assign`, {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${EstateLead.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ agent_id }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          EstateLead.showToast(`Lead reassigned to ${data.assigned_agent.name}`, 'success');
+          loadLeadsTable();
+        } else {
+          EstateLead.showToast(data.error || 'Failed to reassign agent', 'error');
+        }
+      } catch (err) {
+        EstateLead.showToast('Network error reassigning agent', 'error');
+      }
+    }
+
+    async function handleDrawerFollowupSubmit(e) {
+      e.preventDefault();
+      if (!activeLeadId) return;
+
+      const btn = document.getElementById('btn-save-followup');
+      btn.disabled = true;
+      btn.innerText = 'Recording Follow-up...';
+
+      const followup_date = document.getElementById('followup-date-input').value;
+      const followup_type = document.getElementById('followup-type-input').value;
+      const rawNotes = document.getElementById('followup-notes-input').value;
+      const notes = `[${followup_type}] ${rawNotes}`;
+
+      try {
+        const res = await fetch(`/api/crm/leads/${activeLeadId}/followups`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${EstateLead.token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ followup_date, notes }),
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          EstateLead.showToast('Follow-up interaction recorded!', 'success');
+          document.getElementById('followup-notes-input').value = '';
+          // Reload single lead drawer timeline
+          openLeadDrawer(activeLeadId);
+          loadCRMData();
+        } else {
+          EstateLead.showToast(data.error || 'Failed to record follow-up', 'error');
+        }
+      } catch (err) {
+        EstateLead.showToast('Network error recording follow-up', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = '💾 Record Follow-up Interaction';
+      }
+    }
+
+    async function handleExportLeads() {
+      const category = document.getElementById('crm-category-filter').value;
+      const status = document.getElementById('crm-status-filter').value;
+      let url = `/api/crm/export?`;
+      if (category !== 'ALL') url += `&category=${category}`;
+      if (status !== 'ALL') url += `&status=${status}`;
+
+      try {
+        EstateLead.showToast('Generating CSV report with SecureEstate audit log...', 'info');
+        const res = await fetch(url, {
+          headers: { Authorization: `Bearer ${EstateLead.token}` },
+        });
+
+        if (res.status === 200) {
+          const blob = await res.blob();
+          const downloadUrl = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = downloadUrl;
+          a.download = `estatelead-export-${new Date().toISOString().split('T')[0]}.csv`;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          EstateLead.showToast('CSV export downloaded successfully!', 'success');
+        } else {
+          EstateLead.showToast('Failed to export leads', 'error');
+        }
+      } catch (err) {
+        EstateLead.showToast('Network error exporting CSV', 'error');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initCRM);
+  </script>
+</body>
+</html>

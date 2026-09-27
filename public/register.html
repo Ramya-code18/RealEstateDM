@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Registration - EstateLead</title>
+  <meta name="description" content="Create a personalized customer account on EstateLead with custom property criteria.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 30px 20px;">
+
+  <div style="background: #ffffff; border-radius: var(--radius-lg); padding: 40px; width: 100%; max-width: 540px; box-shadow: var(--shadow-lg);">
+    <div style="text-align: center; margin-bottom: 24px;">
+      <a href="index.html" class="brand-logo" style="justify-content: center; margin-bottom: 8px;">
+        <div class="logo-icon">🏢</div>
+        <span>EstateLead</span>
+      </a>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">Customer Account & Preferences Registration</p>
+    </div>
+
+    <form id="register-form" onsubmit="handleRegister(event)">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" id="reg-name" class="form-control" placeholder="Vikramaditya Rao" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mobile Number</label>
+          <input type="tel" id="reg-phone" class="form-control" placeholder="+91 98401 XXXXX" required>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 14px;">
+        <label class="form-label">Email Address</label>
+        <input type="email" id="reg-email" class="form-control" placeholder="vikram@example.com" required>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 20px;">
+        <label class="form-label">Password (Min 8 characters)</label>
+        <input type="password" id="reg-password" class="form-control" placeholder="Create strong password" required>
+      </div>
+
+      <!-- Personalized Preferences Box -->
+      <div style="background: var(--bg-main); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 18px; margin-bottom: 24px;">
+        <div style="font-weight: 700; color: var(--primary); margin-bottom: 12px; font-size: 0.9rem;">
+          🎯 Personalized Property Preferences:
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+          <div class="form-group">
+            <label class="form-label" style="font-size: 0.75rem;">Preferred Location</label>
+            <select id="reg-location" class="form-select">
+              <option value="Chennai">Chennai</option>
+              <option value="Bangalore">Bangalore</option>
+              <option value="Coimbatore">Coimbatore</option>
+              <option value="Hyderabad">Hyderabad</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" style="font-size: 0.75rem;">Property Type</label>
+            <select id="reg-type" class="form-select">
+              <option value="Apartments">Apartments</option>
+              <option value="Luxury Villas">Luxury Villas</option>
+              <option value="Penthouses">Penthouses</option>
+              <option value="Plots">Plots</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" style="font-size: 0.75rem;">Budget Range</label>
+          <select id="reg-budget" class="form-select">
+            <option value="Under ₹50 Lakhs">Under ₹50 Lakhs</option>
+            <option value="₹50L - ₹80L" selected>₹50L - ₹80 Lakhs</option>
+            <option value="₹80L - ₹1.5 Cr">₹80L - ₹1.5 Crore</option>
+            <option value="Above ₹1.5 Cr">Above ₹1.5 Crore</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" id="btn-reg-submit" class="btn btn-accent btn-lg" style="width: 100%; margin-bottom: 18px;">
+        Create My Account & Save Preferences
+      </button>
+
+      <div style="text-align: center; font-size: 0.9rem; color: var(--text-muted);">
+        Already have an account? <a href="login.html" style="font-weight: 700; color: var(--primary);">Sign In</a>
+      </div>
+    </form>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    async function handleRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById('reg-name').value.trim();
+      const phone = document.getElementById('reg-phone').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const password = document.getElementById('reg-password').value;
+      const preferred_location = document.getElementById('reg-location').value;
+      const preferred_property_type = document.getElementById('reg-type').value;
+      const budget_range = document.getElementById('reg-budget').value;
+      const btn = document.getElementById('btn-reg-submit');
+
+      btn.disabled = true;
+      btn.innerText = 'Creating Account...';
+
+      try {
+        const res = await fetch(EstateLead.apiUrl('/api/auth/register'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name,
+            phone,
+            email,
+            password,
+            preferred_location,
+            preferred_property_type,
+            budget_range,
+          }),
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          EstateLead.setAuth(data.token, data.user);
+          EstateLead.showToast('Account created successfully! Welcome to EstateLead.', 'success');
+          setTimeout(() => {
+            window.location.href = 'properties.html';
+          }, 800);
+        } else {
+          EstateLead.showToast(data.error || 'Registration failed.', 'error');
+          btn.disabled = false;
+          btn.innerText = 'Create My Account & Save Preferences';
+        }
+      } catch (err) {
+        EstateLead.showToast('Connection failed.', 'error');
+        btn.disabled = false;
+        btn.innerText = 'Create My Account & Save Preferences';
+      }
+    }
+  </script>
+</body>
+</html>

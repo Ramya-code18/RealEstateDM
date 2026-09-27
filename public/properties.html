@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property Catalog & Search - EstateLead</title>
+  <meta name="description" content="Search verified luxury homes, apartments, villas and penthouses with multi-criteria filters on EstateLead.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .catalog-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 32px;
+      margin-top: 30px;
+      margin-bottom: 60px;
+    }
+    .filter-sidebar {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      height: fit-content;
+      position: sticky;
+      top: 96px;
+    }
+    .filter-group {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .filter-group:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .filter-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--primary);
+    }
+    @media (max-width: 900px) {
+      .catalog-layout {
+        grid-template-columns: 1fr;
+      }
+      .filter-sidebar {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-icon">🏢</div>
+        <span>EstateLead</span>
+        <span class="brand-badge">SecureEstate</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="properties.html" class="nav-link active">Properties</a></li>
+        <li><a href="properties.html?purpose=Buy" class="nav-link">Buy</a></li>
+        <li><a href="properties.html?purpose=Rent" class="nav-link">Rent</a></li>
+        <li><a href="saved.html" class="nav-link">Saved Wishlist</a></li>
+      </ul>
+
+      <div class="nav-actions" id="nav-auth-actions">
+        <a href="login.html" class="btn btn-outline btn-sm">Sign In</a>
+        <a href="register.html" class="btn btn-primary btn-sm">Register</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container" style="padding-top: 30px;">
+    <!-- Breadcrumbs -->
+    <div style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">
+      <a href="index.html" style="color: var(--text-muted);">Home</a> &nbsp;&gt;&nbsp; <span style="color: var(--primary); font-weight: 600;">Property Catalog</span>
+    </div>
+
+    <!-- Catalog Layout -->
+    <div class="catalog-layout">
+      <!-- Filter Sidebar -->
+      <aside class="filter-sidebar">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h3 style="font-size: 1.2rem;">Filters</h3>
+          <button onclick="resetFilters()" class="btn btn-outline btn-sm" style="padding: 4px 8px; font-size: 0.75rem;">Reset All</button>
+        </div>
+
+        <!-- Keyword Search -->
+        <div class="filter-group">
+          <label class="filter-title">Keyword Search</label>
+          <input type="text" id="filter-search" class="form-control" placeholder="Search by name, landmark..." oninput="debounceFetch()">
+        </div>
+
+        <!-- Purpose: Buy vs Rent -->
+        <div class="filter-group">
+          <label class="filter-title">Purpose</label>
+          <select id="filter-purpose" class="form-select" onchange="fetchProperties()">
+            <option value="all">All (Buy & Rent)</option>
+            <option value="Buy">Buy Only</option>
+            <option value="Rent">Rent Only</option>
+          </select>
+        </div>
+
+        <!-- Location Filter -->
+        <div class="filter-group">
+          <label class="filter-title">City / Location</label>
+          <select id="filter-location" class="form-select" onchange="fetchProperties()">
+            <option value="all">All Cities</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Bangalore">Bangalore</option>
+            <option value="Coimbatore">Coimbatore</option>
+            <option value="Hyderabad">Hyderabad</option>
+          </select>
+        </div>
+
+        <!-- Property Type -->
+        <div class="filter-group">
+          <label class="filter-title">Property Type</label>
+          <select id="filter-type" class="form-select" onchange="fetchProperties()">
+            <option value="all">All Types</option>
+            <option value="Apartments">Apartments</option>
+            <option value="Luxury Villas">Luxury Villas</option>
+            <option value="Penthouses">Penthouses</option>
+            <option value="Plots">Residential Plots</option>
+          </select>
+        </div>
+
+        <!-- Bedrooms / BHK -->
+        <div class="filter-group">
+          <label class="filter-title">Bedrooms (BHK)</label>
+          <select id="filter-bhk" class="form-select" onchange="fetchProperties()">
+            <option value="all">Any BHK</option>
+            <option value="1">1 BHK</option>
+            <option value="2">2 BHK</option>
+            <option value="3">3 BHK</option>
+            <option value="4">4+ BHK Luxury</option>
+          </select>
+        </div>
+
+        <!-- Budget / Price Range -->
+        <div class="filter-group">
+          <label class="filter-title">Budget Tier</label>
+          <select id="filter-budget" class="form-select" onchange="fetchProperties()">
+            <option value="all">All Budgets</option>
+            <option value="0-5000000">Under ₹50 Lakhs</option>
+            <option value="5000000-8000000">₹50L - ₹80 Lakhs</option>
+            <option value="8000000-15000000">₹80L - ₹1.5 Crore</option>
+            <option value="15000000-100000000">Above ₹1.5 Crore</option>
+          </select>
+        </div>
+
+        <!-- Availability -->
+        <div class="filter-group">
+          <label class="filter-title">Availability</label>
+          <select id="filter-availability" class="form-select" onchange="fetchProperties()">
+            <option value="all">All Status</option>
+            <option value="Available">Available</option>
+            <option value="Under Offer">Under Offer</option>
+            <option value="Sold">Sold</option>
+          </select>
+        </div>
+      </aside>
+
+      <!-- Main Catalog Results Section -->
+      <section>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 14px;">
+          <div>
+            <h1 style="font-size: 1.8rem; margin-bottom: 4px;">Available Real Estate Inventory</h1>
+            <p id="results-count-text" style="color: var(--text-muted); font-size: 0.95rem;">Showing properties...</p>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">Sort By:</label>
+            <select id="filter-sort" class="form-select" style="width: auto;" onchange="fetchProperties()">
+              <option value="newest">Newest Listed</option>
+              <option value="price_asc">Price: Low to High</option>
+              <option value="price_desc">Price: High to Low</option>
+              <option value="popular">Most Popular</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Property Grid Container -->
+        <div id="catalog-properties-grid" class="property-grid">
+          <div style="grid-column: 1 / -1; text-align: center; padding: 60px; color: var(--text-muted);">
+            Fetching property listings...
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-bottom" style="border: none;">
+      <div>&copy; 2026 EstateLead Properties. All rights reserved.</div>
+      <div>Zero External Ad Trackers • 100% Privacy Compliant</div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    let debounceTimer = null;
+
+    function debounceFetch() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(fetchProperties, 300);
+    }
+
+    // Read URL query parameters on initial page load
+    function initFiltersFromURL() {
+      const params = new URLSearchParams(window.location.search);
+
+      if (params.get('purpose')) document.getElementById('filter-purpose').value = params.get('purpose');
+      if (params.get('location')) document.getElementById('filter-location').value = params.get('location');
+      if (params.get('type')) document.getElementById('filter-type').value = params.get('type');
+      if (params.get('bhk')) document.getElementById('filter-bhk').value = params.get('bhk');
+      if (params.get('search')) document.getElementById('filter-search').value = params.get('search');
+
+      const minP = params.get('min_price');
+      const maxP = params.get('max_price');
+      if (minP && maxP) {
+        document.getElementById('filter-budget').value = `${minP}-${maxP}`;
+      }
+    }
+
+    async function fetchProperties() {
+      const purpose = document.getElementById('filter-purpose').value;
+      const loc = document.getElementById('filter-location').value;
+      const type = document.getElementById('filter-type').value;
+      const bhk = document.getElementById('filter-bhk').value;
+      const budget = document.getElementById('filter-budget').value;
+      const availability = document.getElementById('filter-availability').value;
+      const search = document.getElementById('filter-search').value;
+      const sort = document.getElementById('filter-sort').value;
+
+      let query = `/api/properties?sort=${sort}`;
+      if (purpose !== 'all') query += `&purpose=${encodeURIComponent(purpose)}`;
+      if (loc !== 'all') query += `&location=${encodeURIComponent(loc)}`;
+      if (type !== 'all') query += `&type=${encodeURIComponent(type)}`;
+      if (bhk !== 'all') query += `&bhk=${encodeURIComponent(bhk)}`;
+      if (availability !== 'all') query += `&availability=${encodeURIComponent(availability)}`;
+      if (search.trim()) query += `&search=${encodeURIComponent(search.trim())}`;
+      if (budget !== 'all') {
+        const [min, max] = budget.split('-');
+        query += `&min_price=${min}&max_price=${max}`;
+      }
+
+      const grid = document.getElementById('catalog-properties-grid');
+      const countText = document.getElementById('results-count-text');
+
+      try {
+        const res = await fetch(query, {
+          headers: EstateLead.token ? { Authorization: `Bearer ${EstateLead.token}` } : {},
+        });
+        const data = await res.json();
+
+        if (data.success && data.properties.length > 0) {
+          countText.innerText = `Found ${data.count} verified property listing(s)`;
+          grid.innerHTML = data.properties.map(p => EstateLead.renderPropertyCard(p)).join('');
+        } else {
+          countText.innerText = `No matching properties found`;
+          grid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border);">
+              <div style="font-size: 3rem; margin-bottom: 12px;">🏡</div>
+              <h3 style="font-size: 1.3rem; margin-bottom: 8px;">No properties match your active filters</h3>
+              <p style="color: var(--text-muted); margin-bottom: 20px;">Try adjusting your search criteria or resetting filters.</p>
+              <button onclick="resetFilters()" class="btn btn-primary">Reset Filters</button>
+            </div>
+          `;
+        }
+      } catch (err) {
+        console.error('Fetch error:', err);
+        grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: var(--danger); padding: 40px;">Error loading listings. Please try again.</div>`;
+      }
+    }
+
+    function resetFilters() {
+      document.getElementById('filter-purpose').value = 'all';
+      document.getElementById('filter-location').value = 'all';
+      document.getElementById('filter-type').value = 'all';
+      document.getElementById('filter-bhk').value = 'all';
+      document.getElementById('filter-budget').value = 'all';
+      document.getElementById('filter-availability').value = 'all';
+      document.getElementById('filter-search').value = '';
+      document.getElementById('filter-sort').value = 'newest';
+      fetchProperties();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initFiltersFromURL();
+      fetchProperties();
+    });
+  </script>
+</body>
+</html>

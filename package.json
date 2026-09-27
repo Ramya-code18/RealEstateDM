@@ -1,0 +1,41 @@
+{
+  "name": "estatelead",
+  "version": "2.0.0",
+  "description": "EstateLead - Real Estate Digital Marketing & Secure Lead Generation System",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node server/index.js",
+    "seed": "node server/db/seed.js",
+    "test": "node test/runAllTests.js",
+    "test:stage1": "node test/stage1.test.js",
+    "test:stage2": "node test/stage2.test.js",
+    "test:stage3": "node test/stage3.test.js",
+    "test:stage4": "node test/stage4.test.js",
+    "test:stage5": "node test/stage5.test.js",
+    "test:stage6": "node test/stage6.test.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.4.1",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "sqlite3": "^5.1.7",
+    "validator": "^13.12.0"
+  },
+  "keywords": [
+    "real-estate",
+    "crm",
+    "lead-generation",
+    "digital-marketing",
+    "security",
+    "rbac",
+    "audit-logging"
+  ],
+  "author": "EstateLead Engineering Team",
+  "license": "ISC"
+}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saved Wishlist Properties - EstateLead</title>
+  <meta name="description" content="Manage your saved properties, bookmark shortlist, and schedule site visits on EstateLead.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-icon">🏢</div>
+        <span>EstateLead</span>
+        <span class="brand-badge">SecureEstate</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="properties.html" class="nav-link">Properties</a></li>
+        <li><a href="saved.html" class="nav-link active">Saved Wishlist</a></li>
+      </ul>
+
+      <div class="nav-actions" id="nav-auth-actions">
+        <a href="login.html" class="btn btn-outline btn-sm">Sign In</a>
+        <a href="register.html" class="btn btn-primary btn-sm">Register</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: 36px; padding-bottom: 60px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; flex-wrap: wrap; gap: 14px;">
+      <div>
+        <h1 style="font-size: 2.2rem; letter-spacing: -0.5px;">My Saved Wishlist</h1>
+        <p id="saved-subtitle" style="color: var(--text-muted); font-size: 1rem; margin-top: 4px;">
+          Your shortlisted residential properties and luxury estates
+        </p>
+      </div>
+      <a href="properties.html" class="btn btn-outline">+ Discover More Properties</a>
+    </div>
+
+    <!-- Saved Properties Grid -->
+    <div id="saved-properties-grid" class="property-grid">
+      <div style="grid-column: 1 / -1; text-align: center; padding: 60px; color: var(--text-muted);">
+        Loading saved properties...
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-bottom" style="border: none;">
+      <div>&copy; 2026 EstateLead Properties. All rights reserved.</div>
+      <div>Zero External Ad Trackers • 100% Privacy Compliant</div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    async function loadSavedProperties() {
+      if (!EstateLead.token) {
+        document.getElementById('saved-properties-grid').innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border);">
+            <div style="font-size: 3rem; margin-bottom: 12px;">🔒</div>
+            <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Please Sign In to Access Your Wishlist</h3>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Saved properties are securely synced with your personalized customer account.</p>
+            <a href="login.html?redirect=saved.html" class="btn btn-primary">Sign In to Your Account</a>
+          </div>
+        `;
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/properties/saved', {
+          headers: { Authorization: `Bearer ${EstateLead.token}` },
+        });
+        const data = await res.json();
+        const grid = document.getElementById('saved-properties-grid');
+        const subtitle = document.getElementById('saved-subtitle');
+
+        if (data.success && data.properties.length > 0) {
+          subtitle.innerText = `You have ${data.count} saved property listing(s) in your shortlist`;
+          grid.innerHTML = data.properties.map(p => EstateLead.renderPropertyCard(p)).join('');
+        } else {
+          subtitle.innerText = `No properties in your wishlist yet`;
+          grid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border);">
+              <div style="font-size: 3rem; margin-bottom: 12px;">🤍</div>
+              <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Your Wishlist is Empty</h3>
+              <p style="color: var(--text-muted); margin-bottom: 20px;">Browse our property catalog and click the heart icon on any residence to shortlist it here.</p>
+              <a href="/properties.html" class="btn btn-primary">Explore Property Catalog</a>
+            </div>
+          `;
+        }
+      } catch (err) {
+        console.error('Failed to load saved properties:', err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadSavedProperties);
+  </script>
+</body>
+</html>
