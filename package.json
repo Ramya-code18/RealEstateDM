@@ -24,6 +24,7 @@
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
+    "pg": "^8.23.0",
     "sqlite3": "^5.1.7",
     "validator": "^13.12.0"
   },

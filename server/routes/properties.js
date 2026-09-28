@@ -98,7 +98,7 @@ router.get('/', optionalAuth, async (req, res) => {
 
     // 8. Featured Filter
     if (featured === 'true' || featured === '1') {
-      queryText += ` AND (featured = TRUE OR featured = 1)`;
+      queryText += ` AND featured = TRUE`;
     }
 
     // 9. Sorting
@@ -161,7 +161,7 @@ router.get('/featured', optionalAuth, async (req, res) => {
   try {
     const properties = await db.all(
       `SELECT * FROM properties
-       WHERE featured = TRUE OR featured = 1
+       WHERE featured = TRUE
        ORDER BY views_count DESC, id DESC
        LIMIT 6`
     );
@@ -401,7 +401,7 @@ router.post('/', authenticate, requireRole(['admin', 'agent']), async (req, res)
         parseFloat(area),
         purpose,
         availability,
-        featured ? 1 : 0,
+        Boolean(featured),
         description,
         amenities,
         image_url,

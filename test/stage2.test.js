@@ -67,7 +67,7 @@ async function runStage2Tests() {
 
   // Test 5: Featured Properties Filter
   await test('Featured Luxury Properties Query', async () => {
-    const featured = await db.all('SELECT id, title, featured FROM properties WHERE featured = TRUE OR featured = 1');
+    const featured = await db.all('SELECT id, title, featured FROM properties WHERE featured = TRUE');
     assert(featured.length >= 3, 'Expected at least 3 featured properties');
   });
 

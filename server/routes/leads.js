@@ -295,7 +295,7 @@ router.post('/enquire', enquiryLimiter, optionalAuth, async (req, res) => {
         assignedId,
         followUpDate,
         `Automated lead classification: ${scoreResult.category} (${scoreResult.score}/100). Recommended follow-up: ${followUpDays === 0 ? 'Urgent within 30 mins' : `Within ${followUpDays} days`}.`,
-        consent_given ? 1 : 0,
+        Boolean(consent_given),
         ip,
       ]
     );
@@ -487,7 +487,7 @@ router.post('/brochure', enquiryLimiter, optionalAuth, async (req, res) => {
         'Download Brochure', 'Website', 'Gated Brochure Modal', 'Within 1-3 months', 'Email',
         $6, $7, $8, $9, $10, $11,
         'New', $12, $13, $14, $15,
-        1, $16
+        TRUE, $16
       ) RETURNING id`,
       [
         req.user ? req.user.id : null,

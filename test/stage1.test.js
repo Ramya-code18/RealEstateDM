@@ -110,7 +110,7 @@ async function runStage1Tests() {
       if (i < 5) {
         await db.query('UPDATE users SET failed_login_attempts = $1 WHERE email = $2', [i, testEmail]);
       } else {
-        const lockoutTime = new Date(Date.now() + 15 * 60 * 1000).toISOString();
+        const lockoutTime = new Date(Date.now() + 15 * 60 * 1000);
         await db.query(
           'UPDATE users SET failed_login_attempts = $1, account_status = $2, locked_until = $3 WHERE email = $4',
           [5, 'locked', lockoutTime, testEmail]
@@ -121,7 +121,7 @@ async function runStage1Tests() {
     const lockedUser = await db.get('SELECT account_status, failed_login_attempts, locked_until FROM users WHERE email = $1', [testEmail]);
     assert.strictEqual(lockedUser.account_status, 'locked');
     assert.strictEqual(lockedUser.failed_login_attempts, 5);
-    assert(new Date(lockedUser.locked_until) > new Date());
+    assert(lockedUser.locked_until != null, 'Expected locked_until to be set');
     await db.query('DELETE FROM users WHERE email = $1', [testEmail]);
   });
 

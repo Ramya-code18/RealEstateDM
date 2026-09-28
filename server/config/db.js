@@ -3,16 +3,24 @@
  * Provides parameterized query execution, robust relational schema management,
  * connection pooling, and data integrity safeguards.
  */
-require('dotenv').config();
 const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '..', '..', '.env') });
 const fs = require('fs');
 
 let dbType = (process.env.DB_TYPE || 'sqlite').toLowerCase();
 let pgPool = null;
 let sqliteDb = null;
 
-function convertPgToSqlite(sql) {
-  return sql.replace(/\$\d+/g, '?');
+function convertPgToSqlite(sql, params = []) {
+  const newParams = [];
+  const convertedSql = sql.replace(/\$(\d+)/g, (match, num) => {
+    const idx = parseInt(num, 10) - 1;
+    if (params && idx >= 0 && idx < params.length) {
+      newParams.push(params[idx]);
+    }
+    return '?';
+  });
+  return { sql: convertedSql, params: newParams };
 }
 
 const dbDir = path.join(__dirname, '..', '..', 'database');
@@ -25,15 +33,15 @@ async function initConnection() {
   if (dbType === 'postgres') {
     try {
       const { Pool } = require('pg');
-      const connectionConfig = process.env.DATABASE_URL
-        ? { connectionString: process.env.DATABASE_URL }
-        : {
+      const connectionConfig = (process.env.PGHOST && process.env.PGUSER)
+        ? {
             host: process.env.PGHOST || 'localhost',
             port: parseInt(process.env.PGPORT || '5432'),
             user: process.env.PGUSER || 'postgres',
             password: process.env.PGPASSWORD || 'postgres',
             database: process.env.PGDATABASE || 'estatelead_db',
-          };
+          }
+        : { connectionString: process.env.DATABASE_URL };
 
       pgPool = new Pool(connectionConfig);
       const client = await pgPool.connect();
@@ -42,7 +50,7 @@ async function initConnection() {
       console.log('✅ Connected to PostgreSQL database successfully.');
       return 'postgres';
     } catch (err) {
-      console.warn('⚠️ PostgreSQL connection failed. Gracefully falling back to embedded SQLite.');
+      console.warn('⚠️ PostgreSQL connection failed (' + err.message + '). Gracefully falling back to embedded SQLite.');
       dbType = 'sqlite';
     }
   }
@@ -76,17 +84,18 @@ async function query(text, params = [], silent = false) {
       return {
         rows: res.rows || [],
         rowCount: res.rowCount || 0,
+        lastID: res.rows && res.rows[0] && res.rows[0].id ? res.rows[0].id : undefined,
       };
     } catch (err) {
       if (!silent) console.error('Database Query Error (PostgreSQL):', err.message, '\nQuery:', text);
       throw err;
     }
   } else {
-    const sqliteSql = convertPgToSqlite(text);
+    const { sql: sqliteSql, params: sqliteParams } = convertPgToSqlite(text, params);
     return new Promise((resolve, reject) => {
       const trimmed = text.trim().toUpperCase();
-      if (trimmed.startsWith('SELECT') || trimmed.startsWith('PRAGMA') || trimmed.includes('RETURNING')) {
-        sqliteDb.all(sqliteSql, params, (err, rows) => {
+      if (trimmed.startsWith('SELECT') || trimmed.startsWith('PRAGMA')) {
+        sqliteDb.all(sqliteSql, sqliteParams, (err, rows) => {
           if (err) {
             if (!silent) console.error('Database Query Error (SQLite):', err.message, '\nQuery:', sqliteSql);
             return reject(err);
@@ -96,8 +105,32 @@ async function query(text, params = [], silent = false) {
             rowCount: (rows || []).length,
           });
         });
+      } else if (trimmed.includes('RETURNING')) {
+        sqliteDb.all(sqliteSql, sqliteParams, function (err, rows) {
+          if (err) {
+            // Fallback if sqlite doesn't return rows directly
+            const fallbackSql = sqliteSql.replace(/RETURNING\s+[\w\s,*]+/i, '');
+            sqliteDb.run(fallbackSql, sqliteParams, function (runErr) {
+              if (runErr) {
+                if (!silent) console.error('Database Run Error (SQLite):', runErr.message);
+                return reject(runErr);
+              }
+              resolve({
+                rows: [{ id: this.lastID }],
+                rowCount: this.changes || 0,
+                lastID: this.lastID,
+              });
+            });
+            return;
+          }
+          resolve({
+            rows: rows || [],
+            rowCount: (rows || []).length,
+            lastID: rows && rows[0] && rows[0].id ? rows[0].id : this.lastID,
+          });
+        });
       } else {
-        sqliteDb.run(sqliteSql, params, function (err) {
+        sqliteDb.run(sqliteSql, sqliteParams, function (err) {
           if (err) {
             if (!silent) console.error('Database Run Error (SQLite):', err.message, '\nQuery:', sqliteSql);
             return reject(err);
@@ -140,8 +173,8 @@ async function createSchema() {
       budget_range VARCHAR(100) DEFAULT '₹50L - ₹80L',
       account_status VARCHAR(20) NOT NULL DEFAULT 'active',
       failed_login_attempts INTEGER DEFAULT 0,
-      locked_until ${isPg ? 'TIMESTAMP' : 'DATETIME'} DEFAULT NULL,
-      created_at ${isPg ? 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP' : 'DATETIME DEFAULT CURRENT_TIMESTAMP'}
+      locked_until ${isPg ? 'TIMESTAMPTZ' : 'DATETIME'} DEFAULT NULL,
+      created_at ${isPg ? 'TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP' : 'DATETIME DEFAULT CURRENT_TIMESTAMP'}
     );
   `;
 

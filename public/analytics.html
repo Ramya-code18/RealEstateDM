@@ -4,17 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Analytics & Business Intelligence - EstateLead</title>
-  <meta name="description" content="Executive real estate business intelligence, 6-stage conversion funnel, property performance leaderboard, and sales metrics.">
+  <meta name="description" content="Executive real estate business intelligence, interactive charts, 6-stage conversion funnel, property performance leaderboard, and consultant analytics.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <!-- Chart.js for High Performance Interactive Dashboards -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     .analytics-kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
       gap: 18px;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
     .kpi-card {
       background: #ffffff;
@@ -25,6 +27,13 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
     }
     .kpi-title {
       font-size: 0.8rem;
@@ -40,13 +49,71 @@
       margin: 8px 0 4px 0;
       font-family: 'Outfit', sans-serif;
     }
+    .chart-panel-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+    .chart-panel-full {
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      padding: 26px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 28px;
+    }
+    .chart-panel {
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      padding: 24px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+    }
+    .chart-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .chart-canvas-container {
+      position: relative;
+      width: 100%;
+      min-height: 260px;
+      flex: 1;
+    }
+    .dist-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 0.88rem;
+    }
+    .dist-bar-bg {
+      flex: 1;
+      background: var(--bg-main);
+      height: 8px;
+      border-radius: 6px;
+      margin: 0 14px;
+      overflow: hidden;
+    }
+    .dist-bar-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 6px;
+      transition: width 0.5s ease;
+    }
     .funnel-container {
       background: #ffffff;
       border-radius: var(--radius-md);
       padding: 28px;
       border: 1px solid var(--border);
       box-shadow: var(--shadow-sm);
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
     .funnel-step {
       display: flex;
@@ -93,41 +160,7 @@
       color: var(--text-muted);
       font-weight: 600;
     }
-    .chart-panel-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 32px;
-    }
-    .chart-panel {
-      background: #ffffff;
-      border-radius: var(--radius-md);
-      padding: 24px;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-sm);
-    }
-    .dist-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      font-size: 0.88rem;
-    }
-    .dist-bar-bg {
-      flex: 1;
-      background: var(--bg-main);
-      height: 10px;
-      border-radius: 6px;
-      margin: 0 16px;
-      overflow: hidden;
-    }
-    .dist-bar-fill {
-      height: 100%;
-      background: var(--accent);
-      border-radius: 6px;
-      transition: width 0.5s ease;
-    }
-    @media (max-width: 900px) {
+    @media (max-width: 960px) {
       .chart-panel-grid {
         grid-template-columns: 1fr;
       }
@@ -161,192 +194,284 @@
   </header>
 
   <main class="container" style="padding-top: 30px; padding-bottom: 60px;">
-    <!-- Analytics Header -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
-      <div>
-        <h1 style="font-size: 2rem;">Executive Business Intelligence & Analytics</h1>
-        <p style="color: var(--text-muted); font-size: 0.95rem;">
-          End-to-end conversion funnel, inventory demand, and sales pipeline metrics
-        </p>
-      </div>
-
-      <div style="display: flex; gap: 12px; align-items: center;">
-        <a href="/crm.html" class="btn btn-outline">
-          👥 Open Lead CRM
-        </a>
-        <button onclick="loadAllAnalytics()" class="btn btn-primary">
-          🔄 Refresh Metrics
+    <!-- Guest / Unauthorized Staff Banner -->
+    <div id="analytics-guest-banner" class="guest-gate-box" style="display: none; background: #ffffff; border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 40px; text-align: center; box-shadow: var(--shadow-md); max-width: 600px; margin: 40px auto;">
+      <div style="font-size: 3rem; margin-bottom: 12px;">📊</div>
+      <h2 style="font-size: 1.6rem; margin-bottom: 8px;">Executive Analytics Portal</h2>
+      <p style="color: var(--text-muted); margin-bottom: 24px;">
+        Administrator or Consultant credentials required to inspect the conversion funnel and financial deal analytics.
+      </p>
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <button onclick="quickAdminSignIn('953624244046@ritrjpm.ac.in', 'Admin@123')" class="btn btn-primary">
+          ⚡ Sign In as Ramya (Admin)
+        </button>
+        <button onclick="quickAdminSignIn('953624244048@ritrjpm.ac.in', 'Admin@123')" class="btn btn-primary">
+          ⚡ Sign In as Rohini (Admin)
         </button>
       </div>
     </div>
 
-    <!-- Executive KPI Summary Cards -->
-    <div class="analytics-kpi-grid">
-      <div class="kpi-card" style="border-left: 4px solid var(--accent);">
-        <span class="kpi-title">Active Pipeline Valuation</span>
-        <div id="kpi-pipeline-val" class="kpi-value">₹0 Cr</div>
-        <div style="font-size: 0.82rem; color: var(--text-muted);">Real-time qualified opportunities</div>
-      </div>
-
-      <div class="kpi-card" style="border-left: 4px solid var(--success);">
-        <span class="kpi-title">Closed Sales Revenue</span>
-        <div id="kpi-closed-val" class="kpi-value" style="color: var(--success);">₹0 Cr</div>
-        <div style="font-size: 0.82rem; color: var(--text-muted);">Successfully converted inventory</div>
-      </div>
-
-      <div class="kpi-card" style="border-left: 4px solid var(--info);">
-        <span class="kpi-title">Total Qualified Leads</span>
-        <div id="kpi-total-leads" class="kpi-value" style="color: var(--info);">0</div>
-        <div style="font-size: 0.82rem; color: var(--text-muted);">🔥 <span id="kpi-hot-count">0</span> Priority Hot Leads</div>
-      </div>
-
-      <div class="kpi-card" style="border-left: 4px solid var(--primary);">
-        <span class="kpi-title">Overall Conversion Rate</span>
-        <div id="kpi-conv-rate" class="kpi-value">0%</div>
-        <div style="font-size: 0.82rem; color: var(--text-muted);">Enquiry to closed deal ratio</div>
-      </div>
-    </div>
-
-    <!-- 6-Stage Real Estate Digital Conversion Funnel -->
-    <div class="funnel-container">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <!-- Authenticated Analytics Content -->
+    <div id="analytics-main-content">
+      <!-- Analytics Header -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
         <div>
-          <h2 style="font-size: 1.4rem;">6-Stage Lead Conversion Funnel</h2>
-          <p style="color: var(--text-muted); font-size: 0.88rem;">Drop-off and stage-by-stage progression efficiency</p>
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap;">
+            <div class="live-pulse-container">
+              <span class="live-dot"></span>
+              <span>Real-Time BI Engine Active</span>
+            </div>
+            <span class="brand-badge" style="background: rgba(15, 23, 42, 0.08); color: var(--primary);">
+              Interactive Charts & Funnels
+            </span>
+          </div>
+          <h1 style="font-size: 2rem;">Executive Business Intelligence & Analytics</h1>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">
+            End-to-end conversion funnel, demand distribution, trajectory trends, and sales benchmarks.
+          </p>
         </div>
-        <span class="brand-badge" style="background: var(--bg-main); color: var(--primary);">100% On-Site Digital Attribution</span>
-      </div>
 
-      <div id="funnel-steps-container">
-        <div style="text-align: center; padding: 40px; color: var(--text-muted);">Calculating conversion funnel...</div>
-      </div>
-    </div>
-
-    <!-- 2-Column Chart Panels: Property Leaderboard & City Demand -->
-    <div class="chart-panel-grid">
-      <!-- Panel 1: Demand by Target City -->
-      <div class="chart-panel">
-        <h3 style="font-size: 1.2rem; margin-bottom: 16px;">Demand Distribution by City</h3>
-        <div id="city-demand-list">
-          <div style="color: var(--text-muted); font-size: 0.88rem;">Loading location demand...</div>
-        </div>
-      </div>
-
-      <!-- Panel 2: Demand by Property Category -->
-      <div class="chart-panel">
-        <h3 style="font-size: 1.2rem; margin-bottom: 16px;">Demand by Property Category</h3>
-        <div id="type-demand-list">
-          <div style="color: var(--text-muted); font-size: 0.88rem;">Loading category demand...</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 2-Column Chart Panels: Purchase Timeline & Lead Intent -->
-    <div class="chart-panel-grid">
-      <!-- Panel 3: Purchase Urgency / Timeline -->
-      <div class="chart-panel">
-        <h3 style="font-size: 1.2rem; margin-bottom: 16px;">Buyer Timeline / Purchase Urgency</h3>
-        <div id="timeline-demand-list">
-          <div style="color: var(--text-muted); font-size: 0.88rem;">Loading purchase timelines...</div>
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+          <a href="/crm.html" class="btn btn-outline">
+            👥 Open Lead CRM
+          </a>
+          <button onclick="loadAllAnalytics()" class="btn btn-primary">
+            🔄 Refresh Metrics & Charts
+          </button>
         </div>
       </div>
 
-      <!-- Panel 4: Top On-Site Lead Capture Channels -->
-      <div class="chart-panel">
-        <h3 style="font-size: 1.2rem; margin-bottom: 16px;">Lead Generation Channels (On-Site)</h3>
-        <div id="channel-demand-list">
-          <div style="color: var(--text-muted); font-size: 0.88rem;">Loading lead generation channels...</div>
+      <!-- Executive KPI Summary Cards -->
+      <div class="analytics-kpi-grid">
+        <div class="kpi-card lively-stat-card" style="border-left: 4px solid var(--accent);">
+          <span class="kpi-title">Active Pipeline Valuation</span>
+          <div id="kpi-pipeline-val" class="kpi-value">₹0 Cr</div>
+          <div style="font-size: 0.82rem; color: var(--text-muted);">Real-time qualified opportunities</div>
+        </div>
+
+        <div class="kpi-card lively-stat-card" style="border-left: 4px solid var(--success);">
+          <span class="kpi-title">Closed Sales Revenue</span>
+          <div id="kpi-closed-val" class="kpi-value" style="color: var(--success);">₹0 Cr</div>
+          <div style="font-size: 0.82rem; color: var(--text-muted);">Successfully converted inventory</div>
+        </div>
+
+        <div class="kpi-card lively-stat-card" style="border-left: 4px solid var(--info);">
+          <span class="kpi-title">Total Qualified Leads</span>
+          <div id="kpi-total-leads" class="kpi-value" style="color: var(--info);">0</div>
+          <div style="font-size: 0.82rem; color: var(--text-muted);">🔥 <span id="kpi-hot-count">0</span> Priority Hot Leads</div>
+        </div>
+
+        <div class="kpi-card lively-stat-card" style="border-left: 4px solid var(--primary);">
+          <span class="kpi-title">Overall Conversion Rate</span>
+          <div id="kpi-conv-rate" class="kpi-value">0%</div>
+          <div style="font-size: 0.82rem; color: var(--text-muted);">Enquiry to closed deal ratio</div>
         </div>
       </div>
-    </div>
 
-    <!-- Top Performing Properties Leaderboard -->
-    <div style="background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border); padding: 28px; box-shadow: var(--shadow-sm); margin-bottom: 32px;">
-      <h2 style="font-size: 1.4rem; margin-bottom: 4px;">Property Inventory Performance Leaderboard</h2>
-      <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;">
-        Ranked by on-site property views, saved wishlist bookmarks, and direct generated enquiries
-      </p>
-
-      <div style="overflow-x: auto;">
-        <table class="lead-table">
-          <thead>
-            <tr>
-              <th>Property Residence</th>
-              <th>Location</th>
-              <th>Price</th>
-              <th>Views</th>
-              <th>Wishlist Saves</th>
-              <th>Generated Leads</th>
-              <th>Closed Deals</th>
-              <th>Lead-to-View Ratio</th>
-            </tr>
-          </thead>
-          <tbody id="property-performance-tbody">
-            <tr>
-              <td colspan="8" style="text-align: center; padding: 30px; color: var(--text-muted);">
-                Loading property performance metrics...
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- Full-Width Chart: Monthly Lead Trajectory & Valuation Growth -->
+      <div class="chart-panel-full">
+        <div class="chart-panel-header">
+          <div>
+            <h2 style="font-size: 1.35rem; margin-bottom: 4px;">📈 Lead Acquisition & Deal Valuation Trajectory</h2>
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Monthly inbound demand vs converted deal values (₹ Cr)</p>
+          </div>
+          <span class="brand-badge" style="background: var(--bg-main); color: var(--primary);">Trend Analytics</span>
+        </div>
+        <div class="chart-canvas-container" style="height: 300px;">
+          <canvas id="chart-trends"></canvas>
+        </div>
       </div>
-    </div>
 
-    <!-- Consultant & Agent Performance Leaderboard -->
-    <div style="background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border); padding: 28px; box-shadow: var(--shadow-sm);">
-      <h2 style="font-size: 1.4rem; margin-bottom: 4px;">Sales Consultant Workload & Conversion Leaderboard</h2>
-      <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;">
-        Assigned lead volume, site tours conducted, follow-ups logged, and closed transactions
-      </p>
+      <!-- 6-Stage Real Estate Digital Conversion Funnel -->
+      <div class="funnel-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <h2 style="font-size: 1.4rem;">🎯 6-Stage Real Estate Digital Conversion Funnel</h2>
+            <p style="color: var(--text-muted); font-size: 0.88rem;">Drop-off and stage-by-stage progression efficiency</p>
+          </div>
+          <span class="brand-badge" style="background: var(--bg-main); color: var(--primary);">100% On-Site Digital Attribution</span>
+        </div>
 
-      <div style="overflow-x: auto;">
-        <table class="lead-table">
-          <thead>
-            <tr>
-              <th>Consultant</th>
-              <th>Role</th>
-              <th>Assigned Leads</th>
-              <th>Hot Leads</th>
-              <th>Site Tours</th>
-              <th>Follow-ups Logged</th>
-              <th>Converted Sales</th>
-              <th>Conversion Rate</th>
-            </tr>
-          </thead>
-          <tbody id="agent-performance-tbody">
-            <tr>
-              <td colspan="8" style="text-align: center; padding: 30px; color: var(--text-muted);">
-                Loading consultant leaderboard...
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center;" class="funnel-grid-layout">
+          <div class="chart-canvas-container" style="min-height: 280px;">
+            <canvas id="chart-funnel"></canvas>
+          </div>
+          <div id="funnel-steps-container">
+            <div style="text-align: center; padding: 40px; color: var(--text-muted);">Calculating conversion funnel...</div>
+          </div>
+        </div>
       </div>
-    </div>
 
+      <!-- 2-Column Chart Panels: Property Category & City Demand -->
+      <div class="chart-panel-grid">
+        <!-- Panel 1: Demand by Target City -->
+        <div class="chart-panel">
+          <div class="chart-panel-header">
+            <h3 style="font-size: 1.2rem;">📍 Demand Distribution by City</h3>
+            <span class="brand-badge" style="background: rgba(14, 165, 233, 0.1); color: var(--info);">Top Metro Hubs</span>
+          </div>
+          <div class="chart-canvas-container" style="height: 240px; margin-bottom: 16px;">
+            <canvas id="chart-city"></canvas>
+          </div>
+          <div id="city-demand-list"></div>
+        </div>
+
+        <!-- Panel 2: Demand by Property Category -->
+        <div class="chart-panel">
+          <div class="chart-panel-header">
+            <h3 style="font-size: 1.2rem;">🏰 Demand by Property Category</h3>
+            <span class="brand-badge" style="background: rgba(217, 119, 6, 0.1); color: var(--accent);">Segment Share</span>
+          </div>
+          <div class="chart-canvas-container" style="height: 240px; margin-bottom: 16px;">
+            <canvas id="chart-type"></canvas>
+          </div>
+          <div id="type-demand-list"></div>
+        </div>
+      </div>
+
+      <!-- 2-Column Chart Panels: Purchase Timeline & Lead Capture Channels -->
+      <div class="chart-panel-grid">
+        <!-- Panel 3: Purchase Urgency / Timeline -->
+        <div class="chart-panel">
+          <div class="chart-panel-header">
+            <h3 style="font-size: 1.2rem;">⏱️ Buyer Timeline & Urgency</h3>
+            <span class="brand-badge" style="background: rgba(16, 185, 129, 0.1); color: var(--success);">Readiness</span>
+          </div>
+          <div class="chart-canvas-container" style="height: 240px; margin-bottom: 16px;">
+            <canvas id="chart-timeline"></canvas>
+          </div>
+          <div id="timeline-demand-list"></div>
+        </div>
+
+        <!-- Panel 4: Top On-Site Lead Capture Channels -->
+        <div class="chart-panel">
+          <div class="chart-panel-header">
+            <h3 style="font-size: 1.2rem;">⚡ Lead Capture Channels</h3>
+            <span class="brand-badge" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6);">Attribution</span>
+          </div>
+          <div class="chart-canvas-container" style="height: 240px; margin-bottom: 16px;">
+            <canvas id="chart-channel"></canvas>
+          </div>
+          <div id="channel-demand-list"></div>
+        </div>
+      </div>
+
+      <!-- Consultant Workload Benchmark Chart -->
+      <div class="chart-panel-full">
+        <div class="chart-panel-header">
+          <div>
+            <h2 style="font-size: 1.35rem; margin-bottom: 4px;">👥 Consultant Performance & Deal Benchmark</h2>
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Workload distribution: Assigned leads vs Hot intent vs Closed sales</p>
+          </div>
+          <span class="brand-badge" style="background: var(--bg-main); color: var(--primary);">Staff Benchmarks</span>
+        </div>
+        <div class="chart-canvas-container" style="height: 280px;">
+          <canvas id="chart-agent-benchmarks"></canvas>
+        </div>
+      </div>
+
+      <!-- Top Performing Properties Leaderboard -->
+      <div style="background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border); padding: 28px; box-shadow: var(--shadow-sm); margin-bottom: 32px;">
+        <h2 style="font-size: 1.4rem; margin-bottom: 4px;">🏆 Property Inventory Performance Leaderboard</h2>
+        <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;">
+          Ranked by on-site property views, saved wishlist bookmarks, and direct generated enquiries
+        </p>
+
+        <div style="overflow-x: auto;">
+          <table class="lead-table">
+            <thead>
+              <tr>
+                <th>Property Residence</th>
+                <th>Location</th>
+                <th>Price</th>
+                <th>Views</th>
+                <th>Wishlist Saves</th>
+                <th>Generated Leads</th>
+                <th>Closed Deals</th>
+                <th>Lead-to-View Ratio</th>
+              </tr>
+            </thead>
+            <tbody id="property-performance-tbody">
+              <tr>
+                <td colspan="8" style="text-align: center; padding: 30px; color: var(--text-muted);">
+                  Loading property performance metrics...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Consultant & Agent Performance Leaderboard -->
+      <div style="background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border); padding: 28px; box-shadow: var(--shadow-sm);">
+        <h2 style="font-size: 1.4rem; margin-bottom: 4px;">🎖️ Sales Consultant Workload & Conversion Leaderboard</h2>
+        <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;">
+          Assigned lead volume, site tours conducted, follow-ups logged, and closed transactions
+        </p>
+
+        <div style="overflow-x: auto;">
+          <table class="lead-table">
+            <thead>
+              <tr>
+                <th>Consultant</th>
+                <th>Role</th>
+                <th>Assigned Leads</th>
+                <th>Hot Leads</th>
+                <th>Site Tours</th>
+                <th>Follow-ups Logged</th>
+                <th>Converted Sales</th>
+                <th>Conversion Rate</th>
+              </tr>
+            </thead>
+            <tbody id="agent-performance-tbody">
+              <tr>
+                <td colspan="8" style="text-align: center; padding: 30px; color: var(--text-muted);">
+                  Loading consultant leaderboard...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
   </main>
 
   <!-- Footer -->
   <footer class="footer">
     <div class="container footer-bottom" style="border: none;">
       <div>&copy; 2026 EstateLead Properties. All rights reserved.</div>
-      <div>Zero External Ad Trackers • 100% Privacy Compliant</div>
+      <div>Zero External Ad Trackers • 100% Privacy Compliant • Real-Time PostgreSQL Engine</div>
     </div>
   </footer>
 
   <script src="js/main.js"></script>
   <script>
+    // Global chart instances cache for smooth re-rendering without leaks
+    const chartInstances = {};
+
+    function destroyChart(id) {
+      if (chartInstances[id]) {
+        chartInstances[id].destroy();
+        delete chartInstances[id];
+      }
+    }
+
+    async function quickAdminSignIn(email, password) {
+      await EstateLead.directLogin(email, password, 'analytics.html');
+    }
+
     async function initAnalytics() {
-      if (!EstateLead.token) {
-        window.location.href = 'login.html?redirect=analytics.html';
+      EstateLead.init();
+
+      if (!EstateLead.token || !EstateLead.user || (EstateLead.user.role !== 'admin' && EstateLead.user.role !== 'agent')) {
+        document.getElementById('analytics-guest-banner').style.display = 'block';
+        document.getElementById('analytics-main-content').style.display = 'none';
         return;
       }
 
-      if (EstateLead.user && EstateLead.user.role !== 'admin' && EstateLead.user.role !== 'agent') {
-        EstateLead.showToast('Access denied: Staff / Administrator credentials required.', 'error');
-        setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
-        return;
-      }
+      document.getElementById('analytics-guest-banner').style.display = 'none';
+      document.getElementById('analytics-main-content').style.display = 'block';
 
       await loadAllAnalytics();
     }
@@ -354,6 +479,7 @@
     async function loadAllAnalytics() {
       await Promise.all([
         loadOverview(),
+        loadTrends(),
         loadFunnel(),
         loadLeadDistribution(),
         loadPropertyPerformance(),
@@ -363,7 +489,7 @@
 
     async function loadOverview() {
       try {
-        const res = await fetch('/api/analytics/overview', {
+        const res = await fetch(EstateLead.apiUrl('/api/analytics/overview'), {
           headers: { Authorization: `Bearer ${EstateLead.token}` },
         });
         const data = await res.json();
@@ -380,13 +506,119 @@
       }
     }
 
-    async function loadFunnel() {
+    async function loadTrends() {
       try {
-        const res = await fetch('/api/analytics/funnel', {
+        const res = await fetch(EstateLead.apiUrl('/api/analytics/trends'), {
           headers: { Authorization: `Bearer ${EstateLead.token}` },
         });
         const data = await res.json();
-        if (data.success) {
+        if (data.success && data.trends) {
+          renderTrendsChart(data.trends);
+        }
+      } catch (err) {
+        console.error('Failed to load trends:', err);
+      }
+    }
+
+    function renderTrendsChart(trends) {
+      destroyChart('trends');
+      const ctx = document.getElementById('chart-trends');
+      if (!ctx) return;
+
+      const labels = trends.map(t => t.month);
+      const leadData = trends.map(t => t.leads);
+      const dealData = trends.map(t => t.deals);
+      const valData = trends.map(t => t.valueCr);
+
+      chartInstances['trends'] = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Inbound Leads Acquired',
+              data: leadData,
+              borderColor: '#0284c7',
+              backgroundColor: 'rgba(2, 132, 199, 0.12)',
+              borderWidth: 3,
+              fill: true,
+              tension: 0.35,
+              pointBackgroundColor: '#0284c7',
+              pointRadius: 5,
+              yAxisID: 'y'
+            },
+            {
+              label: 'Closed Transactions',
+              data: dealData,
+              borderColor: '#10b981',
+              backgroundColor: 'rgba(16, 185, 129, 0.15)',
+              borderWidth: 3,
+              fill: true,
+              tension: 0.35,
+              pointBackgroundColor: '#10b981',
+              pointRadius: 5,
+              yAxisID: 'y'
+            },
+            {
+              label: 'Pipeline Valuation (₹ Cr)',
+              data: valData,
+              borderColor: '#d97706',
+              backgroundColor: 'rgba(217, 119, 6, 0.05)',
+              borderWidth: 2,
+              borderDash: [5, 5],
+              fill: false,
+              tension: 0.2,
+              pointBackgroundColor: '#d97706',
+              pointRadius: 4,
+              yAxisID: 'y1'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { position: 'top', labels: { font: { family: 'Inter', weight: '600' } } },
+            tooltip: {
+              padding: 12,
+              titleFont: { family: 'Outfit', size: 14 },
+              bodyFont: { family: 'Inter', size: 13 }
+            }
+          },
+          scales: {
+            y: {
+              type: 'linear',
+              display: true,
+              position: 'left',
+              title: { display: true, text: 'Lead / Deal Volume', font: { family: 'Inter', weight: '600' } },
+              grid: { color: 'rgba(226, 232, 240, 0.8)' },
+              beginAtZero: true
+            },
+            y1: {
+              type: 'linear',
+              display: true,
+              position: 'right',
+              title: { display: true, text: 'Valuation (₹ Cr)', font: { family: 'Inter', weight: '600' } },
+              grid: { drawOnChartArea: false },
+              beginAtZero: true
+            },
+            x: {
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    }
+
+    async function loadFunnel() {
+      try {
+        const res = await fetch(EstateLead.apiUrl('/api/analytics/funnel'), {
+          headers: { Authorization: `Bearer ${EstateLead.token}` },
+        });
+        const data = await res.json();
+        if (data.success && data.funnel) {
+          // Render HTML steps
           const container = document.getElementById('funnel-steps-container');
           const maxCount = Math.max(...data.funnel.map(f => f.count), 1);
 
@@ -410,15 +642,72 @@
               </div>
             `;
           }).join('');
+
+          // Render Funnel Bar Chart
+          renderFunnelChart(data.funnel);
         }
       } catch (err) {
         console.error('Failed to load funnel:', err);
       }
     }
 
+    function renderFunnelChart(funnel) {
+      destroyChart('funnel');
+      const ctx = document.getElementById('chart-funnel');
+      if (!ctx) return;
+
+      const labels = funnel.map(f => f.name.split(' ')[0] + ' ' + (f.name.split(' ')[1] || ''));
+      const counts = funnel.map(f => f.count);
+
+      const colors = [
+        '#0f172a',
+        '#0284c7',
+        '#6366f1',
+        '#d97706',
+        '#f59e0b',
+        '#10b981'
+      ];
+
+      chartInstances['funnel'] = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Prospects in Stage',
+            data: counts,
+            backgroundColor: colors,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                title: (items) => funnel[items[0].dataIndex].name,
+                label: (item) => ` Count: ${item.raw.toLocaleString('en-IN')} | Step Conv: ${funnel[item.dataIndex].conversion_from_previous}`
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: { color: 'rgba(226, 232, 240, 0.8)' }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { font: { size: 11, weight: '600' } }
+            }
+          }
+        }
+      });
+    }
+
     async function loadLeadDistribution() {
       try {
-        const res = await fetch('/api/analytics/lead-distribution', {
+        const res = await fetch(EstateLead.apiUrl('/api/analytics/lead-distribution'), {
           headers: { Authorization: `Bearer ${EstateLead.token}` },
         });
         const data = await res.json();
@@ -428,10 +717,144 @@
           renderDistributionList('type-demand-list', d.by_property_type, 'property_type');
           renderDistributionList('timeline-demand-list', d.by_timeline, 'timeline');
           renderDistributionList('channel-demand-list', d.by_channel, 'channel');
+
+          // Render Charts
+          renderCityChart(d.by_city);
+          renderTypeChart(d.by_property_type);
+          renderTimelineChart(d.by_timeline);
+          renderChannelChart(d.by_channel);
         }
       } catch (err) {
         console.error('Failed to load lead distribution:', err);
       }
+    }
+
+    function renderCityChart(cities) {
+      destroyChart('city');
+      const ctx = document.getElementById('chart-city');
+      if (!ctx || !cities || cities.length === 0) return;
+
+      const labels = cities.map(c => c.city || 'Chennai');
+      const data = cities.map(c => parseInt(c.count, 10));
+      const palette = ['#0284c7', '#d97706', '#10b981', '#8b5cf6', '#ef4444', '#64748b'];
+
+      chartInstances['city'] = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: data,
+            backgroundColor: palette.slice(0, labels.length),
+            borderWidth: 2,
+            borderColor: '#ffffff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
+          },
+          cutout: '65%'
+        }
+      });
+    }
+
+    function renderTypeChart(types) {
+      destroyChart('type');
+      const ctx = document.getElementById('chart-type');
+      if (!ctx || !types || types.length === 0) return;
+
+      const labels = types.map(t => t.property_type || 'Apartments');
+      const data = types.map(t => parseInt(t.count, 10));
+      const palette = ['#d97706', '#f59e0b', '#0f172a', '#10b981', '#6366f1'];
+
+      chartInstances['type'] = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Buyer Inquiries',
+            data: data,
+            backgroundColor: palette.slice(0, labels.length),
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, grid: { color: 'rgba(226, 232, 240, 0.8)' } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    function renderTimelineChart(timelines) {
+      destroyChart('timeline');
+      const ctx = document.getElementById('chart-timeline');
+      if (!ctx || !timelines || timelines.length === 0) return;
+
+      const labels = timelines.map(t => t.timeline || 'Immediate');
+      const data = timelines.map(t => parseInt(t.count, 10));
+
+      chartInstances['timeline'] = new Chart(ctx, {
+        type: 'polarArea',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: data,
+            backgroundColor: [
+              'rgba(239, 68, 68, 0.75)',
+              'rgba(245, 158, 11, 0.75)',
+              'rgba(16, 185, 129, 0.75)',
+              'rgba(14, 165, 233, 0.75)'
+            ],
+            borderColor: '#ffffff',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }
+          }
+        }
+      });
+    }
+
+    function renderChannelChart(channels) {
+      destroyChart('channel');
+      const ctx = document.getElementById('chart-channel');
+      if (!ctx || !channels || channels.length === 0) return;
+
+      const labels = channels.map(c => c.channel || 'Direct Enquiry');
+      const data = channels.map(c => parseInt(c.count, 10));
+      const palette = ['#8b5cf6', '#0284c7', '#10b981', '#f59e0b', '#ec4899'];
+
+      chartInstances['channel'] = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: data,
+            backgroundColor: palette.slice(0, labels.length),
+            borderWidth: 2,
+            borderColor: '#ffffff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }
+          },
+          cutout: '60%'
+        }
+      });
     }
 
     function renderDistributionList(elementId, items, labelKey) {
@@ -457,7 +880,7 @@
             <div class="dist-bar-bg">
               <div class="dist-bar-fill" style="width: ${barWidth}%;"></div>
             </div>
-            <div style="width: 70px; text-align: right; font-weight: 700; color: var(--primary);">
+            <div style="width: 75px; text-align: right; font-weight: 700; color: var(--primary);">
               ${count} <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: normal;">(${pct}%)</span>
             </div>
           </div>
@@ -467,7 +890,7 @@
 
     async function loadPropertyPerformance() {
       try {
-        const res = await fetch('/api/analytics/property-performance', {
+        const res = await fetch(EstateLead.apiUrl('/api/analytics/property-performance'), {
           headers: { Authorization: `Bearer ${EstateLead.token}` },
         });
         const data = await res.json();
@@ -478,20 +901,25 @@
             return;
           }
 
-          tbody.innerHTML = data.properties.map(p => {
+          const trophies = ['🥇', '🥈', '🥉'];
+          tbody.innerHTML = data.properties.map((p, idx) => {
+            const trophy = idx < 3 ? trophies[idx] : `#${idx + 1}`;
             return `
               <tr>
                 <td>
-                  <div style="font-weight: 700; color: var(--primary);">${EstateLead.escapeHTML(p.title)}</div>
-                  <div style="font-size: 0.8rem; color: var(--text-muted);">${EstateLead.escapeHTML(p.property_type)}</div>
+                  <div style="font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 6px;">
+                    <span>${trophy}</span>
+                    <span>${EstateLead.escapeHTML(p.title)}</span>
+                  </div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); padding-left: 24px;">${EstateLead.escapeHTML(p.property_type)}</div>
                 </td>
                 <td>📍 ${EstateLead.escapeHTML(p.location)}</td>
                 <td style="font-weight: 700; color: var(--primary);">${EstateLead.formatINR(p.price)}</td>
                 <td>👁️ ${p.views_count.toLocaleString('en-IN')}</td>
                 <td>❤️ ${p.saves_count}</td>
-                <td><strong style="color: var(--accent);">${p.generated_leads}</strong></td>
-                <td><strong style="color: var(--success);">${p.converted_sales}</strong></td>
-                <td><span class="brand-badge" style="background: var(--bg-main); color: var(--primary);">${p.lead_conversion_rate}</span></td>
+                <td><strong style="color: var(--accent); font-size: 1.05rem;">${p.generated_leads}</strong></td>
+                <td><strong style="color: var(--success); font-size: 1.05rem;">${p.converted_sales}</strong></td>
+                <td><span class="brand-badge" style="background: var(--bg-main); color: var(--primary); font-weight: 700;">${p.lead_conversion_rate}</span></td>
               </tr>
             `;
           }).join('');
@@ -503,7 +931,7 @@
 
     async function loadAgentPerformance() {
       try {
-        const res = await fetch('/api/analytics/agent-performance', {
+        const res = await fetch(EstateLead.apiUrl('/api/analytics/agent-performance'), {
           headers: { Authorization: `Bearer ${EstateLead.token}` },
         });
         const data = await res.json();
@@ -521,7 +949,7 @@
                   <div style="font-weight: 700; color: var(--primary);">👤 ${EstateLead.escapeHTML(a.name)}</div>
                   <div style="font-size: 0.78rem; color: var(--text-muted);">${EstateLead.escapeHTML(a.email)}</div>
                 </td>
-                <td><span class="brand-badge">${EstateLead.escapeHTML(a.role)}</span></td>
+                <td><span class="brand-badge" style="background: var(--bg-main); color: var(--primary);">${EstateLead.escapeHTML(a.role)}</span></td>
                 <td><strong>${a.assigned_leads}</strong></td>
                 <td><span style="color: var(--danger); font-weight: 700;">🔥 ${a.hot_leads}</span></td>
                 <td>🏡 ${a.site_visits}</td>
@@ -531,10 +959,62 @@
               </tr>
             `;
           }).join('');
+
+          // Render Agent Benchmark Chart
+          renderAgentBenchmarksChart(data.agents);
         }
       } catch (err) {
         console.error('Failed to load agent performance:', err);
       }
+    }
+
+    function renderAgentBenchmarksChart(agents) {
+      destroyChart('agentBenchmarks');
+      const ctx = document.getElementById('chart-agent-benchmarks');
+      if (!ctx || !agents || agents.length === 0) return;
+
+      const labels = agents.map(a => a.name);
+      const assigned = agents.map(a => a.assigned_leads);
+      const hot = agents.map(a => a.hot_leads);
+      const converted = agents.map(a => a.converted_deals);
+
+      chartInstances['agentBenchmarks'] = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Assigned Leads',
+              data: assigned,
+              backgroundColor: '#0284c7',
+              borderRadius: 4
+            },
+            {
+              label: 'Hot High-Intent Leads',
+              data: hot,
+              backgroundColor: '#ef4444',
+              borderRadius: 4
+            },
+            {
+              label: 'Converted Closed Deals',
+              data: converted,
+              backgroundColor: '#10b981',
+              borderRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'top', labels: { font: { family: 'Inter', weight: '600' } } }
+          },
+          scales: {
+            y: { beginAtZero: true, grid: { color: 'rgba(226, 232, 240, 0.8)' } },
+            x: { grid: { display: false } }
+          }
+        }
+      });
     }
 
     document.addEventListener('DOMContentLoaded', initAnalytics);
