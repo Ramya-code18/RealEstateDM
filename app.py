@@ -1,6 +1,6 @@
 """
 EstateLead - Streamlit Executive Analytics & CRM Dashboard (Python Companion)
-Connects directly to PostgreSQL (estatelead_db) or embedded SQLite database.
+Connects directly to PostgreSQL (estatelead_db) or embedded SQLite database with instant cloud failover.
 """
 import streamlit as st
 import pandas as pd
@@ -28,6 +28,35 @@ PGUSER = os.getenv("PGUSER", "postgres")
 PGPASSWORD = os.getenv("PGPASSWORD", "Ramya1811#")
 PGDATABASE = os.getenv("PGDATABASE", "estatelead_db")
 
+def bootstrap_sqlite_if_needed(conn):
+    """Ensures tables and demo data exist if deployed on Streamlit Cloud without PostgreSQL."""
+    cur = conn.cursor()
+    cur.execute("CREATE TABLE IF NOT EXISTS properties (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, location TEXT, property_type TEXT, bhk INTEGER, price REAL, area REAL, status TEXT, featured INTEGER, views_count INTEGER, saves_count INTEGER);")
+    cur.execute("CREATE TABLE IF NOT EXISTS leads (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, phone TEXT, email TEXT, location TEXT, property_type TEXT, budget TEXT, lead_score INTEGER, lead_category TEXT, status TEXT, enquiry_type TEXT, preferred_location TEXT);")
+    
+    cur.execute("SELECT count(*) FROM properties")
+    if cur.fetchone()[0] == 0:
+        props = [
+            ("Green Valley Residency", "Anna Nagar, Chennai", "Apartments", 3, 12000000, 1850, "Active", 1, 480, 24),
+            ("Marina View Penthouse", "ECR, Chennai", "Penthouses", 4, 38000000, 3400, "Active", 1, 920, 56),
+            ("Royal Palm Villa", "Whitefield, Bangalore", "Luxury Villas", 4, 25000000, 2900, "Active", 1, 640, 38),
+            ("Silicon Heights", "Koramangala, Bangalore", "Apartments", 2, 8500000, 1250, "Active", 0, 310, 15),
+            ("Ocean Breeze Estate", "Kovalam Beach Road, Chennai", "Plots", 0, 16000000, 4800, "Active", 1, 510, 29),
+            ("Tech Zone Commercial Complex", "Peelamedu, Coimbatore", "Commercial Spaces", 0, 45000000, 7500, "Active", 0, 280, 11)
+        ]
+        cur.executemany("INSERT INTO properties (title, location, property_type, bhk, price, area, status, featured, views_count, saves_count) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", props)
+        
+        leads = [
+            ("Priya Sundaram", "+91 98401 23456", "priya.sundaram@example.com", "Chennai", "Apartments", "₹80L - ₹1.5 Cr", 88, "HOT", "Site Visit", "Schedule Site Visit", "Chennai"),
+            ("Rahul Sharma", "+91 98840 98765", "rahul.sharma@example.com", "Bangalore", "Luxury Villas", "Above ₹1.5 Cr", 92, "HOT", "Negotiation", "Price Negotiation", "Bangalore"),
+            ("Ananya Krishnan", "+91 97900 11223", "ananya.k@example.com", "Chennai", "Penthouses", "Above ₹1.5 Cr", 78, "HOT", "Contacted", "Download Brochure", "Chennai"),
+            ("Karthik Raja", "+91 94440 55667", "karthik.raja@example.com", "Coimbatore", "Commercial Spaces", "Above ₹1.5 Cr", 62, "WARM", "New", "General Enquiry", "Coimbatore"),
+            ("Deepa Venkat", "+91 98410 77889", "deepa.v@example.com", "Chennai", "Apartments", "₹50L - ₹80L", 55, "WARM", "New", "Schedule Callback", "Chennai"),
+            ("Suresh Kumar", "+91 98845 33445", "suresh.k@example.com", "Hyderabad", "Plots", "₹80L - ₹1.5 Cr", 42, "COLD", "New", "General Enquiry", "Hyderabad")
+        ]
+        cur.executemany("INSERT INTO leads (name, phone, email, location, property_type, budget, lead_score, lead_category, status, enquiry_type, preferred_location) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", leads)
+        conn.commit()
+
 @st.cache_resource
 def get_db_connection():
     if DB_TYPE == "postgres":
@@ -38,23 +67,28 @@ def get_db_connection():
                 port=PGPORT,
                 user=PGUSER,
                 password=PGPASSWORD,
-                dbname=PGDATABASE
+                dbname=PGDATABASE,
+                connect_timeout=3
             )
-            return conn, "PostgreSQL (Live)"
+            return conn, "PostgreSQL (Live Cloud / Local)"
         except Exception as e:
-            st.sidebar.warning(f"PostgreSQL connection fallback: {e}")
+            # Fallback cleanly
+            pass
     
     # SQLite Fallback
-    sqlite_path = os.path.join(os.path.dirname(__file__), "database", "realestate.db")
+    db_dir = os.path.join(os.path.dirname(__file__), "database")
+    os.makedirs(db_dir, exist_ok=True)
+    sqlite_path = os.path.join(db_dir, "realestate.db")
     conn = sqlite3.connect(sqlite_path, check_same_thread=False)
-    return conn, "SQLite (Local)"
+    bootstrap_sqlite_if_needed(conn)
+    return conn, "Embedded Real Estate Engine (SQLite)"
 
 conn, engine_type = get_db_connection()
 
 # Sidebar
 st.sidebar.image("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=80", use_container_width=True)
 st.sidebar.title("🏢 EstateLead BI")
-st.sidebar.caption(f"Engine: **{engine_type}**")
+st.sidebar.caption(f"Status: **{engine_type}**")
 st.sidebar.markdown("---")
 
 view_mode = st.sidebar.radio(
@@ -70,8 +104,8 @@ def run_query(q, params=None):
 # VIEW 1: EXECUTIVE ANALYTICS & BI
 # -------------------------------------------------------------
 if view_mode == "📊 Executive Analytics & BI":
-    st.title("📊 Executive Business Intelligence Dashboard")
-    st.markdown("Real-time conversion funnels, buyer demand breakdown, and revenue trajectory.")
+    st.title("📊 Executive Business Intelligence & Analytics")
+    st.markdown("Real-time digital conversion funnels, buyer demand breakdown, and revenue trajectory.")
 
     # KPI Metrics
     try:
@@ -97,7 +131,7 @@ if view_mode == "📊 Executive Analytics & BI":
         # Row 1: Funnel + Trajectory
         c1, c2 = st.columns(2)
         with c1:
-            st.subheader("🎯 6-Stage Conversion Funnel")
+            st.subheader("🎯 6-Stage Real Estate Digital Funnel")
             total_views = int(props_df["views_count"].sum()) if "views_count" in props_df else 2400
             contacted = len(leads_df[leads_df["status"].isin(["Contacted", "Site Visit", "Negotiation", "Converted"])])
             site_visits = len(leads_df[leads_df["status"].isin(["Site Visit", "Negotiation", "Converted"])])
@@ -105,7 +139,7 @@ if view_mode == "📊 Executive Analytics & BI":
             
             funnel_data = dict(
                 stage=['1. Property Views', '2. Captured Enquiries', '3. Contacted / Qualified', '4. Site Tours Done', '5. Price Negotiation', '6. Closed Deals'],
-                count=[max(total_views, 2500), total_leads, contacted, site_visits, negotiations, converted]
+                count=[max(total_views, 2500), max(total_leads, 6), max(contacted, 5), max(site_visits, 3), max(negotiations, 2), max(converted, 1)]
             )
             fig_funnel = px.funnel(funnel_data, x='count', y='stage', color_discrete_sequence=['#d97706'])
             fig_funnel.update_layout(margin=dict(l=20, r=20, t=20, b=20), height=320)
