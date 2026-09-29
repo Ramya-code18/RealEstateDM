@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Property Details - EstateLead</title>
-  <meta name="description" content="View full property specifications, floor area, amenities, schedule on-site visits, and calculate mortgage EMIs.">
+  <meta name="description" content="View full property specifications, architectural floor plans, amenities, schedule private on-site tours, and calculate mortgage EMIs.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <style>
     .lead-form-tabs {
@@ -21,20 +21,24 @@
     }
     .lead-tab-btn {
       flex: 1;
-      padding: 8px 10px;
-      font-size: 0.82rem;
+      padding: 9px 10px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.76rem;
       font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
       border: none;
       background: transparent;
       color: var(--text-muted);
-      border-radius: 6px;
+      border-radius: 4px;
       cursor: pointer;
       transition: var(--transition);
       text-align: center;
     }
     .lead-tab-btn.active {
-      background: #ffffff;
-      color: var(--primary);
+      background: var(--dark-gradient);
+      color: var(--accent-gold);
+      border: 1px solid var(--border-gold);
       box-shadow: var(--shadow-sm);
     }
     .modal-overlay {
@@ -43,8 +47,8 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(15, 23, 42, 0.7);
-      backdrop-filter: blur(4px);
+      background: rgba(9, 13, 22, 0.82);
+      backdrop-filter: blur(8px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -60,12 +64,21 @@
     .modal-card {
       background: #ffffff;
       border-radius: var(--radius-lg);
-      padding: 32px;
+      padding: 36px;
       width: 100%;
-      max-width: 480px;
-      box-shadow: var(--shadow-lg);
-      border: 1px solid var(--border);
+      max-width: 500px;
+      box-shadow: var(--shadow-lg), 0 0 35px rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-gold);
       position: relative;
+    }
+    .modal-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 20px;
+      right: 20px;
+      height: 3px;
+      background: var(--gold-gradient);
     }
     .lead-success-card {
       background: #f0fdf4;
@@ -79,40 +92,45 @@
 </head>
 <body>
 
+  <!-- Top Announcement Bar -->
+  <div style="background: #090d16; color: #c5a059; font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 7px 0; border-bottom: 1px solid rgba(197, 160, 89, 0.25); text-align: center;">
+    <span>⚜️ Verified Architectural Residences &bull; Direct Developer Access &bull; 100% CMDA &amp; RERA Approved</span>
+  </div>
+
   <!-- Top Navbar -->
   <header class="navbar">
     <div class="container navbar-inner">
       <a href="index.html" class="brand-logo">
-        <div class="logo-icon">🏢</div>
+        <div class="logo-icon">⚜️</div>
         <span>EstateLead</span>
-        <span class="brand-badge">SecureEstate</span>
+        <span class="brand-badge">Prestige</span>
       </a>
 
       <ul class="nav-links">
         <li><a href="index.html" class="nav-link">Home</a></li>
-        <li><a href="properties.html" class="nav-link">Properties</a></li>
-        <li><a href="dashboard.html" class="nav-link">My Dashboard</a></li>
-        <li><a href="saved.html" class="nav-link">Saved Wishlist</a></li>
+        <li><a href="properties.html" class="nav-link">Portfolio</a></li>
+        <li><a href="dashboard.html" class="nav-link">My Suite</a></li>
+        <li><a href="saved.html" class="nav-link">Saved Collection</a></li>
       </ul>
 
       <div class="nav-actions" id="nav-auth-actions">
         <a href="login.html" class="btn btn-outline btn-sm">Sign In</a>
-        <a href="register.html" class="btn btn-primary btn-sm">Register</a>
+        <a href="register.html" class="btn btn-accent btn-sm btn-shimmer">Register</a>
       </div>
     </div>
   </header>
 
-  <main class="container" style="padding-top: 24px; padding-bottom: 60px;">
-    <!-- Breadcrumbs -->
-    <div style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">
+  <main class="container" style="padding-top: 28px; padding-bottom: 70px;">
+    <!-- Classic Breadcrumbs -->
+    <div style="font-family: 'Cinzel', serif; font-size: 0.78rem; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 18px;">
       <a href="index.html" style="color: var(--text-muted);">Home</a> &nbsp;&gt;&nbsp;
-      <a href="properties.html" style="color: var(--text-muted);">Properties</a> &nbsp;&gt;&nbsp;
-      <span id="breadcrumb-title" style="color: var(--primary); font-weight: 600;">Loading...</span>
+      <a href="properties.html" style="color: var(--text-muted);">Portfolio</a> &nbsp;&gt;&nbsp;
+      <span id="breadcrumb-title" style="color: var(--accent-bronze); font-weight: 700;">Loading Residence...</span>
     </div>
 
     <div id="property-details-container">
-      <div style="text-align: center; padding: 60px; color: var(--text-muted);">
-        Loading property specifications...
+      <div style="text-align: center; padding: 70px; color: var(--text-muted);">
+        Curating property specifications and architectural documentation...
       </div>
     </div>
   </main>
@@ -120,15 +138,15 @@
   <!-- Gated Brochure Modal -->
   <div id="brochure-modal" class="modal-overlay">
     <div class="modal-card">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px;">
         <div>
-          <span class="brand-badge" style="margin-bottom: 6px; display: inline-block;">Instant PDF Unlock</span>
-          <h3 style="font-size: 1.3rem;">Download Project Brochure</h3>
+          <span class="brand-badge" style="margin-bottom: 6px; display: inline-block;">Confidential PDF Package</span>
+          <h3 style="font-family: 'Playfair Display', serif; font-size: 1.4rem;">Unlock Project Dossier</h3>
         </div>
-        <button onclick="closeBrochureModal()" style="border: none; background: transparent; font-size: 1.5rem; cursor: pointer; color: var(--text-muted);">&times;</button>
+        <button onclick="closeBrochureModal()" style="border: none; background: transparent; font-size: 1.6rem; cursor: pointer; color: var(--text-muted);">&times;</button>
       </div>
-      <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;">
-        Enter your details to receive the high-resolution brochure, master floor plans, and price breakdown.
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 22px; line-height: 1.6;">
+        Provide your verified contact to instantly receive high-resolution floor plans, engineering specifications, and direct developer pricing.
       </p>
 
       <form id="brochure-form" onsubmit="handleBrochureSubmit(event)">
@@ -137,30 +155,30 @@
           <input type="text" id="brochure-name" class="form-control" required placeholder="e.g. Anand Kumar">
         </div>
         <div class="form-group" style="margin-bottom: 14px;">
-          <label class="form-label">Phone Number</label>
+          <label class="form-label">Contact Number</label>
           <input type="tel" id="brochure-phone" class="form-control" required placeholder="+91 98401 23456">
         </div>
-        <div class="form-group" style="margin-bottom: 20px;">
-          <label class="form-label">Email Address</label>
+        <div class="form-group" style="margin-bottom: 22px;">
+          <label class="form-label">Confidential Email</label>
           <input type="email" id="brochure-email" class="form-control" required placeholder="anand@example.com">
         </div>
 
-        <button type="submit" id="btn-submit-brochure" class="btn btn-primary btn-lg" style="width: 100%;">
-          📄 Unlock & Download Brochure
+        <button type="submit" id="btn-submit-brochure" class="btn btn-accent btn-lg btn-shimmer" style="width: 100%;">
+          ⚜️ Unlock &amp; Download Dossier
         </button>
 
-        <div style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 12px;">
-          🛡️ Zero Spam Guarantee • Protected by SecureEstate
+        <div style="font-size: 0.78rem; color: var(--text-muted); text-align: center; margin-top: 14px;">
+          🛡️ Zero Spam Guarantee &bull; Protected by SecureEstate
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Footer -->
+  <!-- Classic Footer -->
   <footer class="footer">
     <div class="container footer-bottom" style="border: none;">
       <div>&copy; 2026 EstateLead Properties. All rights reserved.</div>
-      <div>Zero External Ad Trackers • 100% Privacy Compliant</div>
+      <div style="font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.08em;">Zero External Ad Trackers &bull; 100% Privacy Compliant</div>
     </div>
   </footer>
 
@@ -180,10 +198,11 @@
 
         if (!data.success || !data.property) {
           document.getElementById('property-details-container').innerHTML = `
-            <div style="text-align: center; padding: 60px; background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border);">
-              <h2>Property Not Found</h2>
-              <p style="color: var(--text-muted); margin: 12px 0 20px 0;">The requested property listing does not exist or has been removed.</p>
-              <a href="properties.html" class="btn btn-primary">Browse Active Inventory</a>
+            <div style="text-align: center; padding: 70px; background: #ffffff; border-radius: var(--radius-md); border: 1px dashed var(--border-gold);">
+              <div style="font-size: 3rem; margin-bottom: 12px;">⚜️</div>
+              <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem;">Residence Not Found</h2>
+              <p style="color: var(--text-muted); margin: 12px 0 24px 0;">The requested property listing does not exist or is currently off-market.</p>
+              <a href="properties.html" class="btn btn-primary">Browse Active Portfolio</a>
             </div>
           `;
           return;
@@ -200,34 +219,36 @@
 
     function renderDetails(p) {
       const isRental = p.purpose === 'Rent';
-      const priceFormatted = isRental ? `${EstateLead.formatINR(p.price)} / month` : EstateLead.formatINR(p.price);
+      const priceFormatted = isRental ? `${EstateLead.formatINR(p.price)} <span style="font-size: 1.1rem; font-weight: 500; color: var(--text-muted);">/ month</span>` : EstateLead.formatINR(p.price);
       const heartIcon = p.is_saved ? '❤️' : '🤍';
       const heartClass = p.is_saved ? 'active' : '';
 
-      const amenitiesList = (p.amenities || 'Clubhouse, 24/7 Security, Power Backup, Covered Parking')
+      const amenitiesList = (p.amenities || 'Clubhouse, 24/7 Security, Power Backup, Covered Parking, Italian Marble, Landscaped Garden')
         .split(',')
         .map(a => a.trim())
         .filter(Boolean);
 
       const html = `
-        <div class="details-header" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; gap: 16px;">
+        <div class="details-header" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 20px;">
           <div>
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
               <span class="badge badge-purpose">${EstateLead.escapeHTML(p.purpose || 'Buy')}</span>
-              <span class="badge badge-status">${EstateLead.escapeHTML(p.availability || 'Available')}</span>
-              ${p.featured ? '<span class="badge badge-featured">Featured Luxury</span>' : ''}
+              <span class="badge badge-status">✓ ${EstateLead.escapeHTML(p.availability || 'Available')}</span>
+              ${p.featured ? '<span class="badge badge-featured">⚜️ Featured Luxury</span>' : ''}
               <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">👁️ ${p.views_count} views</span>
             </div>
-            <h1 style="font-size: 2.2rem; letter-spacing: -0.5px;">${EstateLead.escapeHTML(p.title)}</h1>
-            <p style="color: var(--text-muted); font-size: 1.05rem; margin-top: 4px;">📍 ${EstateLead.escapeHTML(p.location)}</p>
+            <h1 style="font-size: 2.6rem; letter-spacing: -0.02em;">${EstateLead.escapeHTML(p.title)}</h1>
+            <p style="color: var(--text-muted); font-size: 1.1rem; margin-top: 4px;">📍 ${EstateLead.escapeHTML(p.location)}</p>
           </div>
 
-          <div style="text-align: right; display: flex; align-items: center; gap: 16px;">
+          <div style="text-align: right; display: flex; align-items: center; gap: 18px;">
             <div>
-              <div style="font-size: 2rem; font-weight: 800; color: var(--primary); font-family: 'Outfit', sans-serif;">${priceFormatted}</div>
-              <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Inclusive of all direct builder charges</div>
+              <div class="property-price" style="font-size: 2.3rem; margin-bottom: 0;">
+                <span class="price-val">${priceFormatted}</span>
+              </div>
+              <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; font-family: 'Cinzel', serif;">Direct Developer Pricing &bull; Zero Brokerage</div>
             </div>
-            <button class="btn-wishlist ${heartClass}" style="position: static; width: 44px; height: 44px; font-size: 1.3rem;" onclick="EstateLead.toggleWishlist(${p.id}, this)">
+            <button class="btn-wishlist ${heartClass}" style="position: static; width: 48px; height: 48px; font-size: 1.4rem;" onclick="EstateLead.toggleWishlist(${p.id}, this)">
               ${heartIcon}
             </button>
           </div>
@@ -244,11 +265,11 @@
             <!-- Specs Overview Box -->
             <div class="specs-overview-box">
               <div class="spec-box-item">
-                <span class="spec-box-label">Property Type</span>
+                <span class="spec-box-label">Typology</span>
                 <span class="spec-box-val">${EstateLead.escapeHTML(p.property_type)}</span>
               </div>
               <div class="spec-box-item">
-                <span class="spec-box-label">Bedrooms / BHK</span>
+                <span class="spec-box-label">Bedrooms (BHK)</span>
                 <span class="spec-box-val">🛏️ ${p.bhk || p.bedrooms || 2} BHK</span>
               </div>
               <div class="spec-box-item">
@@ -256,37 +277,39 @@
                 <span class="spec-box-val">📐 ${p.area} sq.ft</span>
               </div>
               <div class="spec-box-item">
-                <span class="spec-box-label">Bathrooms & Parking</span>
-                <span class="spec-box-val">🚿 ${p.bathrooms || 2}B • 🚗 ${p.parking || 1}P</span>
+                <span class="spec-box-label">Baths &amp; Parking</span>
+                <span class="spec-box-val">🚿 ${p.bathrooms || 2}B &bull; 🚗 ${p.parking || 1}P</span>
               </div>
             </div>
 
             <!-- Action Bar: Download Brochure & Floor Plans -->
-            <div style="background: #ffffff; border-radius: var(--radius-md); padding: 18px 24px; border: 1px solid var(--border); margin-bottom: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; box-shadow: var(--shadow-sm);">
+            <div style="background: #ffffff; border-radius: var(--radius-md); padding: 22px 28px; border: 1px solid var(--border-gold); margin-bottom: 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; box-shadow: var(--shadow-sm);">
               <div>
-                <div style="font-weight: 700; color: var(--primary);">Verified Project Documentation</div>
-                <div style="font-size: 0.85rem; color: var(--text-muted);">Floor plans, legal approval copies & specifications</div>
+                <div style="font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--primary);">Verified Architectural Documentation</div>
+                <div style="font-size: 0.88rem; color: var(--text-muted); margin-top: 2px;">Floor plans, approval certifications &amp; finishes specification breakdown</div>
               </div>
               <button onclick="openBrochureModal()" class="btn btn-outline">
-                📄 Download Project Brochure
+                📄 Download Project Dossier
               </button>
             </div>
 
             <!-- Property Description -->
-            <div style="background: #ffffff; border-radius: var(--radius-md); padding: 28px; border: 1px solid var(--border); margin-bottom: 28px; box-shadow: var(--shadow-sm);">
-              <h3 style="font-size: 1.3rem; margin-bottom: 14px;">About this Residence</h3>
-              <p style="color: var(--text-muted); line-height: 1.8; font-size: 1rem;">
+            <div style="background: #ffffff; border-radius: var(--radius-md); padding: 32px; border: 1px solid var(--border); margin-bottom: 32px; box-shadow: var(--shadow-sm);">
+              <span class="section-tag">Architectural Overview</span>
+              <h3 style="font-size: 1.4rem; margin-bottom: 14px;">About this Residence</h3>
+              <p style="color: var(--text-muted); line-height: 1.85; font-size: 1.02rem;">
                 ${EstateLead.escapeHTML(p.description || 'Experience the pinnacle of luxury living with bespoke finishes, expansive architectural floor plans, and panoramic natural light in one of the most sought-after addresses.')}
               </p>
             </div>
 
             <!-- Amenities Checklist -->
-            <div style="background: #ffffff; border-radius: var(--radius-md); padding: 28px; border: 1px solid var(--border); margin-bottom: 28px; box-shadow: var(--shadow-sm);">
-              <h3 style="font-size: 1.3rem; margin-bottom: 14px;">Amenities & Features</h3>
+            <div style="background: #ffffff; border-radius: var(--radius-md); padding: 32px; border: 1px solid var(--border); margin-bottom: 32px; box-shadow: var(--shadow-sm);">
+              <span class="section-tag">Estate Amenities</span>
+              <h3 style="font-size: 1.4rem; margin-bottom: 16px;">Curated Specifications &amp; Features</h3>
               <div class="amenities-grid">
                 ${amenitiesList.map(item => `
                   <div class="amenity-chip">
-                    <span>✨</span>
+                    <span style="color: var(--accent-gold);">✨</span>
                     <span>${EstateLead.escapeHTML(item)}</span>
                   </div>
                 `).join('')}
@@ -300,10 +323,10 @@
           <!-- Right Column: Interactive Lead Generation Card -->
           <div>
             <div class="contact-sidebar-card" id="lead-sidebar-card">
-              <span class="brand-badge" style="margin-bottom: 12px; display: inline-block;">Verified Developer Direct</span>
-              <h3 style="font-size: 1.3rem; margin-bottom: 4px;">Get in Touch</h3>
-              <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 16px;">
-                Direct consultation with zero brokerage
+              <span class="brand-badge" style="margin-bottom: 12px; display: inline-block;">Direct Developer Interface</span>
+              <h3 style="font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 4px;">Private Client Desk</h3>
+              <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 18px;">
+                Direct consultation with senior real estate partners &bull; Zero brokerage
               </p>
 
               <!-- Lead Action Tabs -->
@@ -316,64 +339,64 @@
               <!-- Form 1: General Property Enquiry -->
               <form id="form-lead-enquire" onsubmit="handleLeadSubmit(event, 'Property Enquiry')">
                 <div class="form-group" style="margin-bottom: 12px;">
-                  <label class="form-label" style="font-size: 0.82rem;">Your Name</label>
+                  <label class="form-label" style="font-size: 0.75rem;">Full Name</label>
                   <input type="text" id="lead-name" class="form-control" required placeholder="Full Name" value="${EstateLead.user ? EstateLead.escapeHTML(EstateLead.user.name) : ''}">
                 </div>
 
                 <div class="form-group" style="margin-bottom: 12px;">
-                  <label class="form-label" style="font-size: 0.82rem;">Phone Number</label>
+                  <label class="form-label" style="font-size: 0.75rem;">Contact Number</label>
                   <input type="tel" id="lead-phone" class="form-control" required placeholder="+91 98401 23456" value="${EstateLead.user && EstateLead.user.phone ? EstateLead.escapeHTML(EstateLead.user.phone) : ''}">
                 </div>
 
                 <div class="form-group" style="margin-bottom: 12px;">
-                  <label class="form-label" style="font-size: 0.82rem;">Email Address</label>
+                  <label class="form-label" style="font-size: 0.75rem;">Confidential Email</label>
                   <input type="email" id="lead-email" class="form-control" required placeholder="email@example.com" value="${EstateLead.user ? EstateLead.escapeHTML(EstateLead.user.email) : ''}">
                 </div>
 
                 <div class="form-group" style="margin-bottom: 12px;">
-                  <label class="form-label" style="font-size: 0.82rem;">Purchase Timeline</label>
+                  <label class="form-label" style="font-size: 0.75rem;">Acquisition Timeline</label>
                   <select id="lead-timeline" class="form-select" style="font-size: 0.88rem;">
-                    <option value="Immediate / Within 15 days">Immediate / Within 15 days (Ready to buy)</option>
-                    <option value="Within 1-3 months" selected>Within 1-3 months</option>
-                    <option value="3-6 months">3-6 months</option>
+                    <option value="Immediate / Within 15 days">Immediate / Ready to Acquire (Within 15 days)</option>
+                    <option value="Within 1-3 months" selected>Within 1-3 months (Active)</option>
+                    <option value="3-6 months">3-6 months (Planning)</option>
                     <option value="Exploring">Exploring options</option>
                   </select>
                 </div>
 
-                <div class="form-group" style="margin-bottom: 16px;">
-                  <label class="form-label" style="font-size: 0.82rem;">Message / Questions (Optional)</label>
-                  <textarea id="lead-message" class="form-control" rows="2" style="font-size: 0.88rem;" placeholder="Any specific requirements or preferred visit time..."></textarea>
+                <div class="form-group" style="margin-bottom: 18px;">
+                  <label class="form-label" style="font-size: 0.75rem;">Bespoke Notes / Preferences</label>
+                  <textarea id="lead-message" class="form-control" rows="2" style="font-size: 0.88rem;" placeholder="Any specific requirements or preferred consultation timing..."></textarea>
                 </div>
 
-                <button type="submit" id="btn-submit-lead" class="btn btn-primary btn-lg" style="width: 100%;">
-                  🚀 Send Property Enquiry
+                <button type="submit" id="btn-submit-lead" class="btn btn-primary btn-lg btn-shimmer" style="width: 100%;">
+                  ⚜️ Send Private Enquiry
                 </button>
               </form>
 
               <!-- Form 2: Schedule Site Visit -->
               <form id="form-lead-tour" onsubmit="handleSiteVisitSubmit(event)" style="display: none;">
                 <div class="form-group" style="margin-bottom: 12px;">
-                  <label class="form-label" style="font-size: 0.82rem;">Your Name</label>
+                  <label class="form-label" style="font-size: 0.75rem;">Full Name</label>
                   <input type="text" id="tour-name" class="form-control" required placeholder="Full Name" value="${EstateLead.user ? EstateLead.escapeHTML(EstateLead.user.name) : ''}">
                 </div>
 
                 <div class="form-group" style="margin-bottom: 12px;">
-                  <label class="form-label" style="font-size: 0.82rem;">Phone Number</label>
+                  <label class="form-label" style="font-size: 0.75rem;">Contact Number</label>
                   <input type="tel" id="tour-phone" class="form-control" required placeholder="+91 98401 23456" value="${EstateLead.user && EstateLead.user.phone ? EstateLead.escapeHTML(EstateLead.user.phone) : ''}">
                 </div>
 
                 <div class="form-group" style="margin-bottom: 12px;">
-                  <label class="form-label" style="font-size: 0.82rem;">Email Address</label>
+                  <label class="form-label" style="font-size: 0.75rem;">Confidential Email</label>
                   <input type="email" id="tour-email" class="form-control" required placeholder="email@example.com" value="${EstateLead.user ? EstateLead.escapeHTML(EstateLead.user.email) : ''}">
                 </div>
 
                 <div class="form-group" style="margin-bottom: 12px;">
-                  <label class="form-label" style="font-size: 0.82rem;">Preferred Tour Date</label>
+                  <label class="form-label" style="font-size: 0.75rem;">Preferred Tour Date</label>
                   <input type="date" id="tour-date" class="form-control" required min="${new Date().toISOString().split('T')[0]}">
                 </div>
 
-                <div class="form-group" style="margin-bottom: 16px;">
-                  <label class="form-label" style="font-size: 0.82rem;">Preferred Time Slot</label>
+                <div class="form-group" style="margin-bottom: 18px;">
+                  <label class="form-label" style="font-size: 0.75rem;">Preferred Time Window</label>
                   <select id="tour-time" class="form-select" style="font-size: 0.88rem;">
                     <option value="Morning (10:00 AM - 12:00 PM)">Morning (10:00 AM - 12:00 PM)</option>
                     <option value="Afternoon (02:00 PM - 04:00 PM)" selected>Afternoon (02:00 PM - 04:00 PM)</option>
@@ -381,33 +404,33 @@
                   </select>
                 </div>
 
-                <button type="submit" id="btn-submit-tour" class="btn btn-accent btn-lg" style="width: 100%;">
-                  📅 Book Confirmed Site Tour
+                <button type="submit" id="btn-submit-tour" class="btn btn-accent btn-lg btn-shimmer" style="width: 100%;">
+                  📅 Book Private Chauffeur Tour
                 </button>
               </form>
 
               <!-- Form 3: 1-Click Instant Callback -->
               <form id="form-lead-call" onsubmit="handleQuickCallbackSubmit(event)" style="display: none;">
                 <div class="form-group" style="margin-bottom: 12px;">
-                  <label class="form-label" style="font-size: 0.82rem;">Your Name</label>
+                  <label class="form-label" style="font-size: 0.75rem;">Full Name</label>
                   <input type="text" id="call-name" class="form-control" required placeholder="Full Name" value="${EstateLead.user ? EstateLead.escapeHTML(EstateLead.user.name) : ''}">
                 </div>
 
-                <div class="form-group" style="margin-bottom: 16px;">
-                  <label class="form-label" style="font-size: 0.82rem;">Direct Phone Number</label>
+                <div class="form-group" style="margin-bottom: 18px;">
+                  <label class="form-label" style="font-size: 0.75rem;">Direct Phone Number</label>
                   <input type="tel" id="call-phone" class="form-control" required placeholder="+91 98401 23456" value="${EstateLead.user && EstateLead.user.phone ? EstateLead.escapeHTML(EstateLead.user.phone) : ''}">
                 </div>
 
-                <button type="submit" id="btn-submit-call" class="btn btn-primary btn-lg" style="width: 100%;">
-                  ⚡ Request Instant 30-Min Callback
+                <button type="submit" id="btn-submit-call" class="btn btn-primary btn-lg btn-shimmer" style="width: 100%;">
+                  ⚡ Request Priority Callback
                 </button>
               </form>
 
               <!-- Success Card Container -->
               <div id="lead-result-container" style="display: none;"></div>
 
-              <div style="margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--text-muted); text-align: center;">
-                🔒 Intermediate Security Layer • Zero Ad Trackers
+              <div style="margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--text-muted); text-align: center; font-family: 'Cinzel', serif;">
+                🔒 SecureEstate Encryption &bull; Zero Spam
               </div>
             </div>
           </div>
@@ -443,7 +466,7 @@
       e.preventDefault();
       const btn = document.getElementById('btn-submit-lead');
       btn.disabled = true;
-      btn.innerText = 'Calculating & Submitting...';
+      btn.innerText = 'Analyzing & Registering...';
 
       const payload = {
         property_id: currentProperty.id,
@@ -470,7 +493,7 @@
         EstateLead.showToast('Network error while submitting enquiry.', 'error');
       } finally {
         btn.disabled = false;
-        btn.innerText = '🚀 Send Property Enquiry';
+        btn.innerText = '⚜️ Send Private Enquiry';
       }
     }
 
@@ -478,7 +501,7 @@
       e.preventDefault();
       const btn = document.getElementById('btn-submit-tour');
       btn.disabled = true;
-      btn.innerText = 'Booking Site Tour...';
+      btn.innerText = 'Booking Tour...';
 
       const payload = {
         property_id: currentProperty.id,
@@ -503,7 +526,7 @@
         EstateLead.showToast('Network error while booking site visit.', 'error');
       } finally {
         btn.disabled = false;
-        btn.innerText = '📅 Book Confirmed Site Tour';
+        btn.innerText = '📅 Book Private Chauffeur Tour';
       }
     }
 
@@ -531,7 +554,7 @@
         EstateLead.showToast('Network error while requesting callback.', 'error');
       } finally {
         btn.disabled = false;
-        btn.innerText = '⚡ Request Instant 30-Min Callback';
+        btn.innerText = '⚡ Request Priority Callback';
       }
     }
 
@@ -548,14 +571,14 @@
       container.style.display = 'block';
       container.innerHTML = `
         <div class="lead-success-card">
-          <div style="font-size: 2.2rem; margin-bottom: 6px;">🎉</div>
-          <h4 style="font-size: 1.15rem; color: #166534; margin-bottom: 6px;">Enquiry Confirmed!</h4>
-          <p style="font-size: 0.85rem; color: #15803d; margin-bottom: 12px;">
+          <div style="font-size: 2.4rem; margin-bottom: 6px;">⚜️</div>
+          <h4 style="font-family: 'Playfair Display', serif; font-size: 1.25rem; color: #166534; margin-bottom: 6px;">Request Registered</h4>
+          <p style="font-size: 0.88rem; color: #15803d; margin-bottom: 14px;">
             Reference ID: <strong>#L${data.lead_id}</strong>
           </p>
 
-          <div style="background: #ffffff; border-radius: var(--radius-sm); padding: 12px; border: 1px solid #bbf7d0; text-align: left; font-size: 0.82rem; margin-bottom: 12px;">
-            <div>👤 <strong>Assigned Consultant:</strong> ${EstateLead.escapeHTML(summary.assigned_agent || 'Senior Consultant')}</div>
+          <div style="background: #ffffff; border-radius: var(--radius-sm); padding: 14px; border: 1px solid #bbf7d0; text-align: left; font-size: 0.84rem; margin-bottom: 14px;">
+            <div>👤 <strong>Assigned Advisor:</strong> ${EstateLead.escapeHTML(summary.assigned_agent || 'Senior Consultant')}</div>
             <div style="margin-top: 4px;">⏱️ <strong>Response Target:</strong> ${EstateLead.escapeHTML(summary.follow_up_timeline || 'Within 24 hours')}</div>
           </div>
 
@@ -565,7 +588,7 @@
         </div>
       `;
 
-      EstateLead.showToast('Enquiry received! Your consultant will call you shortly.', 'success');
+      EstateLead.showToast('Enquiry registered! Your assigned advisor will connect shortly.', 'success');
     }
 
     function resetLeadForms() {
@@ -603,11 +626,11 @@
         const data = await EstateLead.requestBrochure(payload);
         if (data.success) {
           closeBrochureModal();
-          EstateLead.showToast('Brochure Unlocked! Downloading package...', 'success');
+          EstateLead.showToast('Dossier Unlocked! Downloading package...', 'success');
           // Trigger download simulation
           const a = document.createElement('a');
           a.href = data.brochure_url;
-          a.download = `${currentProperty ? currentProperty.title : 'Property'}-Brochure.pdf`;
+          a.download = `${currentProperty ? currentProperty.title : 'Property'}-Dossier.pdf`;
           document.body.appendChild(a);
           a.click();
           a.remove();
@@ -618,26 +641,27 @@
         EstateLead.showToast('Network error downloading brochure.', 'error');
       } finally {
         btn.disabled = false;
-        btn.innerText = '📄 Unlock & Download Brochure';
+        btn.innerText = '⚜️ Unlock & Download Dossier';
       }
     }
 
     function renderEMICalculator(price) {
       return `
         <div class="emi-calculator-card">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <div>
-              <h3 style="font-size: 1.3rem;">Interactive Loan & EMI Estimator</h3>
-              <p style="color: var(--text-muted); font-size: 0.9rem;">Estimate your monthly mortgage payments in Indian Rupees</p>
+              <span class="section-tag">Financial Advisory</span>
+              <h3 style="font-size: 1.4rem;">Mortgage &amp; EMI Estimator</h3>
+              <p style="color: var(--text-muted); font-size: 0.92rem;">Estimate your monthly acquisition payments with precision</p>
             </div>
-            <div style="font-size: 1.8rem;">🧮</div>
+            <div style="font-size: 2rem;">🧮</div>
           </div>
 
           <!-- Slider 1: Down Payment -->
           <div class="emi-slider-group">
             <div class="emi-slider-label">
-              <span>Down Payment (%)</span>
-              <span id="label-downpayment" style="color: var(--accent); font-weight: 700;">20% (₹${((price * 0.2) / 100000).toFixed(2)} L)</span>
+              <span>Down Payment Equity (%)</span>
+              <span id="label-downpayment" style="color: var(--accent-bronze); font-weight: 700;">20% (₹${((price * 0.2) / 100000).toFixed(2)} L)</span>
             </div>
             <input type="range" id="slider-downpayment" min="10" max="80" step="5" value="20" style="width: 100%; accent-color: var(--accent);">
           </div>
@@ -645,8 +669,8 @@
           <!-- Slider 2: Interest Rate -->
           <div class="emi-slider-group">
             <div class="emi-slider-label">
-              <span>Annual Interest Rate (%)</span>
-              <span id="label-rate" style="color: var(--accent); font-weight: 700;">8.5% p.a.</span>
+              <span>Annual Benchmark Rate (%)</span>
+              <span id="label-rate" style="color: var(--accent-bronze); font-weight: 700;">8.5% p.a.</span>
             </div>
             <input type="range" id="slider-rate" min="6.5" max="15.0" step="0.25" value="8.5" style="width: 100%; accent-color: var(--accent);">
           </div>
@@ -654,28 +678,28 @@
           <!-- Slider 3: Loan Tenure -->
           <div class="emi-slider-group">
             <div class="emi-slider-label">
-              <span>Loan Tenure (Years)</span>
-              <span id="label-tenure" style="color: var(--accent); font-weight: 700;">20 Years</span>
+              <span>Amortization Tenure (Years)</span>
+              <span id="label-tenure" style="color: var(--accent-bronze); font-weight: 700;">20 Years</span>
             </div>
             <input type="range" id="slider-tenure" min="5" max="30" step="1" value="20" style="width: 100%; accent-color: var(--accent);">
           </div>
 
           <!-- Calculated Output Box -->
           <div class="emi-result-box">
-            <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.9;">Estimated Monthly Payment (EMI)</div>
+            <div style="font-family: 'Cinzel', serif; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-gold);">Estimated Monthly Amortization (EMI)</div>
             <div id="emi-display-value" class="emi-amount">₹0</div>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 14px; font-size: 0.85rem;">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; border-top: 1px solid rgba(197, 160, 89, 0.25); padding-top: 16px; font-size: 0.88rem;">
               <div>
-                <div style="opacity: 0.8;">Loan Amount</div>
-                <div id="emi-loan-amount" style="font-weight: 700; font-size: 1rem; margin-top: 2px;">₹0</div>
+                <div style="opacity: 0.8; font-family: 'Cinzel', serif; font-size: 0.72rem;">Principal Loan</div>
+                <div id="emi-loan-amount" style="font-weight: 700; font-size: 1.05rem; margin-top: 2px; color: #ffffff;">₹0</div>
               </div>
               <div>
-                <div style="opacity: 0.8;">Total Interest</div>
-                <div id="emi-total-interest" style="font-weight: 700; font-size: 1rem; margin-top: 2px;">₹0</div>
+                <div style="opacity: 0.8; font-family: 'Cinzel', serif; font-size: 0.72rem;">Total Interest</div>
+                <div id="emi-total-interest" style="font-weight: 700; font-size: 1.05rem; margin-top: 2px; color: var(--accent-shimmer);">₹0</div>
               </div>
               <div>
-                <div style="opacity: 0.8;">Total Payable</div>
-                <div id="emi-total-payable" style="font-weight: 700; font-size: 1rem; margin-top: 2px;">₹0</div>
+                <div style="opacity: 0.8; font-family: 'Cinzel', serif; font-size: 0.72rem;">Total Outlay</div>
+                <div id="emi-total-payable" style="font-weight: 700; font-size: 1.05rem; margin-top: 2px; color: #ffffff;">₹0</div>
               </div>
             </div>
           </div>

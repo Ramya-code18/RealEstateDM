@@ -64,7 +64,7 @@ const EstateLead = {
 
   async directLogin(email, password, redirectPath = null) {
     try {
-      this.showToast(`Signing in as ${email}...`, 'info');
+      this.showToast(`Authenticating ${email}...`, 'info');
       const res = await fetch(this.apiUrl('/api/auth/login'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -83,7 +83,7 @@ const EstateLead = {
         }, 500);
         return { success: true, user: data.user };
       } else {
-        this.showToast(data.error || 'Login failed', 'error');
+        this.showToast(data.error || 'Authentication failed', 'error');
         return { success: false, error: data.error };
       }
     } catch (err) {
@@ -103,7 +103,7 @@ const EstateLead = {
     this.user = null;
     localStorage.removeItem('estatelead_token');
     localStorage.removeItem('estatelead_user');
-    this.showToast('Logged out successfully.');
+    this.showToast('Signed out successfully.');
     this.updateNav();
     setTimeout(() => {
       window.location.href = '/';
@@ -121,15 +121,15 @@ const EstateLead = {
         if (isStaff) {
           navLinks.innerHTML = `
             <li><a href="/" class="nav-link">Home</a></li>
-            <li><a href="/properties.html" class="nav-link">Properties</a></li>
+            <li><a href="/properties.html" class="nav-link">Portfolio</a></li>
             <li><a href="/crm.html" class="nav-link">Lead CRM</a></li>
             <li><a href="/analytics.html" class="nav-link">Analytics BI</a></li>
           `;
         } else {
           navLinks.innerHTML = `
             <li><a href="/" class="nav-link">Home</a></li>
-            <li><a href="/properties.html" class="nav-link">Properties</a></li>
-            <li><a href="/dashboard.html" class="nav-link">My Dashboard</a></li>
+            <li><a href="/properties.html" class="nav-link">Portfolio</a></li>
+            <li><a href="/dashboard.html" class="nav-link">My Suite</a></li>
             <li><a href="/saved.html" class="nav-link">Saved Wishlist</a></li>
           `;
         }
@@ -137,19 +137,19 @@ const EstateLead = {
 
       if (authContainer) {
         authContainer.innerHTML = `
-          <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
             ${!isStaff ? `
-              <a href="/saved.html" class="btn btn-outline btn-sm" title="Saved Properties">
+              <a href="/saved.html" class="btn btn-outline btn-sm" title="Saved Collection">
                 ❤️ <span id="nav-saved-count" class="brand-badge" style="margin-left: 2px;">0</span>
               </a>
             ` : ''}
-            <div style="font-size: 0.88rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 6px;">
+            <div style="font-size: 0.88rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 8px;">
               <span>👤 ${this.escapeHTML(this.user.name.split(' ')[0])}</span>
-              <span class="brand-badge" style="background: ${isStaff ? 'var(--primary)' : 'var(--accent)'}; color: ${isStaff ? 'var(--accent-gold)' : '#ffffff'}; font-size: 0.72rem;">
+              <span class="brand-badge" style="background: ${isStaff ? 'var(--dark-gradient)' : 'var(--accent-light)'}; color: ${isStaff ? 'var(--accent-gold)' : 'var(--accent-bronze)'};">
                 ${this.user.role.toUpperCase()}
               </span>
             </div>
-            <button onclick="EstateLead.logout()" class="btn btn-outline btn-sm" style="padding: 6px 12px;">Sign Out</button>
+            <button onclick="EstateLead.logout()" class="btn btn-outline btn-sm" style="padding: 6px 14px;">Sign Out</button>
           </div>
         `;
       }
@@ -157,7 +157,7 @@ const EstateLead = {
       if (authContainer) {
         authContainer.innerHTML = `
           <a href="/login.html" class="btn btn-outline btn-sm">Sign In</a>
-          <a href="/register.html" class="btn btn-primary btn-sm">Register</a>
+          <a href="/register.html" class="btn btn-accent btn-sm btn-shimmer">Register</a>
         `;
       }
     }
@@ -211,20 +211,21 @@ const EstateLead = {
 
     const toast = document.createElement('div');
     toast.className = 'toast';
-    const icon = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
-    toast.innerHTML = `<span>${icon}</span><span>${this.escapeHTML(msg)}</span>`;
+    const icon = type === 'success' ? '⚜️' : type === 'error' ? '⚠️' : 'ℹ️';
+    toast.innerHTML = `<span style="font-size: 1.1rem; color: var(--accent-gold);">${icon}</span><span>${this.escapeHTML(msg)}</span>`;
     container.appendChild(toast);
 
     setTimeout(() => {
       toast.style.opacity = '0';
-      toast.style.transition = 'opacity 0.3s ease';
+      toast.style.transform = 'translateY(10px)';
+      toast.style.transition = 'all 0.3s ease';
       setTimeout(() => toast.remove(), 300);
-    }, 3500);
+    }, 3600);
   },
 
   async toggleWishlist(propertyId, btnEl) {
     if (!this.token) {
-      this.showToast('Please sign in to save properties to your wishlist.', 'error');
+      this.showToast('Please sign in to save properties to your curated wishlist.', 'error');
       setTimeout(() => {
         window.location.href = `/login.html?redirect=/property/${propertyId}`;
       }, 1000);
@@ -245,11 +246,11 @@ const EstateLead = {
         if (data.is_saved) {
           btnEl.classList.add('active');
           btnEl.innerHTML = '❤️';
-          this.showToast('Property added to saved wishlist!', 'success');
+          this.showToast('Residence added to your private portfolio wishlist!', 'success');
         } else {
           btnEl.classList.remove('active');
           btnEl.innerHTML = '🤍';
-          this.showToast('Property removed from saved wishlist.', 'info');
+          this.showToast('Residence removed from your wishlist.', 'info');
         }
         this.updateSavedBadgeCount();
       } else {
@@ -281,7 +282,7 @@ const EstateLead = {
 
   renderPropertyCard(p) {
     const isRental = p.purpose === 'Rent';
-    const priceDisplay = isRental ? `${this.formatINR(p.price)} / mo` : this.formatINR(p.price);
+    const priceDisplay = isRental ? `${this.formatINR(p.price)} <span style="font-size: 0.95rem; font-weight: 500; color: var(--text-muted);">/ month</span>` : this.formatINR(p.price);
     const heartIcon = p.is_saved ? '❤️' : '🤍';
     const activeClass = p.is_saved ? 'active' : '';
 
@@ -290,16 +291,18 @@ const EstateLead = {
         <div class="property-thumb">
           <img src="${this.escapeHTML(p.image_url)}" alt="${this.escapeHTML(p.title)}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80'">
           <div class="property-badges">
-            ${p.featured ? '<span class="badge badge-featured">Featured</span>' : ''}
+            ${p.featured ? '<span class="badge badge-featured">⚜️ Featured</span>' : ''}
             <span class="badge badge-purpose">${this.escapeHTML(p.purpose || 'Buy')}</span>
-            <span class="badge badge-status">${this.escapeHTML(p.availability || 'Available')}</span>
+            <span class="badge badge-status">✓ ${this.escapeHTML(p.availability || 'Available')}</span>
           </div>
           <button class="btn-wishlist ${activeClass}" onclick="EstateLead.toggleWishlist(${p.id}, this)" title="Save to wishlist">
             ${heartIcon}
           </button>
         </div>
         <div class="property-body">
-          <div class="property-price">${priceDisplay}</div>
+          <div class="property-price">
+            <span class="price-val">${priceDisplay}</span>
+          </div>
           <h3 class="property-title">
             <a href="/property-details.html?id=${p.id}">${this.escapeHTML(p.title)}</a>
           </h3>
@@ -313,7 +316,7 @@ const EstateLead = {
           </div>
           <div class="property-footer">
             <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">👁️ ${p.views_count || 0} views</span>
-            <a href="/property-details.html?id=${p.id}" class="btn btn-outline btn-sm">View Details &rarr;</a>
+            <a href="/property-details.html?id=${p.id}" class="btn btn-outline btn-sm">Explore Residence &rarr;</a>
           </div>
         </div>
       </div>

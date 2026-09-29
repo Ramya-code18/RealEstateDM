@@ -3,29 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Property Catalog & Search - EstateLead</title>
-  <meta name="description" content="Search verified luxury homes, apartments, villas and penthouses with multi-criteria filters on EstateLead.">
+  <title>Curated Portfolio &amp; Property Catalog - EstateLead</title>
+  <meta name="description" content="Search verified luxury homes, apartments, gated villas, and sky penthouses with bespoke multi-criteria filters on EstateLead.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <style>
     .catalog-layout {
       display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 32px;
-      margin-top: 30px;
-      margin-bottom: 60px;
+      grid-template-columns: 290px 1fr;
+      gap: 36px;
+      margin-top: 24px;
+      margin-bottom: 70px;
     }
     .filter-sidebar {
       background: #ffffff;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-gold);
       border-radius: var(--radius-md);
-      padding: 24px;
+      padding: 26px;
       box-shadow: var(--shadow-sm);
       height: fit-content;
       position: sticky;
-      top: 96px;
+      top: 100px;
+    }
+    .filter-sidebar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 15px;
+      right: 15px;
+      height: 2px;
+      background: var(--gold-gradient);
     }
     .filter-group {
       margin-bottom: 20px;
@@ -38,12 +47,16 @@
       padding-bottom: 0;
     }
     .filter-title {
-      font-size: 0.95rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.76rem;
       font-weight: 700;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: block;
     }
-    @media (max-width: 900px) {
+    @media (max-width: 920px) {
       .catalog-layout {
         grid-template-columns: 1fr;
       }
@@ -55,132 +68,139 @@
 </head>
 <body>
 
+  <!-- Top Announcement Bar -->
+  <div style="background: #090d16; color: #c5a059; font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 7px 0; border-bottom: 1px solid rgba(197, 160, 89, 0.25); text-align: center;">
+    <span>⚜️ Verified Architectural Residences &bull; 100% CMDA &amp; RERA Approved Inventory</span>
+  </div>
+
   <!-- Top Navbar -->
   <header class="navbar">
     <div class="container navbar-inner">
       <a href="index.html" class="brand-logo">
-        <div class="logo-icon">🏢</div>
+        <div class="logo-icon">⚜️</div>
         <span>EstateLead</span>
-        <span class="brand-badge">SecureEstate</span>
+        <span class="brand-badge">Prestige</span>
       </a>
 
       <ul class="nav-links">
         <li><a href="index.html" class="nav-link">Home</a></li>
-        <li><a href="properties.html" class="nav-link active">Properties</a></li>
-        <li><a href="properties.html?purpose=Buy" class="nav-link">Buy</a></li>
-        <li><a href="properties.html?purpose=Rent" class="nav-link">Rent</a></li>
-        <li><a href="saved.html" class="nav-link">Saved Wishlist</a></li>
+        <li><a href="properties.html" class="nav-link active">Portfolio</a></li>
+        <li><a href="properties.html?purpose=Buy" class="nav-link">Acquisitions</a></li>
+        <li><a href="properties.html?purpose=Rent" class="nav-link">Leasing</a></li>
+        <li><a href="saved.html" class="nav-link">Saved Collection</a></li>
       </ul>
 
       <div class="nav-actions" id="nav-auth-actions">
         <a href="login.html" class="btn btn-outline btn-sm">Sign In</a>
-        <a href="register.html" class="btn btn-primary btn-sm">Register</a>
+        <a href="register.html" class="btn btn-accent btn-sm btn-shimmer">Register</a>
       </div>
     </div>
   </header>
 
-  <div class="container" style="padding-top: 30px;">
-    <!-- Breadcrumbs -->
-    <div style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">
-      <a href="index.html" style="color: var(--text-muted);">Home</a> &nbsp;&gt;&nbsp; <span style="color: var(--primary); font-weight: 600;">Property Catalog</span>
+  <div class="container" style="padding-top: 36px;">
+    <!-- Classic Breadcrumbs -->
+    <div style="font-family: 'Cinzel', serif; font-size: 0.78rem; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 18px;">
+      <a href="index.html" style="color: var(--text-muted);">Home</a> &nbsp;&gt;&nbsp; 
+      <span style="color: var(--accent-bronze); font-weight: 700;">Curated Portfolio Catalog</span>
     </div>
 
     <!-- Catalog Layout -->
     <div class="catalog-layout">
       <!-- Filter Sidebar -->
       <aside class="filter-sidebar">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-          <h3 style="font-size: 1.2rem;">Filters</h3>
-          <button onclick="resetFilters()" class="btn btn-outline btn-sm" style="padding: 4px 8px; font-size: 0.75rem;">Reset All</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px;">
+          <h3 style="font-family: 'Playfair Display', serif; font-size: 1.3rem;">Bespoke Filters</h3>
+          <button onclick="resetFilters()" class="btn btn-outline btn-sm" style="padding: 4px 10px; font-size: 0.72rem; font-family: 'Cinzel', serif;">Reset All</button>
         </div>
 
         <!-- Keyword Search -->
         <div class="filter-group">
-          <label class="filter-title">Keyword Search</label>
-          <input type="text" id="filter-search" class="form-control" placeholder="Search by name, landmark..." oninput="debounceFetch()">
+          <label class="filter-title">Keyword / Landmark</label>
+          <input type="text" id="filter-search" class="form-control" placeholder="Search title, corridor, area..." oninput="debounceFetch()">
         </div>
 
         <!-- Purpose: Buy vs Rent -->
         <div class="filter-group">
-          <label class="filter-title">Purpose</label>
+          <label class="filter-title">Transaction Intent</label>
           <select id="filter-purpose" class="form-select" onchange="fetchProperties()">
-            <option value="all">All (Buy & Rent)</option>
-            <option value="Buy">Buy Only</option>
-            <option value="Rent">Rent Only</option>
+            <option value="all">All (Acquisition &amp; Lease)</option>
+            <option value="Buy">Acquisitions (Buy)</option>
+            <option value="Rent">Leasing (Rent)</option>
           </select>
         </div>
 
         <!-- Location Filter -->
         <div class="filter-group">
-          <label class="filter-title">City / Location</label>
+          <label class="filter-title">Premier Metro</label>
           <select id="filter-location" class="form-select" onchange="fetchProperties()">
-            <option value="all">All Cities</option>
-            <option value="Chennai">Chennai</option>
-            <option value="Bangalore">Bangalore</option>
-            <option value="Coimbatore">Coimbatore</option>
-            <option value="Hyderabad">Hyderabad</option>
+            <option value="all">All Metros</option>
+            <option value="Chennai">Chennai, Tamil Nadu</option>
+            <option value="Bangalore">Bangalore, Karnataka</option>
+            <option value="Coimbatore">Coimbatore, Tamil Nadu</option>
+            <option value="Hyderabad">Hyderabad, Telangana</option>
           </select>
         </div>
 
         <!-- Property Type -->
         <div class="filter-group">
-          <label class="filter-title">Property Type</label>
+          <label class="filter-title">Property Typology</label>
           <select id="filter-type" class="form-select" onchange="fetchProperties()">
-            <option value="all">All Types</option>
-            <option value="Apartments">Apartments</option>
-            <option value="Luxury Villas">Luxury Villas</option>
-            <option value="Penthouses">Penthouses</option>
-            <option value="Plots">Residential Plots</option>
+            <option value="all">All Typologies</option>
+            <option value="Apartments">Luxury Apartments</option>
+            <option value="Luxury Villas">Independent Gated Villas</option>
+            <option value="Penthouses">Sky Penthouses</option>
+            <option value="Plots">Residential Land Plots</option>
           </select>
         </div>
 
         <!-- Bedrooms / BHK -->
         <div class="filter-group">
-          <label class="filter-title">Bedrooms (BHK)</label>
+          <label class="filter-title">Bedroom Plan (BHK)</label>
           <select id="filter-bhk" class="form-select" onchange="fetchProperties()">
-            <option value="all">Any BHK</option>
-            <option value="1">1 BHK</option>
-            <option value="2">2 BHK</option>
-            <option value="3">3 BHK</option>
-            <option value="4">4+ BHK Luxury</option>
+            <option value="all">Any Bedroom Plan</option>
+            <option value="1">1 BHK Suite</option>
+            <option value="2">2 BHK Suite</option>
+            <option value="3">3 BHK Luxury</option>
+            <option value="4">4+ BHK Mansion</option>
           </select>
         </div>
 
         <!-- Budget / Price Range -->
         <div class="filter-group">
-          <label class="filter-title">Budget Tier</label>
+          <label class="filter-title">Investment Tier</label>
           <select id="filter-budget" class="form-select" onchange="fetchProperties()">
-            <option value="all">All Budgets</option>
+            <option value="all">All Investment Tiers</option>
             <option value="0-5000000">Under ₹50 Lakhs</option>
             <option value="5000000-8000000">₹50L - ₹80 Lakhs</option>
             <option value="8000000-15000000">₹80L - ₹1.5 Crore</option>
-            <option value="15000000-100000000">Above ₹1.5 Crore</option>
+            <option value="15000000-100000000">Above ₹1.5 Crore (Luxury)</option>
           </select>
         </div>
 
         <!-- Availability -->
         <div class="filter-group">
-          <label class="filter-title">Availability</label>
+          <label class="filter-title">Inventory Status</label>
           <select id="filter-availability" class="form-select" onchange="fetchProperties()">
-            <option value="all">All Status</option>
-            <option value="Available">Available</option>
-            <option value="Under Offer">Under Offer</option>
-            <option value="Sold">Sold</option>
+            <option value="all">All Statuses</option>
+            <option value="Available">Available (Immediate Possession)</option>
+            <option value="Under Offer">Under Offer / Verification</option>
+            <option value="Sold">Sold Portfolio</option>
           </select>
         </div>
       </aside>
 
       <!-- Main Catalog Results Section -->
       <section>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid var(--border); padding-bottom: 16px;">
           <div>
-            <h1 style="font-size: 1.8rem; margin-bottom: 4px;">Available Real Estate Inventory</h1>
-            <p id="results-count-text" style="color: var(--text-muted); font-size: 0.95rem;">Showing properties...</p>
+            <span class="section-tag">Curated Inventory</span>
+            <h1 style="font-size: 2rem; margin-bottom: 4px;">Verified Architectural Portfolio</h1>
+            <p id="results-count-text" style="color: var(--text-muted); font-size: 0.95rem;">Curating premier properties...</p>
           </div>
 
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">Sort By:</label>
-            <select id="filter-sort" class="form-select" style="width: auto;" onchange="fetchProperties()">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <label style="font-family: 'Cinzel', serif; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Sort Order:</label>
+            <select id="filter-sort" class="form-select" style="width: auto; min-width: 170px;" onchange="fetchProperties()">
               <option value="newest">Newest Listed</option>
               <option value="price_asc">Price: Low to High</option>
               <option value="price_desc">Price: High to Low</option>
@@ -191,8 +211,8 @@
 
         <!-- Property Grid Container -->
         <div id="catalog-properties-grid" class="property-grid">
-          <div style="grid-column: 1 / -1; text-align: center; padding: 60px; color: var(--text-muted);">
-            Fetching property listings...
+          <div style="grid-column: 1 / -1; text-align: center; padding: 70px; color: var(--text-muted);">
+            Curating bespoke property portfolio...
           </div>
         </div>
       </section>
@@ -203,7 +223,7 @@
   <footer class="footer">
     <div class="container footer-bottom" style="border: none;">
       <div>&copy; 2026 EstateLead Properties. All rights reserved.</div>
-      <div>Zero External Ad Trackers • 100% Privacy Compliant</div>
+      <div style="font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.08em;">Zero External Ad Trackers &bull; 100% Privacy Compliant</div>
     </div>
   </footer>
 
@@ -250,37 +270,43 @@
       if (bhk !== 'all') query += `&bhk=${encodeURIComponent(bhk)}`;
       if (availability !== 'all') query += `&availability=${encodeURIComponent(availability)}`;
       if (search.trim()) query += `&search=${encodeURIComponent(search.trim())}`;
+
       if (budget !== 'all') {
         const [min, max] = budget.split('-');
-        query += `&min_price=${min}&max_price=${max}`;
+        if (min && max) query += `&min_price=${min}&max_price=${max}`;
       }
 
       const grid = document.getElementById('catalog-properties-grid');
-      const countText = document.getElementById('results-count-text');
+      const countEl = document.getElementById('results-count-text');
 
       try {
-        const res = await fetch(query, {
+        const res = await fetch(EstateLead.apiUrl(query), {
           headers: EstateLead.token ? { Authorization: `Bearer ${EstateLead.token}` } : {},
         });
         const data = await res.json();
 
-        if (data.success && data.properties.length > 0) {
-          countText.innerText = `Found ${data.count} verified property listing(s)`;
-          grid.innerHTML = data.properties.map(p => EstateLead.renderPropertyCard(p)).join('');
+        if (data.success) {
+          countEl.innerHTML = `Displaying <strong>${data.count}</strong> verified residential assets across premier locations.`;
+          if (data.properties.length > 0) {
+            grid.innerHTML = data.properties.map(p => EstateLead.renderPropertyCard(p)).join('');
+          } else {
+            grid.innerHTML = `
+              <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: #ffffff; border-radius: var(--radius-md); border: 1px dashed var(--border-gold);">
+                <div style="font-size: 3rem; margin-bottom: 12px;">⚜️</div>
+                <h3 style="font-size: 1.3rem; margin-bottom: 8px;">No Matching Residences Found</h3>
+                <p style="color: var(--text-muted); margin-bottom: 18px;">Try adjusting your filter criteria or view our complete portfolio.</p>
+                <button onclick="resetFilters()" class="btn btn-primary btn-sm">Reset All Filters</button>
+              </div>
+            `;
+          }
         } else {
-          countText.innerText = `No matching properties found`;
-          grid.innerHTML = `
-            <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border);">
-              <div style="font-size: 3rem; margin-bottom: 12px;">🏡</div>
-              <h3 style="font-size: 1.3rem; margin-bottom: 8px;">No properties match your active filters</h3>
-              <p style="color: var(--text-muted); margin-bottom: 20px;">Try adjusting your search criteria or resetting filters.</p>
-              <button onclick="resetFilters()" class="btn btn-primary">Reset Filters</button>
-            </div>
-          `;
+          countEl.innerText = 'Could not fetch properties';
+          grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--danger);">Failed to load property portfolio.</div>';
         }
       } catch (err) {
         console.error('Fetch error:', err);
-        grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: var(--danger); padding: 40px;">Error loading listings. Please try again.</div>`;
+        countEl.innerText = 'Connection error';
+        grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--danger);">Could not connect to the real estate API server.</div>';
       }
     }
 

@@ -3,45 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign In - EstateLead</title>
-  <meta name="description" content="Sign in to your EstateLead customer, agent, or admin account.">
+  <title>Client &amp; Executive Sign In - EstateLead</title>
+  <meta name="description" content="Sign in to your EstateLead customer, agent, or administrator account. Protected by SecureEstate data security layer.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <script src="js/main.js"></script>
   <style>
     .quick-account-card {
       padding: 12px 14px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-gold);
       background: #ffffff;
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
       transition: var(--transition);
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
+      gap: 10px;
     }
     .quick-account-card:hover {
       border-color: var(--accent);
-      background: #f8fafc;
+      background: var(--bg-main);
       box-shadow: var(--shadow-sm);
     }
     .btn-quick-login {
-      background: var(--primary);
-      color: #ffffff;
-      border: none;
+      background: var(--dark-gradient);
+      color: var(--accent-gold);
+      border: 1px solid var(--border-gold);
       padding: 6px 12px;
-      font-size: 0.78rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.74rem;
       font-weight: 700;
-      border-radius: 6px;
+      letter-spacing: 0.06em;
+      border-radius: 4px;
       cursor: pointer;
       transition: var(--transition);
       white-space: nowrap;
     }
     .btn-quick-login:hover {
-      background: var(--accent);
+      background: var(--gold-gradient);
+      color: #090d16;
+      border-color: var(--accent-hover);
     }
     .btn-fill-only {
       background: transparent;
@@ -50,55 +54,59 @@
       padding: 6px 10px;
       font-size: 0.75rem;
       font-weight: 600;
-      border-radius: 6px;
+      border-radius: 4px;
       cursor: pointer;
       transition: var(--transition);
     }
     .btn-fill-only:hover {
-      background: #f1f5f9;
-      color: var(--primary);
+      background: var(--accent-light);
+      color: var(--accent-bronze);
     }
     .status-indicator {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.75rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
       font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: #dcfce7;
-      color: #166534;
-      border: 1px solid #bbf7d0;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
     }
   </style>
 </head>
-<body style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;">
+<body style="background: radial-gradient(ellipse at 50% 20%, rgba(197, 160, 89, 0.15) 0%, rgba(9, 13, 22, 0.96) 80%), linear-gradient(180deg, #090d16 0%, #141c2e 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px;">
 
-  <div style="background: #ffffff; border-radius: var(--radius-lg); padding: 36px; width: 100%; max-width: 500px; box-shadow: var(--shadow-lg);">
-    <div style="text-align: center; margin-bottom: 20px;">
-      <a href="index.html" class="brand-logo" style="justify-content: center; margin-bottom: 8px;">
-        <div class="logo-icon">🏢</div>
+  <div style="background: #ffffff; border-radius: var(--radius-lg); padding: 44px; width: 100%; max-width: 520px; box-shadow: var(--shadow-lg), 0 0 35px rgba(0, 0, 0, 0.4); border: 1px solid var(--border-gold); position: relative;">
+    <div style="position: absolute; top: 0; left: 24px; right: 24px; height: 3px; background: var(--gold-gradient);"></div>
+
+    <div style="text-align: center; margin-bottom: 24px;">
+      <a href="index.html" class="brand-logo" style="justify-content: center; margin-bottom: 10px;">
+        <div class="logo-icon">⚜️</div>
         <span>EstateLead</span>
       </a>
-      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px;">Secure Access Portal (SecureEstate Intermediate Layer)</p>
+      <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 10px;">Confidential Client &amp; Executive Access Portal</p>
       <div id="server-status-pill" class="status-indicator">
-        <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #16a34a;"></span>
-        <span id="server-status-text">Server: localhost:5000</span>
+        <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #059669;"></span>
+        <span id="server-status-text">Secure Server: Active</span>
       </div>
     </div>
 
     <!-- 1-Click Instant Demo Access -->
-    <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px; margin-bottom: 20px;">
-      <div style="font-weight: 700; color: var(--primary); font-size: 0.85rem; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
-        <span>⚡ 1-Click Demo Logins:</span>
-        <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 500;">Click "Login" to enter directly</span>
+    <div style="background: var(--bg-main); border: 1px solid var(--border-gold); border-radius: var(--radius-md); padding: 18px; margin-bottom: 24px;">
+      <div style="font-family: 'Cinzel', serif; font-weight: 700; color: var(--primary); font-size: 0.8rem; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; letter-spacing: 0.08em; text-transform: uppercase;">
+        <span>⚜️ 1-Click Demo Profiles:</span>
+        <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 500; font-family: 'Plus Jakarta Sans', sans-serif;">Instant Authentication</span>
       </div>
 
       <!-- Admin 1: Ramya -->
       <div class="quick-account-card">
         <div>
-          <div style="font-weight: 700; font-size: 0.82rem; color: var(--primary);">👑 Admin: Ramya</div>
-          <div style="font-size: 0.72rem; color: var(--text-muted);">953624244046@ritrjpm.ac.in • Mob: 7418738393</div>
+          <div style="font-weight: 700; font-size: 0.84rem; color: var(--primary);">👑 Admin: Ramya</div>
+          <div style="font-size: 0.74rem; color: var(--text-muted);">953624244046@ritrjpm.ac.in &bull; 7418738393</div>
         </div>
         <div style="display: flex; gap: 6px;">
           <button type="button" class="btn-fill-only" onclick="fillForm('953624244046@ritrjpm.ac.in', 'Admin@123')">Fill</button>
@@ -109,8 +117,8 @@
       <!-- Admin 2: Rohini -->
       <div class="quick-account-card">
         <div>
-          <div style="font-weight: 700; font-size: 0.82rem; color: var(--primary);">👑 Admin: Rohini</div>
-          <div style="font-size: 0.72rem; color: var(--text-muted);">953624244048@ritrjpm.ac.in • Mob: 9789165375</div>
+          <div style="font-weight: 700; font-size: 0.84rem; color: var(--primary);">👑 Admin: Rohini</div>
+          <div style="font-size: 0.74rem; color: var(--text-muted);">953624244048@ritrjpm.ac.in &bull; 9789165375</div>
         </div>
         <div style="display: flex; gap: 6px;">
           <button type="button" class="btn-fill-only" onclick="fillForm('953624244048@ritrjpm.ac.in', 'Admin@123')">Fill</button>
@@ -121,8 +129,8 @@
       <!-- Agent: Vikram -->
       <div class="quick-account-card">
         <div>
-          <div style="font-weight: 700; font-size: 0.82rem; color: var(--primary);">💼 Consultant: Vikram</div>
-          <div style="font-size: 0.72rem; color: var(--text-muted);">agent.vikram@estatelead.com • Agent@123</div>
+          <div style="font-weight: 700; font-size: 0.84rem; color: var(--primary);">💼 Senior Advisor: Vikram</div>
+          <div style="font-size: 0.74rem; color: var(--text-muted);">agent.vikram@estatelead.com &bull; Agent@123</div>
         </div>
         <div style="display: flex; gap: 6px;">
           <button type="button" class="btn-fill-only" onclick="fillForm('agent.vikram@estatelead.com', 'Agent@123')">Fill</button>
@@ -133,41 +141,41 @@
       <!-- Customer: Priya -->
       <div class="quick-account-card" style="margin-bottom: 0;">
         <div>
-          <div style="font-weight: 700; font-size: 0.82rem; color: var(--primary);">👤 Customer: Priya Sundaram</div>
-          <div style="font-size: 0.72rem; color: var(--text-muted);">priya.sundaram@example.com • Customer@123</div>
+          <div style="font-weight: 700; font-size: 0.84rem; color: var(--primary);">👤 VIP Buyer: Priya Sundaram</div>
+          <div style="font-size: 0.74rem; color: var(--text-muted);">priya.sundaram@example.com &bull; Customer@123</div>
         </div>
         <div style="display: flex; gap: 6px;">
           <button type="button" class="btn-fill-only" onclick="fillForm('priya.sundaram@example.com', 'Customer@123')">Fill</button>
-          <button type="button" class="btn-quick-login" onclick="quickLogin('priya.sundaram@example.com', 'Customer@123', 'dashboard.html')">⚡ Buyer</button>
+          <button type="button" class="btn-quick-login" onclick="quickLogin('priya.sundaram@example.com', 'Customer@123', 'dashboard.html')">⚡ Suite</button>
         </div>
       </div>
     </div>
 
     <!-- Error Alert Box -->
-    <div id="login-alert-box" style="display: none; padding: 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; margin-bottom: 16px;"></div>
+    <div id="login-alert-box" style="display: none; padding: 12px 16px; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 600; margin-bottom: 18px;"></div>
 
     <form id="login-form" onsubmit="handleLogin(event)">
-      <div class="form-group" style="margin-bottom: 14px;">
+      <div class="form-group" style="margin-bottom: 16px;">
         <label class="form-label">Email Address</label>
         <input type="email" id="login-email" class="form-control" placeholder="name@example.com" required autocomplete="email">
       </div>
 
-      <div class="form-group" style="margin-bottom: 18px;">
+      <div class="form-group" style="margin-bottom: 22px;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
           <label class="form-label" style="margin-bottom: 0;">Password</label>
-          <button type="button" onclick="togglePasswordVisibility()" style="border: none; background: transparent; font-size: 0.78rem; color: var(--accent); cursor: pointer; font-weight: 600;">
+          <button type="button" onclick="togglePasswordVisibility()" style="border: none; background: transparent; font-size: 0.78rem; color: var(--accent-bronze); cursor: pointer; font-weight: 700; font-family: 'Cinzel', serif;">
             <span id="pw-toggle-text">👁️ Show Password</span>
           </button>
         </div>
         <input type="password" id="login-password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
       </div>
 
-      <button type="submit" id="btn-login-submit" class="btn btn-primary btn-lg" style="width: 100%; margin-bottom: 16px;">
-        Sign In to EstateLead &rarr;
+      <button type="submit" id="btn-login-submit" class="btn btn-primary btn-lg btn-shimmer" style="width: 100%; margin-bottom: 18px;">
+        ⚜️ Authenticate &amp; Enter Portal
       </button>
 
       <div style="text-align: center; font-size: 0.88rem; color: var(--text-muted);">
-        New to EstateLead? <a href="register.html" style="font-weight: 700; color: var(--accent);">Create an account</a>
+        New Client? <a href="register.html" style="font-weight: 700; color: var(--accent-bronze);">Create a VIP Account</a>
       </div>
     </form>
   </div>
@@ -176,10 +184,10 @@
     function showAlert(msg, isError = true) {
       const box = document.getElementById('login-alert-box');
       box.style.display = 'block';
-      box.style.background = isError ? '#fee2e2' : '#dcfce7';
-      box.style.color = isError ? '#991b1b' : '#166534';
-      box.style.border = isError ? '1px solid #fca5a5' : '1px solid #bbf7d0';
-      box.innerHTML = `${isError ? '❌' : '✅'} ${msg}`;
+      box.style.background = isError ? '#fff1f2' : '#ecfdf5';
+      box.style.color = isError ? '#9f1239' : '#065f46';
+      box.style.border = isError ? '1px solid #fecdd3' : '1px solid #a7f3d0';
+      box.innerHTML = `${isError ? '⚠️' : '⚜️'} ${msg}`;
     }
 
     function hideAlert() {
@@ -199,26 +207,13 @@
       document.getElementById('login-password').value = password;
       const btn = document.getElementById('btn-login-submit');
       btn.disabled = true;
-      btn.innerText = 'Logging in...';
-      hideAlert();
+      btn.innerText = 'Authenticating...';
 
       const res = await EstateLead.directLogin(email, password, redirect);
       if (!res.success) {
+        showAlert(res.error || 'Authentication failed. Verify credentials.');
         btn.disabled = false;
-        btn.innerText = 'Sign In to EstateLead →';
-        showAlert(res.error || 'Login failed. Please check server.');
-      }
-    }
-
-    function togglePasswordVisibility() {
-      const pwInput = document.getElementById('login-password');
-      const toggleText = document.getElementById('pw-toggle-text');
-      if (pwInput.type === 'password') {
-        pwInput.type = 'text';
-        toggleText.innerText = '🔒 Hide Password';
-      } else {
-        pwInput.type = 'password';
-        toggleText.innerText = '👁️ Show Password';
+        btn.innerText = '⚜️ Authenticate & Enter Portal';
       }
     }
 
@@ -230,62 +225,53 @@
       const btn = document.getElementById('btn-login-submit');
 
       btn.disabled = true;
-      btn.innerText = 'Verifying Credentials...';
+      btn.innerText = 'Authenticating...';
 
-      try {
-        const res = await fetch(EstateLead.apiUrl('/api/auth/login'), {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password }),
-        });
-        const data = await res.json();
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirect = urlParams.get('redirect') || null;
 
-        if (data.success) {
-          EstateLead.setAuth(data.token, data.user);
-          showAlert(`Welcome back, ${data.user.name.split(' ')[0]}! Redirecting...`, false);
-          EstateLead.showToast(`Welcome back, ${data.user.name.split(' ')[0]}!`, 'success');
-
-          const params = new URLSearchParams(window.location.search);
-          let redirect = params.get('redirect');
-
-          if (!redirect) {
-            redirect = (data.user.role === 'admin' || data.user.role === 'agent') ? 'crm.html' : 'dashboard.html';
-          }
-
-          setTimeout(() => {
-            window.location.href = redirect;
-          }, 500);
-        } else {
-          showAlert(data.error || 'Authentication failed. Please check credentials.');
-          EstateLead.showToast(data.error || 'Authentication failed.', 'error');
-          btn.disabled = false;
-          btn.innerText = 'Sign In to EstateLead →';
-        }
-      } catch (err) {
-        showAlert('Could not connect to server at http://localhost:5000. Ensure the server is running.');
-        EstateLead.showToast('Server connection failed.', 'error');
+      const res = await EstateLead.directLogin(email, password, redirect);
+      if (!res.success) {
+        showAlert(res.error || 'Login failed. Please check your credentials.');
         btn.disabled = false;
-        btn.innerText = 'Sign In to EstateLead →';
+        btn.innerText = '⚜️ Authenticate & Enter Portal';
       }
     }
 
-    // Health check on load
-    (async function checkHealth() {
+    function togglePasswordVisibility() {
+      const pw = document.getElementById('login-password');
+      const text = document.getElementById('pw-toggle-text');
+      if (pw.type === 'password') {
+        pw.type = 'text';
+        text.innerText = '🙈 Hide Password';
+      } else {
+        pw.type = 'password';
+        text.innerText = '👁️ Show Password';
+      }
+    }
+
+    // Check backend health
+    document.addEventListener('DOMContentLoaded', async () => {
+      const pill = document.getElementById('server-status-pill');
+      const text = document.getElementById('server-status-text');
       try {
         const res = await fetch(EstateLead.apiUrl('/api/health'));
         if (res.ok) {
-          const pill = document.getElementById('server-status-pill');
-          pill.style.background = '#dcfce7';
-          pill.style.color = '#166534';
-          document.getElementById('server-status-text').innerText = 'Backend Connected: http://localhost:5000';
+          pill.style.background = '#ecfdf5';
+          pill.style.color = '#065f46';
+          pill.style.borderColor = '#a7f3d0';
+          text.innerText = 'SecureEstate Server: Active';
+        } else {
+          pill.style.background = '#fffbeb';
+          pill.style.color = '#92400e';
+          text.innerText = 'Server Responded (Warning)';
         }
-      } catch (e) {
-        const pill = document.getElementById('server-status-pill');
-        pill.style.background = '#fee2e2';
-        pill.style.color = '#991b1b';
-        document.getElementById('server-status-text').innerText = 'Server Disconnected (Start server on port 5000)';
+      } catch (err) {
+        pill.style.background = '#fff1f2';
+        pill.style.color = '#9f1239';
+        text.innerText = 'Server Offline (localhost:5000)';
       }
-    })();
+    });
   </script>
 </body>
 </html>

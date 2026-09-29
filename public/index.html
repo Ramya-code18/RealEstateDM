@@ -3,181 +3,208 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EstateLead - Luxury Real Estate & Secure Property Platform</title>
-  <meta name="description" content="Discover verified luxury homes, apartments, and penthouses across premier Indian metro cities with EstateLead. Direct developer pricing & SecureEstate privacy protection.">
+  <title>EstateLead - Premier Luxury Real Estate & Architectural Heritage</title>
+  <meta name="description" content="Discover verified luxury homes, gated villas, and sky penthouses across premier Indian metros. Direct developer pricing with SecureEstate data security.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+  <!-- Top Announcement / Security Heritage Bar -->
+  <div style="background: #090d16; color: #c5a059; font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 7px 0; border-bottom: 1px solid rgba(197, 160, 89, 0.25); text-align: center;">
+    <span>⚜️ Verified Architectural Residences &bull; Direct Developer Access &bull; 100% CMDA & RERA Approved</span>
+  </div>
 
   <!-- Top Navbar -->
   <header class="navbar">
     <div class="container navbar-inner">
       <a href="index.html" class="brand-logo">
-        <div class="logo-icon">🏢</div>
+        <div class="logo-icon">⚜️</div>
         <span>EstateLead</span>
-        <span class="brand-badge">SecureEstate</span>
+        <span class="brand-badge">Prestige</span>
       </a>
 
       <ul class="nav-links">
         <li><a href="index.html" class="nav-link active">Home</a></li>
-        <li><a href="properties.html" class="nav-link">Properties</a></li>
-        <li><a href="properties.html?purpose=Buy" class="nav-link">Buy</a></li>
-        <li><a href="properties.html?purpose=Rent" class="nav-link">Rent</a></li>
+        <li><a href="properties.html" class="nav-link">Portfolio</a></li>
+        <li><a href="properties.html?purpose=Buy" class="nav-link">Acquisitions</a></li>
+        <li><a href="properties.html?purpose=Rent" class="nav-link">Leasing</a></li>
         <li><a href="#categories" class="nav-link">Categories</a></li>
-        <li><a href="#about" class="nav-link">About</a></li>
-        <li><a href="#contact" class="nav-link">Contact</a></li>
+        <li><a href="#heritage" class="nav-link">Heritage</a></li>
+        <li><a href="#consultation" class="nav-link">Concierge</a></li>
       </ul>
 
       <div class="nav-actions" id="nav-auth-actions">
         <!-- Injected dynamically by main.js -->
         <a href="login.html" class="btn btn-outline btn-sm">Sign In</a>
-        <a href="register.html" class="btn btn-primary btn-sm">Register</a>
+        <a href="register.html" class="btn btn-accent btn-sm btn-shimmer">Register</a>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Classic Heritage Hero Section -->
   <section class="hero-section">
     <div class="container">
       <div class="hero-content">
         <div class="hero-pill">
-          🔒 Intermediate Data & Information Security Active
+          🏛️ Curated Architectural Estates &bull; SecureEstate Active
         </div>
         <h1 class="hero-title">
-          Find Your Next Luxury Address with <span>EstateLead</span>
+          Discover Premier Residences & <span class="gold-text">Classic Estates</span>
         </h1>
         <p class="hero-subtitle">
-          Explore premier gated villas, sea-facing penthouses, and executive apartments across Chennai, Bangalore, Coimbatore, and Hyderabad.
+          Explore gated independent villas, sea-facing penthouses, and sky suites across Chennai, Bangalore, Coimbatore, and Hyderabad with verified title ownership.
         </p>
       </div>
 
-      <!-- Instant Multi-Filter Search Widget -->
+      <!-- Instant Multi-Filter Search Console -->
       <div class="search-widget">
         <div class="search-tabs">
-          <button class="search-tab active" data-purpose="all" onclick="setSearchPurpose('all', this)">All Inventory</button>
-          <button class="search-tab" data-purpose="Buy" onclick="setSearchPurpose('Buy', this)">Buy Properties</button>
-          <button class="search-tab" data-purpose="Rent" onclick="setSearchPurpose('Rent', this)">Rental Homes</button>
+          <button class="search-tab active" data-purpose="all" onclick="setSearchPurpose('all', this)">All Portfolio</button>
+          <button class="search-tab" data-purpose="Buy" onclick="setSearchPurpose('Buy', this)">Acquisitions (Buy)</button>
+          <button class="search-tab" data-purpose="Rent" onclick="setSearchPurpose('Rent', this)">Leasing (Rent)</button>
         </div>
 
         <form id="hero-search-form" onsubmit="handleHeroSearch(event)" class="search-form-grid">
           <div class="form-group">
-            <label class="form-label">Location</label>
+            <label class="form-label">Location / Metro</label>
             <select id="search-location" class="form-select">
-              <option value="all">All Cities / Metros</option>
-              <option value="Chennai">Chennai</option>
-              <option value="Bangalore">Bangalore</option>
-              <option value="Coimbatore">Coimbatore</option>
-              <option value="Hyderabad">Hyderabad</option>
+              <option value="all">All Premier Metros</option>
+              <option value="Chennai">Chennai, Tamil Nadu</option>
+              <option value="Bangalore">Bangalore, Karnataka</option>
+              <option value="Coimbatore">Coimbatore, Tamil Nadu</option>
+              <option value="Hyderabad">Hyderabad, Telangana</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Property Type</label>
+            <label class="form-label">Property Typology</label>
             <select id="search-type" class="form-select">
-              <option value="all">All Property Types</option>
-              <option value="Apartments">Apartments</option>
-              <option value="Luxury Villas">Luxury Villas</option>
-              <option value="Penthouses">Penthouses</option>
-              <option value="Plots">Residential Plots</option>
+              <option value="all">All Typologies</option>
+              <option value="Apartments">Luxury Apartments</option>
+              <option value="Luxury Villas">Independent Gated Villas</option>
+              <option value="Penthouses">Sky Penthouses</option>
+              <option value="Plots">Residential Land Plots</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Bedrooms</label>
+            <label class="form-label">Bedrooms (BHK)</label>
             <select id="search-bhk" class="form-select">
-              <option value="all">Any BHK</option>
-              <option value="2">2 BHK</option>
-              <option value="3">3 BHK</option>
-              <option value="4">4+ BHK Luxury</option>
+              <option value="all">Any Bedroom Plan</option>
+              <option value="2">2 BHK Suites</option>
+              <option value="3">3 BHK Luxury</option>
+              <option value="4">4+ BHK Mansions</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Budget Range</label>
+            <label class="form-label">Investment Bracket</label>
             <select id="search-budget" class="form-select">
-              <option value="all">All Budgets</option>
+              <option value="all">All Brackets</option>
               <option value="0-5000000">Under ₹50 Lakhs</option>
               <option value="5000000-8000000">₹50L - ₹80 Lakhs</option>
               <option value="8000000-15000000">₹80L - ₹1.5 Crore</option>
-              <option value="15000000-100000000">Above ₹1.5 Crore</option>
+              <option value="15000000-100000000">Above ₹1.5 Crore (Luxury)</option>
             </select>
           </div>
 
           <div class="form-group" style="align-self: flex-end;">
-            <button type="submit" class="btn btn-accent btn-lg" style="width: 100%;">
-              🔍 Search Properties
+            <button type="submit" class="btn btn-accent btn-lg btn-shimmer" style="width: 100%;">
+              🔍 Explore Portfolio
             </button>
           </div>
         </form>
+      </div>
+
+      <!-- Trust Bar -->
+      <div class="hero-trust-bar">
+        <div class="hero-trust-item">
+          <span class="gold-icon">🏛️</span>
+          <span>₹450+ Cr Portfolio Handled</span>
+        </div>
+        <div class="hero-trust-item">
+          <span class="gold-icon">📜</span>
+          <span>100% CMDA & RERA Verified</span>
+        </div>
+        <div class="hero-trust-item">
+          <span class="gold-icon">🤝</span>
+          <span>0% Brokerage Direct Developer Pricing</span>
+        </div>
+        <div class="hero-trust-item">
+          <span class="gold-icon">🔒</span>
+          <span>SecureEstate Encrypted Privacy</span>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Main Content Container -->
-  <main class="container" style="padding-top: 60px;">
+  <main class="container" style="padding-top: 70px;">
 
     <!-- Categories Section -->
-    <section id="categories" style="margin-bottom: 60px;">
+    <section id="categories" style="margin-bottom: 70px;">
       <div class="section-header">
         <div>
-          <h2 class="section-title">Explore by Category</h2>
-          <p class="section-subtitle">Curated residential assets tailored for your lifestyle</p>
+          <span class="section-tag">Architectural Typologies</span>
+          <h2 class="section-title">Explore Curated Collections</h2>
+          <p class="section-subtitle">Tailored residential assets crafted for discerning homeowners</p>
         </div>
       </div>
 
       <div class="category-grid">
         <div class="category-card" onclick="window.location.href='/properties.html?type=Apartments'">
           <div class="category-icon">🏢</div>
-          <h3 class="category-name">Apartments</h3>
-          <p class="category-count">Gated High-Rise Suites</p>
+          <h3 class="category-name">Luxury Apartments</h3>
+          <p class="category-count">Gated High-Rise Towers &bull; Italian Marble</p>
         </div>
         <div class="category-card" onclick="window.location.href='/properties.html?type=Luxury Villas'">
           <div class="category-icon">🏡</div>
-          <h3 class="category-name">Luxury Villas</h3>
-          <p class="category-count">Independent Gated Enclaves</p>
+          <h3 class="category-name">Gated Villas</h3>
+          <p class="category-count">Private Lawns &bull; Smart Home Grids</p>
         </div>
         <div class="category-card" onclick="window.location.href='/properties.html?type=Penthouses'">
           <div class="category-icon">🏙️</div>
-          <h3 class="category-name">Penthouses</h3>
-          <p class="category-count">Sky Mansions & Sea Views</p>
+          <h3 class="category-name">Sky Penthouses</h3>
+          <p class="category-count">Sea-Facing Decks &bull; Private Elevators</p>
         </div>
         <div class="category-card" onclick="window.location.href='/properties.html?type=Plots'">
           <div class="category-icon">📐</div>
           <h3 class="category-name">Residential Plots</h3>
-          <p class="category-count">DTCP / CMDA Approved</p>
+          <p class="category-count">DTCP / CMDA Approved &bull; Clear Titles</p>
         </div>
       </div>
     </section>
 
     <!-- Featured Properties Section -->
-    <section style="margin-bottom: 70px;">
+    <section style="margin-bottom: 80px;">
       <div class="section-header">
         <div>
-          <h2 class="section-title">Featured Luxury Residences</h2>
-          <p class="section-subtitle">Handpicked properties offering immediate possession and prime locations</p>
+          <span class="section-tag">Featured Portfolio</span>
+          <h2 class="section-title">Handpicked Luxury Residences</h2>
+          <p class="section-subtitle">Exclusive inventory featuring immediate possession and premier addresses</p>
         </div>
-        <a href="/properties.html" class="btn btn-outline">Explore All Properties &rarr;</a>
+        <a href="/properties.html" class="btn btn-outline">View Full Collection &rarr;</a>
       </div>
 
       <div id="featured-properties-grid" class="property-grid">
         <!-- Rendered dynamically from /api/properties/featured -->
-        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-muted);">
-          Loading featured properties...
+        <div style="grid-column: 1 / -1; text-align: center; padding: 50px; color: var(--text-muted);">
+          Loading curated portfolio...
         </div>
       </div>
     </section>
 
-    <!-- SecureEstate Security Banner -->
-    <section class="security-banner">
-      <div style="max-width: 800px;">
-        <span class="brand-badge" style="background: rgba(245, 158, 11, 0.2); color: #fef3c7; margin-bottom: 12px; display: inline-block;">
-          🔐 SecureEstate Data & Information Security
+    <!-- Heritage Standard & Security Trust Banner -->
+    <section id="heritage" class="security-banner">
+      <div style="max-width: 840px;">
+        <span class="brand-badge" style="background: rgba(212, 175, 55, 0.2); color: #f3e5ab; margin-bottom: 14px; display: inline-block;">
+          ⚜️ The Heritage Standard &bull; SecureEstate Active
         </span>
-        <h2>Built with Enterprise Security & Customer Privacy at its Core</h2>
-        <p style="color: #cbd5e1; margin-top: 10px; font-size: 1.05rem;">
+        <h2>Enterprise Cryptographic Protection &amp; Customer Privacy</h2>
+        <p style="color: #c0cbdb; margin-top: 12px; font-size: 1.05rem; line-height: 1.7;">
           EstateLead operates on an isolated intermediate security layer. We protect your personal data with role-based access control, cryptographic bcrypt salting, parameterized SQL protection, and strictly zero third-party advertising tracking.
         </p>
       </div>
@@ -186,93 +213,96 @@
         <div class="security-feature-item">
           <div class="sec-icon">🛡️</div>
           <div>
-            <h4 style="color: #ffffff; font-size: 1.05rem;">Role-Based Privacy</h4>
-            <p style="color: #94a3b8; font-size: 0.85rem;">Customer data is protected via strict Customer &rarr; Agent &rarr; Admin RBAC.</p>
+            <h4 style="color: #ffffff; font-size: 1.1rem; font-family: 'Playfair Display', serif;">Role-Based Privacy</h4>
+            <p style="color: #94a3b8; font-size: 0.88rem; margin-top: 4px;">Customer profiles and financial inquiries are secured via strict Customer &rarr; Agent &rarr; Admin RBAC.</p>
           </div>
         </div>
         <div class="security-feature-item">
           <div class="sec-icon">🔑</div>
           <div>
-            <h4 style="color: #ffffff; font-size: 1.05rem;">Bcrypt Hash Protection</h4>
-            <p style="color: #94a3b8; font-size: 0.85rem;">Cryptographic hash algorithms with automated brute-force lockout defenses.</p>
+            <h4 style="color: #ffffff; font-size: 1.1rem; font-family: 'Playfair Display', serif;">Bcrypt Hash Protection</h4>
+            <p style="color: #94a3b8; font-size: 0.88rem; margin-top: 4px;">Cryptographic credentials protection with automatic brute-force lockout defenses.</p>
           </div>
         </div>
         <div class="security-feature-item">
           <div class="sec-icon">📜</div>
           <div>
-            <h4 style="color: #ffffff; font-size: 1.05rem;">Tamper-Proof Audit Logs</h4>
-            <p style="color: #94a3b8; font-size: 0.85rem;">All administrative actions and lead progressions are recorded in real time.</p>
+            <h4 style="color: #ffffff; font-size: 1.1rem; font-family: 'Playfair Display', serif;">Tamper-Proof Audit Trail</h4>
+            <p style="color: #94a3b8; font-size: 0.88rem; margin-top: 4px;">All administrative transitions and lead stage updates are recorded immutably in real time.</p>
           </div>
         </div>
         <div class="security-feature-item">
           <div class="sec-icon">🚫</div>
           <div>
-            <h4 style="color: #ffffff; font-size: 1.05rem;">Zero Ad Platform Pixel</h4>
-            <p style="color: #94a3b8; font-size: 0.85rem;">100% on-site digital engagement tracking without third-party data selling.</p>
+            <h4 style="color: #ffffff; font-size: 1.1rem; font-family: 'Playfair Display', serif;">Zero Ad Tracker Sharing</h4>
+            <p style="color: #94a3b8; font-size: 0.88rem; margin-top: 4px;">100% direct engagement tracking without external marketing pixel leaks or data brokers.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" style="margin-bottom: 70px; padding: 40px; background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border);">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+    <!-- Why EstateLead Section -->
+    <section style="margin-bottom: 80px; padding: 48px; background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border-gold); box-shadow: var(--shadow-sm);">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;">
         <div>
-          <span class="brand-badge" style="margin-bottom: 12px; display: inline-block;">About EstateLead</span>
-          <h2 style="font-size: 2.2rem; margin-bottom: 16px;">The Modern Benchmark in Real Estate Discovery</h2>
-          <p style="color: var(--text-muted); margin-bottom: 16px;">
-            EstateLead bridges the gap between home seekers and verified property developers. Combining cutting-edge interactive property estimation with automated intent scoring, we help buyers discover their ideal homes faster.
+          <span class="brand-badge" style="margin-bottom: 14px; display: inline-block;">Heritage &amp; Integrity</span>
+          <h2 style="font-size: 2.4rem; margin-bottom: 18px;">The Sovereign Standard in Real Estate Advisory</h2>
+          <p style="color: var(--text-muted); margin-bottom: 18px; font-size: 1.02rem; line-height: 1.7;">
+            EstateLead bridges the gap between distinguished homebuyers and premier architectural developers. Combining algorithmic property matching with confidential VIP advisory, we ensure your acquisition is seamless, transparent, and legally verified.
           </p>
-          <div style="display: flex; gap: 30px; margin-top: 24px;">
+          <div style="display: flex; gap: 36px; margin-top: 28px; border-top: 1px solid var(--border); padding-top: 20px;">
             <div>
-              <div style="font-size: 2rem; font-weight: 800; color: var(--accent);">500+</div>
-              <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Verified Listings</div>
+              <div style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 800; color: var(--accent);">500+</div>
+              <div style="font-family: 'Cinzel', serif; font-size: 0.75rem; color: var(--text-muted); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;">Verified Residences</div>
             </div>
             <div>
-              <div style="font-size: 2rem; font-weight: 800; color: var(--primary);">₹450 Cr+</div>
-              <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Property Value Handled</div>
+              <div style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 800; color: var(--primary);">₹450 Cr+</div>
+              <div style="font-family: 'Cinzel', serif; font-size: 0.75rem; color: var(--text-muted); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;">Portfolio Value</div>
             </div>
             <div>
-              <div style="font-size: 2rem; font-weight: 800; color: var(--success);">100%</div>
-              <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Privacy Guaranteed</div>
+              <div style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 800; color: var(--success);">100%</div>
+              <div style="font-family: 'Cinzel', serif; font-size: 0.75rem; color: var(--text-muted); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;">Title Verified</div>
             </div>
           </div>
         </div>
-        <div>
-          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="EstateLead Architecture" style="width: 100%; border-radius: var(--radius-md); box-shadow: var(--shadow-md);">
+        <div style="position: relative;">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="EstateLead Architecture" style="width: 100%; border-radius: var(--radius-md); box-shadow: var(--shadow-md); border: 1px solid var(--border-gold);">
+          <div style="position: absolute; bottom: -15px; left: 20px; background: var(--dark-gradient); color: var(--accent-gold); padding: 10px 20px; border-radius: var(--radius-sm); border: 1px solid var(--accent); font-family: 'Cinzel', serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em;">
+            ⚜️ Architectural Excellence
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Contact & Direct Consultation Section -->
-    <section id="contact" style="margin-bottom: 70px;">
-      <div style="background: #ffffff; border-radius: var(--radius-lg); padding: 48px; border: 1px solid var(--border); box-shadow: var(--shadow-md); max-width: 900px; margin: 0 auto;">
-        <div style="text-align: center; margin-bottom: 32px;">
-          <span class="brand-badge" style="margin-bottom: 12px; display: inline-block;">Free Property Consultation</span>
-          <h2 style="font-size: 2.2rem; margin-bottom: 8px;">Find Your Dream Property in Tamil Nadu & Karnataka</h2>
-          <p style="color: var(--text-muted); font-size: 1rem;">
-            Tell us your preferred location and budget. Our senior consultants will match you with hand-picked verified projects.
+    <!-- VIP Private Consultation Section -->
+    <section id="consultation" style="margin-bottom: 80px;">
+      <div style="background: #ffffff; border-radius: var(--radius-lg); padding: 52px; border: 1px solid var(--border-gold); box-shadow: var(--shadow-lg); max-width: 940px; margin: 0 auto; position: relative;">
+        <div style="text-align: center; margin-bottom: 36px;">
+          <span class="brand-badge" style="margin-bottom: 12px; display: inline-block;">Private Client Advisory</span>
+          <h2 style="font-size: 2.4rem; margin-bottom: 8px;">Schedule a Bespoke Property Consultation</h2>
+          <p style="color: var(--text-muted); font-size: 1.05rem;">
+            Share your preferred city and acquisition parameters. Our senior architectural advisors will curate an exclusive portfolio tailored for you.
           </p>
         </div>
 
-        <form id="home-consultation-form" onsubmit="handleHomeConsultation(event)" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <form id="home-consultation-form" onsubmit="handleHomeConsultation(event)" style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px;">
           <div class="form-group">
             <label class="form-label">Full Name</label>
             <input type="text" id="home-lead-name" class="form-control" required placeholder="e.g. Ramesh Krishnan">
           </div>
 
           <div class="form-group">
-            <label class="form-label">Phone Number</label>
+            <label class="form-label">Contact Number</label>
             <input type="tel" id="home-lead-phone" class="form-control" required placeholder="+91 98401 23456">
           </div>
 
           <div class="form-group">
-            <label class="form-label">Email Address</label>
+            <label class="form-label">Confidential Email Address</label>
             <input type="email" id="home-lead-email" class="form-control" required placeholder="ramesh@example.com">
           </div>
 
           <div class="form-group">
-            <label class="form-label">Target City</label>
+            <label class="form-label">Target Metro</label>
             <select id="home-lead-location" class="form-select">
               <option value="Chennai">Chennai, Tamil Nadu</option>
               <option value="Bangalore">Bangalore, Karnataka</option>
@@ -282,17 +312,17 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Property Category</label>
+            <label class="form-label">Desired Typology</label>
             <select id="home-lead-type" class="form-select">
-              <option value="Apartments">Luxury Apartments (2/3/4 BHK)</option>
+              <option value="Apartments">Luxury High-Rise Apartments (2/3/4 BHK)</option>
               <option value="Luxury Villas">Gated Community Villas</option>
-              <option value="Penthouses">Skyline Penthouses</option>
-              <option value="Plots">Residential Land / Plots</option>
+              <option value="Penthouses">Sky Penthouses</option>
+              <option value="Plots">Residential Land Plots</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Target Budget</label>
+            <label class="form-label">Target Budget Bracket</label>
             <select id="home-lead-budget" class="form-select">
               <option value="Under ₹50 Lakhs">Under ₹50 Lakhs</option>
               <option value="₹50L - ₹80L" selected>₹50L - ₹80 Lakhs</option>
@@ -302,31 +332,31 @@
           </div>
 
           <div class="form-group" style="grid-column: 1 / -1;">
-            <label class="form-label">Purchase Timeline</label>
+            <label class="form-label">Acquisition Timeline</label>
             <select id="home-lead-timeline" class="form-select">
-              <option value="Immediate / Within 15 days">Immediate / Ready to Buy (Within 15 days)</option>
+              <option value="Immediate / Within 15 days">Immediate / Ready to Acquire (Within 15 days)</option>
               <option value="Within 1-3 months" selected>Within 1-3 months (Active Search)</option>
               <option value="3-6 months">3-6 months (Planning Stage)</option>
-              <option value="Exploring">Exploring Market / Long-term</option>
+              <option value="Exploring">Exploring Market / Strategic Portfolio</option>
             </select>
           </div>
 
-          <div style="grid-column: 1 / -1; margin-top: 10px;">
-            <button type="submit" id="btn-submit-home-lead" class="btn btn-primary btn-lg" style="width: 100%;">
-              🎯 Request Free Expert Consultation
+          <div style="grid-column: 1 / -1; margin-top: 12px;">
+            <button type="submit" id="btn-submit-home-lead" class="btn btn-accent btn-lg btn-shimmer" style="width: 100%;">
+              ⚜️ Request Private Advisory Consultation
             </button>
-            <div style="font-size: 0.78rem; color: var(--text-muted); text-align: center; margin-top: 10px;">
-              🔒 100% Privacy Protected • Zero Spam • No Third-Party Ad Sharing
+            <div style="font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-top: 12px;">
+              🔒 100% Confidential &bull; Direct Developer Interface &bull; Zero Spam
             </div>
           </div>
         </form>
 
         <div id="home-lead-success" style="display: none; margin-top: 24px;">
-          <div class="lead-success-card" style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-md); padding: 24px; text-align: center;">
-            <div style="font-size: 2.5rem; margin-bottom: 8px;">✅</div>
-            <h3 style="color: #166534; font-size: 1.3rem; margin-bottom: 6px;">Consultation Request Received!</h3>
-            <p id="home-success-msg" style="color: #15803d; font-size: 0.95rem; margin-bottom: 12px;"></p>
-            <div id="home-lead-details" style="font-size: 0.85rem; color: var(--text-muted);"></div>
+          <div class="lead-success-card" style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-md); padding: 28px; text-align: center;">
+            <div style="font-size: 2.8rem; margin-bottom: 10px;">⚜️</div>
+            <h3 style="color: #166534; font-size: 1.4rem; font-family: 'Playfair Display', serif; margin-bottom: 6px;">Consultation Request Registered</h3>
+            <p id="home-success-msg" style="color: #15803d; font-size: 1rem; margin-bottom: 12px;"></p>
+            <div id="home-lead-details" style="font-size: 0.88rem; color: var(--text-muted);"></div>
           </div>
         </div>
       </div>
@@ -334,50 +364,50 @@
 
   </main>
 
-  <!-- Footer -->
+  <!-- Classic Luxury Footer -->
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
         <div>
-          <div class="brand-logo" style="color: #ffffff; margin-bottom: 14px;">
-            <div class="logo-icon">🏢</div>
+          <div class="brand-logo" style="color: #ffffff; margin-bottom: 16px;">
+            <div class="logo-icon">⚜️</div>
             <span>EstateLead</span>
           </div>
-          <p style="color: #94a3b8; font-size: 0.9rem; max-width: 320px;">
-            Real Estate Digital Marketing & Lead Generation System with Intermediate Data & Information Security Layer.
+          <p style="color: #8e9bb0; font-size: 0.92rem; max-width: 320px; line-height: 1.7;">
+            The benchmark in luxury real estate discovery and secure digital lead management with cryptographic data isolation.
           </p>
         </div>
         <div>
-          <h4 style="color: #ffffff; margin-bottom: 16px;">Properties</h4>
+          <h4 style="color: #f3e5ab; font-family: 'Cinzel', serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 18px;">Premier Metros</h4>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.9rem;">
-            <li><a href="/properties.html?location=Chennai">Chennai Homes</a></li>
-            <li><a href="/properties.html?location=Bangalore">Bangalore Villas</a></li>
+            <li><a href="/properties.html?location=Chennai">Chennai Residencies</a></li>
+            <li><a href="/properties.html?location=Bangalore">Bangalore Gated Villas</a></li>
             <li><a href="/properties.html?location=Coimbatore">Coimbatore Enclaves</a></li>
-            <li><a href="/properties.html?type=Penthouses">Luxury Penthouses</a></li>
+            <li><a href="/properties.html?type=Penthouses">Sky Penthouses</a></li>
           </ul>
         </div>
         <div>
-          <h4 style="color: #ffffff; margin-bottom: 16px;">Quick Links</h4>
+          <h4 style="color: #f3e5ab; font-family: 'Cinzel', serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 18px;">Navigation</h4>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 0.9rem;">
-            <li><a href="properties.html">All Listings</a></li>
-            <li><a href="saved.html">Saved Wishlist</a></li>
-            <li><a href="login.html">Sign In Portal</a></li>
-            <li><a href="register.html">Create Account</a></li>
+            <li><a href="properties.html">Full Portfolio</a></li>
+            <li><a href="saved.html">Curated Wishlist</a></li>
+            <li><a href="login.html">Client Portal</a></li>
+            <li><a href="register.html">Create VIP Account</a></li>
           </ul>
         </div>
         <div>
-          <h4 style="color: #ffffff; margin-bottom: 16px;">Security & Trust</h4>
-          <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.6;">
-            Protected by SecureEstate Layer with RBAC, Bcrypt Encryption, and Parameterized SQL Queries.
+          <h4 style="color: #f3e5ab; font-family: 'Cinzel', serif; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 18px;">Security Standard</h4>
+          <p style="font-size: 0.88rem; color: #8e9bb0; line-height: 1.7;">
+            Protected by SecureEstate Intermediate Layer with RBAC, Bcrypt Encryption, and Parameterized SQL Queries.
           </p>
         </div>
       </div>
 
       <div class="footer-bottom">
         <div>&copy; 2026 EstateLead Properties. All rights reserved.</div>
-        <div style="display: flex; gap: 20px;">
-          <span>Zero External Ad Trackers</span>
-          <span>•</span>
+        <div style="display: flex; gap: 24px; font-family: 'Cinzel', serif; font-size: 0.78rem; letter-spacing: 0.08em;">
+          <span>Zero External Ad Pixels</span>
+          <span>&bull;</span>
           <span>100% Privacy Compliant</span>
         </div>
       </div>
@@ -424,7 +454,7 @@
         if (data.success && data.properties.length > 0) {
           grid.innerHTML = data.properties.map(p => EstateLead.renderPropertyCard(p)).join('');
         } else {
-          grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted);">No featured properties available at the moment.</div>';
+          grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 40px;">No featured properties available at the moment.</div>';
         }
       } catch (err) {
         console.error('Failed to load featured properties:', err);
@@ -435,7 +465,7 @@
       e.preventDefault();
       const btn = document.getElementById('btn-submit-home-lead');
       btn.disabled = true;
-      btn.innerText = 'Analyzing Requirements & Scoring...';
+      btn.innerText = 'Analyzing Requirements & Registering...';
 
       const payload = {
         name: document.getElementById('home-lead-name').value,
@@ -454,12 +484,12 @@
         if (data.success) {
           document.getElementById('home-consultation-form').style.display = 'none';
           document.getElementById('home-lead-success').style.display = 'block';
-          document.getElementById('home-success-msg').innerText = `Your request has been routed to our ${payload.location} Property Desk.`;
+          document.getElementById('home-success-msg').innerText = `Your request has been routed to our ${payload.location} Private Client Desk.`;
           document.getElementById('home-lead-details').innerHTML = `
-            <div>Ref: <strong>#L${data.lead_id}</strong> • Assigned Consultant: <strong>${EstateLead.escapeHTML(data.lead_summary.assigned_agent || 'Senior Consultant')}</strong></div>
+            <div>Ref: <strong>#L${data.lead_id}</strong> &bull; Assigned Advisor: <strong>${EstateLead.escapeHTML(data.lead_summary.assigned_agent || 'Senior Consultant')}</strong></div>
             <div style="margin-top: 4px;">Target Response: <strong>${EstateLead.escapeHTML(data.lead_summary.follow_up_timeline || 'Within 24 hours')}</strong></div>
           `;
-          EstateLead.showToast('Consultation request submitted successfully!', 'success');
+          EstateLead.showToast('Private consultation request registered successfully!', 'success');
         } else {
           EstateLead.showToast(data.error || 'Failed to submit consultation request.', 'error');
         }
@@ -467,7 +497,7 @@
         EstateLead.showToast('Network error while submitting request.', 'error');
       } finally {
         btn.disabled = false;
-        btn.innerText = '🎯 Request Free Expert Consultation';
+        btn.innerText = '⚜️ Request Private Advisory Consultation';
       }
     }
 

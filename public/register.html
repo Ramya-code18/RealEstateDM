@@ -3,38 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Customer Registration - EstateLead</title>
-  <meta name="description" content="Create a personalized customer account on EstateLead with custom property criteria.">
+  <title>VIP Client Registration - EstateLead</title>
+  <meta name="description" content="Create a personalized VIP customer account on EstateLead with custom acquisition criteria.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 30px 20px;">
+<body style="background: radial-gradient(ellipse at 50% 20%, rgba(197, 160, 89, 0.15) 0%, rgba(9, 13, 22, 0.96) 80%), linear-gradient(180deg, #090d16 0%, #141c2e 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 36px 20px;">
 
-  <div style="background: #ffffff; border-radius: var(--radius-lg); padding: 40px; width: 100%; max-width: 540px; box-shadow: var(--shadow-lg);">
-    <div style="text-align: center; margin-bottom: 24px;">
-      <a href="index.html" class="brand-logo" style="justify-content: center; margin-bottom: 8px;">
-        <div class="logo-icon">🏢</div>
+  <div style="background: #ffffff; border-radius: var(--radius-lg); padding: 44px; width: 100%; max-width: 560px; box-shadow: var(--shadow-lg), 0 0 35px rgba(0, 0, 0, 0.4); border: 1px solid var(--border-gold); position: relative;">
+    <div style="position: absolute; top: 0; left: 24px; right: 24px; height: 3px; background: var(--gold-gradient);"></div>
+
+    <div style="text-align: center; margin-bottom: 26px;">
+      <a href="index.html" class="brand-logo" style="justify-content: center; margin-bottom: 10px;">
+        <div class="logo-icon">⚜️</div>
         <span>EstateLead</span>
       </a>
-      <p style="color: var(--text-muted); font-size: 0.95rem;">Customer Account & Preferences Registration</p>
+      <span class="brand-badge" style="margin-bottom: 8px; display: inline-block;">Private Client Membership</span>
+      <h2 style="font-family: 'Playfair Display', serif; font-size: 1.65rem; color: var(--primary); margin-top: 4px;">VIP Account Registration</h2>
+      <p style="color: var(--text-muted); font-size: 0.92rem;">Unlock tailored property matching and confidential advisory</p>
     </div>
 
     <form id="register-form" onsubmit="handleRegister(event)">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 14px;">
         <div class="form-group">
           <label class="form-label">Full Name</label>
           <input type="text" id="reg-name" class="form-control" placeholder="Vikramaditya Rao" required>
         </div>
         <div class="form-group">
           <label class="form-label">Mobile Number</label>
-          <input type="tel" id="reg-phone" class="form-control" placeholder="+91 98401 XXXXX" required>
+          <input type="tel" id="reg-phone" class="form-control" placeholder="+91 98401 23456" required>
         </div>
       </div>
 
       <div class="form-group" style="margin-bottom: 14px;">
-        <label class="form-label">Email Address</label>
+        <label class="form-label">Confidential Email Address</label>
         <input type="email" id="reg-email" class="form-control" placeholder="vikram@example.com" required>
       </div>
 
@@ -44,49 +48,49 @@
       </div>
 
       <!-- Personalized Preferences Box -->
-      <div style="background: var(--bg-main); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 18px; margin-bottom: 24px;">
-        <div style="font-weight: 700; color: var(--primary); margin-bottom: 12px; font-size: 0.9rem;">
-          🎯 Personalized Property Preferences:
+      <div style="background: var(--bg-main); border: 1px solid var(--border-gold); border-radius: var(--radius-sm); padding: 20px; margin-bottom: 24px;">
+        <div style="font-family: 'Cinzel', serif; font-weight: 700; color: var(--primary); margin-bottom: 12px; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase;">
+          ⚜️ Acquisition Preferences &amp; Criteria:
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
           <div class="form-group">
-            <label class="form-label" style="font-size: 0.75rem;">Preferred Location</label>
+            <label class="form-label" style="font-size: 0.74rem;">Target Metro</label>
             <select id="reg-location" class="form-select">
-              <option value="Chennai">Chennai</option>
-              <option value="Bangalore">Bangalore</option>
-              <option value="Coimbatore">Coimbatore</option>
-              <option value="Hyderabad">Hyderabad</option>
+              <option value="Chennai">Chennai, Tamil Nadu</option>
+              <option value="Bangalore">Bangalore, Karnataka</option>
+              <option value="Coimbatore">Coimbatore, Tamil Nadu</option>
+              <option value="Hyderabad">Hyderabad, Telangana</option>
             </select>
           </div>
           <div class="form-group">
-            <label class="form-label" style="font-size: 0.75rem;">Property Type</label>
+            <label class="form-label" style="font-size: 0.74rem;">Asset Typology</label>
             <select id="reg-type" class="form-select">
-              <option value="Apartments">Apartments</option>
-              <option value="Luxury Villas">Luxury Villas</option>
-              <option value="Penthouses">Penthouses</option>
-              <option value="Plots">Plots</option>
+              <option value="Apartments">Luxury Apartments</option>
+              <option value="Luxury Villas">Independent Gated Villas</option>
+              <option value="Penthouses">Sky Penthouses</option>
+              <option value="Plots">Residential Land Plots</option>
             </select>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="form-label" style="font-size: 0.75rem;">Budget Range</label>
+          <label class="form-label" style="font-size: 0.74rem;">Target Budget Bracket</label>
           <select id="reg-budget" class="form-select">
             <option value="Under ₹50 Lakhs">Under ₹50 Lakhs</option>
             <option value="₹50L - ₹80L" selected>₹50L - ₹80 Lakhs</option>
             <option value="₹80L - ₹1.5 Cr">₹80L - ₹1.5 Crore</option>
-            <option value="Above ₹1.5 Cr">Above ₹1.5 Crore</option>
+            <option value="Above ₹1.5 Cr">Above ₹1.5 Crore (Luxury)</option>
           </select>
         </div>
       </div>
 
-      <button type="submit" id="btn-reg-submit" class="btn btn-accent btn-lg" style="width: 100%; margin-bottom: 18px;">
-        Create My Account & Save Preferences
+      <button type="submit" id="btn-reg-submit" class="btn btn-accent btn-lg btn-shimmer" style="width: 100%; margin-bottom: 18px;">
+        ⚜️ Create VIP Account &amp; Save Criteria
       </button>
 
-      <div style="text-align: center; font-size: 0.9rem; color: var(--text-muted);">
-        Already have an account? <a href="login.html" style="font-weight: 700; color: var(--primary);">Sign In</a>
+      <div style="text-align: center; font-size: 0.88rem; color: var(--text-muted);">
+        Already have an account? <a href="login.html" style="font-weight: 700; color: var(--accent-bronze);">Client Sign In</a>
       </div>
     </form>
   </div>
@@ -105,7 +109,7 @@
       const btn = document.getElementById('btn-reg-submit');
 
       btn.disabled = true;
-      btn.innerText = 'Creating Account...';
+      btn.innerText = 'Registering Account...';
 
       try {
         const res = await fetch(EstateLead.apiUrl('/api/auth/register'), {
@@ -125,19 +129,19 @@
 
         if (data.success) {
           EstateLead.setAuth(data.token, data.user);
-          EstateLead.showToast('Account created successfully! Welcome to EstateLead.', 'success');
+          EstateLead.showToast('VIP Account created successfully! Welcome to EstateLead.', 'success');
           setTimeout(() => {
             window.location.href = 'properties.html';
           }, 800);
         } else {
           EstateLead.showToast(data.error || 'Registration failed.', 'error');
           btn.disabled = false;
-          btn.innerText = 'Create My Account & Save Preferences';
+          btn.innerText = '⚜️ Create VIP Account & Save Criteria';
         }
       } catch (err) {
         EstateLead.showToast('Connection failed.', 'error');
         btn.disabled = false;
-        btn.innerText = 'Create My Account & Save Preferences';
+        btn.innerText = '⚜️ Create VIP Account & Save Criteria';
       }
     }
   </script>

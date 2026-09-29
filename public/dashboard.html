@@ -3,64 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Customer Dashboard - EstateLead</title>
-  <meta name="description" content="Personalized customer dashboard with tailored property recommendations, interactive mortgage loan EMI calculator, fit radar, and enquiry tracking.">
+  <title>VIP Client Suite &amp; Portfolio Dashboard - EstateLead</title>
+  <meta name="description" content="Personalized VIP customer suite with tailored property recommendations, interactive mortgage loan EMI calculator, fit radar, and confidential inquiry tracking.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <!-- Chart.js for Interactive Financial & Match Analytics -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     .dashboard-hero {
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #334155 100%);
-      color: #ffffff;
+      background: var(--dark-gradient);
+      color: #fbf9f5;
       border-radius: var(--radius-lg);
-      padding: 36px;
-      margin-bottom: 30px;
-      box-shadow: var(--shadow-lg);
+      padding: 40px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-lg), 0 0 30px rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border-gold);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 24px;
       position: relative;
       overflow: hidden;
     }
     .dashboard-hero::after {
-      content: '';
+      content: '⚜️';
       position: absolute;
-      right: -60px;
-      top: -60px;
-      width: 240px;
-      height: 240px;
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0) 70%);
+      right: -20px;
+      top: -30px;
+      font-size: 10rem;
+      opacity: 0.05;
       pointer-events: none;
     }
     .pref-badge-group {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
-      margin-top: 14px;
+      margin-top: 16px;
     }
     .pref-pill {
-      background: rgba(255, 255, 255, 0.12);
+      background: rgba(197, 160, 89, 0.12);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      padding: 6px 14px;
-      border-radius: 999px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 6px 16px;
+      border-radius: var(--radius-full);
       font-size: 0.85rem;
       font-weight: 600;
-      color: #fef3c7;
+      color: #f3e5ab;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       transition: var(--transition);
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
     .pref-pill:hover {
-      background: rgba(255, 255, 255, 0.22);
+      background: rgba(197, 160, 89, 0.25);
       border-color: var(--accent-gold);
+      transform: translateY(-1px);
     }
     .dash-stats-grid {
       display: grid;
@@ -72,12 +74,12 @@
       background: #ffffff;
       border-radius: var(--radius-md);
       padding: 24px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-gold);
       box-shadow: var(--shadow-sm);
       display: flex;
       align-items: center;
-      gap: 16px;
-      transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+      gap: 18px;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
       cursor: pointer;
       position: relative;
       overflow: hidden;
@@ -94,38 +96,42 @@
       left: 0;
       width: 4px;
       height: 100%;
-      background: linear-gradient(180deg, var(--accent) 0%, var(--accent-gold) 100%);
+      background: var(--gold-gradient);
       opacity: 0;
-      transition: opacity 0.2s ease;
+      transition: opacity 0.25s ease;
     }
     .dash-stat-card:hover::before {
       opacity: 1;
     }
     .dash-stat-icon {
-      width: 52px;
-      height: 52px;
+      width: 54px;
+      height: 54px;
       border-radius: var(--radius-sm);
-      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      background: var(--accent-light);
+      border: 1px solid rgba(197, 160, 89, 0.3);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
-      color: var(--accent);
-      box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+      font-size: 1.6rem;
+      color: var(--accent-bronze);
     }
     .dash-tabs-bar {
       display: flex;
       gap: 12px;
-      border-bottom: 2px solid var(--border);
-      margin-bottom: 30px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
       overflow-x: auto;
+      padding-bottom: 2px;
     }
     .dash-tab-btn {
       padding: 12px 20px;
       background: transparent;
       border: none;
-      font-size: 0.95rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
       font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       color: var(--text-muted);
       cursor: pointer;
       position: relative;
@@ -144,18 +150,18 @@
     .dash-tab-btn.active::after {
       content: '';
       position: absolute;
-      bottom: -2px;
+      bottom: -3px;
       left: 0;
       right: 0;
       height: 3px;
-      background: var(--accent);
+      background: var(--gold-gradient);
       border-radius: 3px 3px 0 0;
     }
     .enquiry-card {
       background: #ffffff;
       border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-      padding: 24px;
+      border: 1px solid var(--border-gold);
+      padding: 26px;
       margin-bottom: 20px;
       box-shadow: var(--shadow-sm);
       display: grid;
@@ -166,7 +172,7 @@
     }
     .enquiry-card:hover {
       box-shadow: var(--shadow-md);
-      border-color: var(--border-focus);
+      border-color: var(--accent);
     }
     .pipeline-bar {
       display: flex;
@@ -176,49 +182,51 @@
       flex-wrap: wrap;
     }
     .pipeline-step {
-      font-size: 0.74rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
       font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 999px;
+      letter-spacing: 0.06em;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
       background: var(--bg-main);
       color: var(--text-muted);
       border: 1px solid var(--border);
     }
     .pipeline-step.active {
-      background: #dcfce7;
-      color: #166534;
-      border-color: #bbf7d0;
+      background: #ecfdf5;
+      color: #065f46;
+      border-color: #a7f3d0;
     }
     .pipeline-step.current {
-      background: var(--accent);
-      color: #ffffff;
-      border-color: var(--accent-hover);
-      box-shadow: 0 2px 6px rgba(217, 119, 6, 0.3);
+      background: var(--dark-gradient);
+      color: var(--accent-gold);
+      border-color: var(--accent);
+      box-shadow: 0 2px 6px rgba(9, 13, 22, 0.2);
     }
     .guest-gate-box {
       background: #ffffff;
       border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      padding: 40px;
+      border: 1px solid var(--border-gold);
+      padding: 48px;
       text-align: center;
-      box-shadow: var(--shadow-md);
-      max-width: 600px;
+      box-shadow: var(--shadow-lg);
+      max-width: 620px;
       margin: 40px auto;
     }
     .financial-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      gap: 28px;
     }
     .calc-card {
       background: #ffffff;
       border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-      padding: 26px;
+      border: 1px solid var(--border-gold);
+      padding: 28px;
       box-shadow: var(--shadow-sm);
     }
     .calc-slider-group {
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
     .calc-slider-header {
       display: flex;
@@ -227,13 +235,16 @@
       margin-bottom: 8px;
     }
     .calc-slider-label {
-      font-size: 0.88rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
       font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
       color: var(--primary);
     }
     .calc-slider-val {
       font-weight: 800;
-      color: var(--accent);
+      color: var(--accent-bronze);
       font-size: 0.95rem;
     }
     .calc-range-input {
@@ -243,6 +254,7 @@
       background: var(--border);
       outline: none;
       cursor: pointer;
+      accent-color: var(--accent);
     }
     @media (max-width: 860px) {
       .financial-grid {
@@ -256,44 +268,49 @@
 </head>
 <body>
 
+  <!-- Top Announcement Bar -->
+  <div style="background: #090d16; color: #c5a059; font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 7px 0; border-bottom: 1px solid rgba(197, 160, 89, 0.25); text-align: center;">
+    <span>⚜️ Private VIP Client Suite &bull; SecureEstate Isolated Architecture</span>
+  </div>
+
   <!-- Top Navbar -->
   <header class="navbar">
     <div class="container navbar-inner">
       <a href="/" class="brand-logo">
-        <div class="logo-icon">🏢</div>
+        <div class="logo-icon">⚜️</div>
         <span>EstateLead</span>
-        <span class="brand-badge" style="background: var(--primary); color: var(--accent-gold);">Buyer Portal</span>
+        <span class="brand-badge">VIP Client</span>
       </a>
 
       <ul class="nav-links">
         <li><a href="/" class="nav-link">Home</a></li>
-        <li><a href="/properties.html" class="nav-link">Properties</a></li>
-        <li><a href="/crm.html" class="nav-link">Lead CRM</a></li>
-        <li><a href="/dashboard.html" class="nav-link active">Customer View</a></li>
+        <li><a href="/properties.html" class="nav-link">Portfolio</a></li>
+        <li><a href="/dashboard.html" class="nav-link active">My Suite</a></li>
+        <li><a href="/saved.html" class="nav-link">Saved Collection</a></li>
       </ul>
 
       <div class="nav-actions" id="nav-auth-actions"></div>
     </div>
   </header>
 
-  <main class="container" style="padding-top: 30px; padding-bottom: 60px;">
+  <main class="container" style="padding-top: 36px; padding-bottom: 70px;">
     <!-- Guest Preview Banner -->
     <div id="guest-preview-banner" class="guest-gate-box" style="display: none;">
-      <div style="font-size: 3rem; margin-bottom: 12px;">🔑</div>
-      <h2 style="font-size: 1.6rem; margin-bottom: 8px;">Customer Portal Access</h2>
-      <p style="color: var(--text-muted); margin-bottom: 24px;">
-        Sign in to view your tailored recommendations, calculate interactive loan EMIs, and track site visit requests.
+      <div style="font-size: 3.2rem; margin-bottom: 14px;">⚜️</div>
+      <h2 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 8px;">VIP Client Portal Access</h2>
+      <p style="color: var(--text-muted); margin-bottom: 28px; line-height: 1.6;">
+        Authenticate your credentials to access bespoke property matches, interactive financial analytics, and real-time advisory updates.
       </p>
 
-      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-        <button onclick="quickSignIn('priya.sharma@example.com', 'Customer@123')" class="btn btn-primary">
+      <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+        <button onclick="quickSignIn('priya.sundaram@example.com', 'Customer@123')" class="btn btn-accent btn-shimmer">
           ⚡ Sign In as Priya (Buyer)
         </button>
-        <button onclick="quickSignIn('rahul.verma@example.com', 'Customer@123')" class="btn btn-outline">
+        <button onclick="quickSignIn('rahul.sharma@example.com', 'Customer@123')" class="btn btn-outline">
           ⚡ Sign In as Rahul (Buyer)
         </button>
-        <a href="login.html?redirect=dashboard.html" class="btn btn-outline">
-          Standard Login &rarr;
+        <a href="login.html?redirect=dashboard.html" class="btn btn-primary">
+          Standard Sign In &rarr;
         </a>
       </div>
     </div>
@@ -303,33 +320,33 @@
       <!-- Dashboard Hero Welcome -->
       <div class="dashboard-hero">
         <div>
-          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;">
-            <div class="live-pulse-container" style="background: rgba(16, 185, 129, 0.2); border-color: rgba(16, 185, 129, 0.4); color: #a7f3d0;">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap;">
+            <div class="live-pulse-container" style="background: rgba(13, 148, 136, 0.2); border-color: rgba(13, 148, 136, 0.4); color: #a7f3d0;">
               <span class="live-dot"></span>
-              <span>Algorithmic Match Engine Active</span>
+              <span>Algorithmic Matching Active</span>
             </div>
-            <span class="brand-badge" style="background: rgba(245, 158, 11, 0.25); color: #fef3c7;">
-              Tailored Buyer Experience
+            <span class="brand-badge" style="background: rgba(212, 175, 55, 0.2); color: #f3e5ab;">
+              Bespoke Portfolio Suite
             </span>
           </div>
-          <h1 id="welcome-heading" style="color: #ffffff; font-size: 2.1rem; margin-top: 4px;">
-            Welcome back!
+          <h1 id="welcome-heading" style="color: #ffffff; font-size: 2.3rem; margin-top: 4px;">
+            Welcome to Your Suite
           </h1>
-          <p style="color: #cbd5e1; font-size: 0.95rem; margin-top: 4px;">
-            Showing luxury homes, financial analytics, and real-time updates matching your portfolio criteria.
+          <p style="color: #c0cbdb; font-size: 1rem; margin-top: 6px; max-width: 680px;">
+            Curated residences, financial readiness analytics, and direct advisory communications tailored to your acquisition criteria.
           </p>
 
           <!-- Preferences Pills -->
           <div class="pref-badge-group" id="hero-pref-pills">
             <div class="pref-pill">📍 <span id="pref-location-text">Chennai</span></div>
-            <div class="pref-pill">🏢 <span id="pref-type-text">Apartments</span></div>
+            <div class="pref-pill">🏛️ <span id="pref-type-text">Apartments</span></div>
             <div class="pref-pill">💰 <span id="pref-budget-text">₹50L - ₹80L</span></div>
           </div>
         </div>
 
         <div>
-          <button onclick="openPreferencesModal()" class="btn btn-accent btn-sm" style="box-shadow: 0 4px 14px rgba(217, 119, 6, 0.4);">
-            ✏️ Customize Criteria
+          <button onclick="openPreferencesModal()" class="btn btn-accent btn-sm btn-shimmer">
+            ⚜️ Customize Criteria
           </button>
         </div>
       </div>
@@ -339,181 +356,145 @@
         <div class="dash-stat-card" onclick="switchDashTab('recommended')">
           <div class="dash-stat-icon">🎯</div>
           <div>
-            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Recommended Matches</div>
-            <div id="stat-recommended-count" style="font-size: 1.9rem; font-weight: 800; color: var(--primary);">0</div>
+            <div style="font-family: 'Cinzel', serif; font-size: 0.72rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;">Curated Matches</div>
+            <div id="stat-recommended-count" style="font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 800; color: var(--primary);">0</div>
           </div>
         </div>
 
         <div class="dash-stat-card" onclick="switchDashTab('financial')">
           <div class="dash-stat-icon">📊</div>
           <div>
-            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Mortgage Estimator</div>
-            <div style="font-size: 1.35rem; font-weight: 800; color: var(--accent);">Live EMI & Radar</div>
+            <div style="font-family: 'Cinzel', serif; font-size: 0.72rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;">Financial Fit</div>
+            <div id="stat-qualification-score" style="font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 800; color: var(--accent);">92%</div>
           </div>
         </div>
 
         <div class="dash-stat-card" onclick="switchDashTab('saved')">
           <div class="dash-stat-icon">❤️</div>
           <div>
-            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Saved Wishlist</div>
-            <div id="stat-saved-count" style="font-size: 1.9rem; font-weight: 800; color: var(--primary);">0</div>
+            <div style="font-family: 'Cinzel', serif; font-size: 0.72rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;">Saved Collection</div>
+            <div id="stat-saved-count" style="font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 800; color: var(--primary);">0</div>
           </div>
         </div>
 
         <div class="dash-stat-card" onclick="switchDashTab('enquiries')">
-          <div class="dash-stat-icon">📋</div>
+          <div class="dash-stat-icon">📜</div>
           <div>
-            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">My Pipeline Enquiries</div>
-            <div id="stat-enquiries-count" style="font-size: 1.9rem; font-weight: 800; color: var(--primary);">0</div>
+            <div style="font-family: 'Cinzel', serif; font-size: 0.72rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;">Active Inquiries</div>
+            <div id="stat-enquiry-count" style="font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 800; color: var(--success);">0</div>
           </div>
         </div>
       </div>
 
-      <!-- Dashboard Tabs Bar -->
+      <!-- Navigation Tabs Bar -->
       <div class="dash-tabs-bar">
-        <button class="dash-tab-btn active" data-tab="recommended" onclick="switchDashTab('recommended')">
-          🎯 Recommended For You (<span id="tab-rec-count">0</span>)
-        </button>
-        <button class="dash-tab-btn" data-tab="financial" onclick="switchDashTab('financial')">
-          📊 Mortgage EMI & Fit Radar
-        </button>
-        <button class="dash-tab-btn" data-tab="recent" onclick="switchDashTab('recent')">
-          🕒 Recently Viewed (<span id="tab-recview-count">0</span>)
-        </button>
-        <button class="dash-tab-btn" data-tab="saved" onclick="switchDashTab('saved')">
-          ❤️ Saved Properties (<span id="tab-saved-count">0</span>)
-        </button>
-        <button class="dash-tab-btn" data-tab="enquiries" onclick="switchDashTab('enquiries')">
-          📋 Enquiries & Site Visits (<span id="tab-enq-count">0</span>)
-        </button>
-        <button class="dash-tab-btn" data-tab="profile" onclick="switchDashTab('profile')">
-          ⚙️ Personalization Criteria
-        </button>
+        <button class="dash-tab-btn active" id="tab-btn-recommended" onclick="switchDashTab('recommended')">🎯 Curated Matches</button>
+        <button class="dash-tab-btn" id="tab-btn-financial" onclick="switchDashTab('financial')">📊 Financial Readiness</button>
+        <button class="dash-tab-btn" id="tab-btn-recent" onclick="switchDashTab('recent')">👁️ Browsing History</button>
+        <button class="dash-tab-btn" id="tab-btn-saved" onclick="switchDashTab('saved')">❤️ Saved Collection</button>
+        <button class="dash-tab-btn" id="tab-btn-enquiries" onclick="switchDashTab('enquiries')">📜 Inquiries &amp; Tours</button>
+        <button class="dash-tab-btn" id="tab-btn-profile" onclick="switchDashTab('profile')">⚙️ Portfolio Criteria</button>
       </div>
 
-      <!-- Tab 1: Recommended Properties -->
+      <!-- Tab 1: Recommended Matches -->
       <div id="tab-content-recommended" class="tab-pane">
-        <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 12px;">
           <div>
-            <h2 style="font-size: 1.4rem;">Top Recommended Properties</h2>
-            <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 2px;">
-              Explainable match scoring based on Location (+40%), Type (+35%), and Budget (+25%)
+            <span class="section-tag">AI Algorithmic Match</span>
+            <h2 style="font-size: 1.6rem;">Residences Matching Your Profile</h2>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 4px;">
+              Prioritized according to your designated location, typology preference, and investment bandwidth.
             </p>
           </div>
           <button onclick="openPreferencesModal()" class="btn btn-outline btn-sm">
-            ⚙️ Adjust Preferences
+            Edit Parameters
           </button>
         </div>
-        <div id="recommended-grid" class="property-grid">
-          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-muted);">
-            Calculating personalized recommendations...
+
+        <div id="recommended-properties-grid" class="property-grid">
+          <div style="grid-column: 1 / -1; text-align: center; padding: 60px; color: var(--text-muted);">
+            Curating matching residences...
           </div>
         </div>
       </div>
 
-      <!-- Tab 2: Mortgage EMI & Fit Radar (NEW INTERACTIVE CHARTS TAB) -->
+      <!-- Tab 2: Financial Fit & Mortgage Estimator -->
       <div id="tab-content-financial" class="tab-pane" style="display: none;">
-        <div style="margin-bottom: 22px;">
-          <h2 style="font-size: 1.4rem;">📊 Mortgage Financing & Portfolio Fit Analytics</h2>
-          <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 2px;">
-            Simulate monthly mortgage cash flows and visualize how your search criteria fits our active luxury properties.
-          </p>
-        </div>
-
         <div class="financial-grid">
-          <!-- Left: Mortgage EMI Interactive Simulator -->
+          <!-- Left: Loan Calculator Card -->
           <div class="calc-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
-              <h3 style="font-size: 1.2rem; color: var(--primary);">🏦 Interactive Mortgage EMI Calculator</h3>
-              <span class="brand-badge" style="background: rgba(16, 185, 129, 0.1); color: var(--success);">Live Simulator</span>
-            </div>
+            <span class="section-tag">Mortgage Estimator</span>
+            <h3 style="font-size: 1.4rem; margin-bottom: 6px;">Acquisition Financial Modeler</h3>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;">
+              Simulate loan terms, interest outflows, and monthly cash flow commitments.
+            </p>
 
-            <!-- Slider 1: Property Purchase Budget -->
             <div class="calc-slider-group">
               <div class="calc-slider-header">
-                <span class="calc-slider-label">Property Value (₹)</span>
-                <span id="label-emi-property-val" class="calc-slider-val">₹1,20,00,000</span>
+                <span class="calc-slider-label">Target Asset Value</span>
+                <span id="slider-val-price" class="calc-slider-val">₹85.00 Lakhs</span>
               </div>
-              <input type="range" id="input-emi-property-val" class="calc-range-input" min="3000000" max="50000000" step="500000" value="12000000" oninput="calculateEMI()">
+              <input type="range" id="dash-slider-price" class="calc-range-input" min="2000000" max="40000000" step="500000" value="8500000">
             </div>
 
-            <!-- Slider 2: Downpayment Percentage -->
             <div class="calc-slider-group">
               <div class="calc-slider-header">
-                <span class="calc-slider-label">Down Payment (%)</span>
-                <span id="label-emi-down-pct" class="calc-slider-val">20% (₹24,00,000)</span>
+                <span class="calc-slider-label">Down Payment Equity (%)</span>
+                <span id="slider-val-dp" class="calc-slider-val">20% (₹17.00 L)</span>
               </div>
-              <input type="range" id="input-emi-down-pct" class="calc-range-input" min="10" max="50" step="5" value="20" oninput="calculateEMI()">
+              <input type="range" id="dash-slider-dp" class="calc-range-input" min="10" max="80" step="5" value="20">
             </div>
 
-            <!-- Slider 3: Annual Interest Rate -->
             <div class="calc-slider-group">
               <div class="calc-slider-header">
-                <span class="calc-slider-label">Annual Interest Rate (%)</span>
-                <span id="label-emi-interest-rate" class="calc-slider-val">8.50%</span>
+                <span class="calc-slider-label">Interest Rate (%)</span>
+                <span id="slider-val-rate" class="calc-slider-val">8.5% p.a.</span>
               </div>
-              <input type="range" id="input-emi-interest-rate" class="calc-range-input" min="6.5" max="14" step="0.1" value="8.5" oninput="calculateEMI()">
+              <input type="range" id="dash-slider-rate" class="calc-range-input" min="6.5" max="15.0" step="0.25" value="8.5">
             </div>
 
-            <!-- Slider 4: Loan Tenure -->
             <div class="calc-slider-group">
               <div class="calc-slider-header">
-                <span class="calc-slider-label">Loan Tenure (Years)</span>
-                <span id="label-emi-tenure-years" class="calc-slider-val">20 Years</span>
+                <span class="calc-slider-label">Loan Amortization Tenure</span>
+                <span id="slider-val-tenure" class="calc-slider-val">20 Years</span>
               </div>
-              <input type="range" id="input-emi-tenure-years" class="calc-range-input" min="5" max="30" step="1" value="20" oninput="calculateEMI()">
+              <input type="range" id="dash-slider-tenure" class="calc-range-input" min="5" max="30" step="1" value="20">
             </div>
 
-            <!-- Computed EMI Summary Cards -->
-            <div style="background: var(--bg-main); border-radius: var(--radius-sm); padding: 18px; margin-top: 20px; border: 1px solid var(--border);">
-              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px;">
-                <span style="font-weight: 700; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase;">Estimated Monthly EMI</span>
-                <span id="out-emi-monthly" style="font-size: 1.6rem; font-weight: 800; color: var(--primary);">₹83,383</span>
+            <div class="emi-result-box" style="margin-top: 24px; padding: 20px;">
+              <div style="font-family: 'Cinzel', serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-gold);">Estimated Monthly Commitment</div>
+              <div id="dash-emi-output" class="emi-amount" style="font-size: 2.2rem; margin: 6px 0;">₹0</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.82rem; margin-top: 12px; border-top: 1px solid rgba(197, 160, 89, 0.2); padding-top: 10px;">
+                <div>Principal: <strong id="dash-loan-out">₹0</strong></div>
+                <div>Interest: <strong id="dash-interest-out">₹0</strong></div>
               </div>
-
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; border-top: 1px dashed var(--border); padding-top: 12px; font-size: 0.85rem;">
-                <div>
-                  <div style="color: var(--text-muted);">Principal Loan:</div>
-                  <strong id="out-emi-principal" style="color: #0284c7;">₹96,00,000</strong>
-                </div>
-                <div>
-                  <div style="color: var(--text-muted);">Total Interest:</div>
-                  <strong id="out-emi-interest" style="color: #d97706;">₹1,04,11,920</strong>
-                </div>
-                <div style="grid-column: 1 / -1; margin-top: 4px;">
-                  <div style="color: var(--text-muted);">Total Repayment (Principal + Interest):</div>
-                  <strong id="out-emi-total" style="color: var(--primary); font-size: 0.95rem;">₹2,00,11,920</strong>
-                </div>
-              </div>
-            </div>
-
-            <!-- Loan Breakup Doughnut Chart -->
-            <div style="position: relative; height: 180px; margin-top: 20px;">
-              <canvas id="chart-dash-emi"></canvas>
             </div>
           </div>
 
-          <!-- Right: Customer Portfolio Fit Radar -->
+          <!-- Right: Match Fit Radar Chart -->
           <div class="calc-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
-              <h3 style="font-size: 1.2rem; color: var(--primary);">🎯 Portfolio Fit & Alignment Radar</h3>
-              <span class="brand-badge" style="background: rgba(217, 119, 6, 0.1); color: var(--accent);">Multi-Axis</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <div>
+                <span class="section-tag">Suitability Scoring</span>
+                <h3 style="font-size: 1.4rem;">Multi-Axis Suitability Matrix</h3>
+              </div>
+              <span class="brand-badge" style="background: rgba(197, 160, 89, 0.15); color: var(--accent-bronze);">Multi-Axis Fit</span>
             </div>
 
-            <p style="font-size: 0.86rem; color: var(--text-muted); margin-bottom: 16px;">
-              Dynamic match scoring across your chosen location, property category, budget bandwidth, amenities, and move-in timeline.
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">
+              Comprehensive compatibility analysis across location alignment, typology, budget allocation, and amenities.
             </p>
 
             <div style="position: relative; height: 280px; margin-bottom: 20px;">
               <canvas id="chart-dash-radar"></canvas>
             </div>
 
-            <div style="background: var(--bg-main); border-radius: var(--radius-sm); padding: 16px; border: 1px solid var(--border); font-size: 0.85rem;">
-              <div style="font-weight: 700; color: var(--primary); margin-bottom: 6px;">💡 Match Engine Intelligence:</div>
-              <ul style="padding-left: 18px; color: var(--text-muted); line-height: 1.6;">
-                <li><strong>Location Fit:</strong> 95% alignment with your designated metro selection.</li>
-                <li><strong>Price Bandwidth:</strong> High liquidity in the ₹80L - ₹1.5 Cr inventory tier.</li>
-                <li><strong>Gated Security & Amenities:</strong> 100% verified luxury standard on shortlisted homes.</li>
+            <div style="background: var(--bg-main); border-radius: var(--radius-sm); padding: 18px; border: 1px solid var(--border-gold); font-size: 0.85rem;">
+              <div style="font-family: 'Cinzel', serif; font-weight: 700; color: var(--primary); margin-bottom: 8px;">⚜️ Advisory Insights:</div>
+              <ul style="padding-left: 18px; color: var(--text-muted); line-height: 1.7;">
+                <li><strong>Location Fit:</strong> 95% alignment with designated premier corridor.</li>
+                <li><strong>Investment Bandwidth:</strong> Prime liquidity in selected inventory tier.</li>
+                <li><strong>Verified Titles:</strong> 100% CMDA &amp; RERA clearance on all matches.</li>
               </ul>
             </div>
           </div>
@@ -522,12 +503,13 @@
 
       <!-- Tab 3: Recently Viewed -->
       <div id="tab-content-recent" class="tab-pane" style="display: none;">
-        <div style="margin-bottom: 20px;">
-          <h2 style="font-size: 1.4rem;">Your Browsing History</h2>
-          <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 2px;">Homes and residences you recently inspected on EstateLead</p>
+        <div style="margin-bottom: 24px;">
+          <span class="section-tag">Activity Log</span>
+          <h2 style="font-size: 1.6rem;">Inspected Residences</h2>
+          <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 4px;">Properties you have recently reviewed in detail on EstateLead</p>
         </div>
         <div id="recently-viewed-grid" class="property-grid">
-          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-muted);">
+          <div style="grid-column: 1 / -1; text-align: center; padding: 50px; color: var(--text-muted);">
             Loading browsing history...
           </div>
         </div>
@@ -535,38 +517,41 @@
 
       <!-- Tab 4: Saved Properties -->
       <div id="tab-content-saved" class="tab-pane" style="display: none;">
-        <div style="margin-bottom: 20px;">
-          <h2 style="font-size: 1.4rem;">Your Bookmarked Shortlist</h2>
-          <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 2px;">Properties saved for comparison, schedule tour, or negotiation</p>
+        <div style="margin-bottom: 24px;">
+          <span class="section-tag">Private Shortlist</span>
+          <h2 style="font-size: 1.6rem;">Your Curated Wishlist</h2>
+          <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 4px;">Properties saved for comparison, private viewing, or negotiation</p>
         </div>
         <div id="saved-grid" class="property-grid">
-          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-muted);">
-            Loading saved wishlist...
+          <div style="grid-column: 1 / -1; text-align: center; padding: 50px; color: var(--text-muted);">
+            Loading saved collection...
           </div>
         </div>
       </div>
 
       <!-- Tab 5: Enquiries & Site Visits -->
       <div id="tab-content-enquiries" class="tab-pane" style="display: none;">
-        <div style="margin-bottom: 20px;">
-          <h2 style="font-size: 1.4rem;">Your Enquiries & Site Visit Status</h2>
-          <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 2px;">
-            Track live consultant follow-up progress, scheduled property tours, and negotiations
+        <div style="margin-bottom: 24px;">
+          <span class="section-tag">Advisory Tracker</span>
+          <h2 style="font-size: 1.6rem;">Consultation &amp; Site Tour Progression</h2>
+          <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 4px;">
+            Track live advisor follow-ups, scheduled private tours, and acquisition dossiers
           </p>
         </div>
         <div id="enquiries-list-container">
-          <div style="text-align: center; padding: 40px; color: var(--text-muted);">
-            Loading enquiries...
+          <div style="text-align: center; padding: 50px; color: var(--text-muted);">
+            Loading inquiries...
           </div>
         </div>
       </div>
 
       <!-- Tab 6: Profile & Search Criteria -->
       <div id="tab-content-profile" class="tab-pane" style="display: none;">
-        <div style="max-width: 620px; background: #ffffff; border-radius: var(--radius-md); padding: 32px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
-          <h2 style="font-size: 1.4rem; margin-bottom: 6px;">Account & Personalization Profile</h2>
-          <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;">
-            Adjust your preferences below to instantly re-rank all property recommendations.
+        <div style="max-width: 640px; background: #ffffff; border-radius: var(--radius-md); padding: 36px; border: 1px solid var(--border-gold); box-shadow: var(--shadow-sm);">
+          <span class="section-tag">Client Parameters</span>
+          <h2 style="font-size: 1.6rem; margin-bottom: 6px;">Profile &amp; Acquisition Preferences</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px;">
+            Update your criteria below to instantly re-calibrate all property recommendations.
           </p>
 
           <form id="preferences-form" onsubmit="handlePreferencesUpdate(event)">
@@ -575,53 +560,52 @@
               <input type="text" id="prof-name" class="form-control" readonly style="background: var(--bg-main);">
             </div>
             <div class="form-group" style="margin-bottom: 14px;">
-              <label class="form-label">Email Address</label>
+              <label class="form-label">Confidential Email</label>
               <input type="email" id="prof-email" class="form-control" readonly style="background: var(--bg-main);">
             </div>
             <div class="form-group" style="margin-bottom: 20px;">
-              <label class="form-label">Phone Number</label>
+              <label class="form-label">Contact Number</label>
               <input type="tel" id="prof-phone" class="form-control" readonly style="background: var(--bg-main);">
             </div>
 
             <hr style="border: none; border-top: 1px solid var(--border); margin: 24px 0;">
 
-            <h3 style="font-size: 1.15rem; margin-bottom: 14px; color: var(--primary);">
-              🎯 Property Match Criteria
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 1.25rem; margin-bottom: 16px; color: var(--primary);">
+              ⚜️ Property Match Criteria
             </h3>
 
             <div class="form-group" style="margin-bottom: 16px;">
               <label class="form-label">Target City / Metro</label>
               <select id="prof-pref-location" class="form-select">
-                <option value="Chennai">Chennai</option>
-                <option value="Bangalore">Bangalore</option>
-                <option value="Coimbatore">Coimbatore</option>
-                <option value="Hyderabad">Hyderabad</option>
+                <option value="Chennai">Chennai, Tamil Nadu</option>
+                <option value="Bangalore">Bangalore, Karnataka</option>
+                <option value="Coimbatore">Coimbatore, Tamil Nadu</option>
+                <option value="Hyderabad">Hyderabad, Telangana</option>
               </select>
             </div>
 
             <div class="form-group" style="margin-bottom: 16px;">
-              <label class="form-label">Preferred Property Type</label>
+              <label class="form-label">Preferred Typology</label>
               <select id="prof-pref-type" class="form-select">
-                <option value="Apartments">Apartments</option>
-                <option value="Luxury Villas">Luxury Villas</option>
-                <option value="Penthouses">Penthouses</option>
-                <option value="Plots">Plots</option>
-                <option value="Commercial Spaces">Commercial Spaces</option>
+                <option value="Apartments">Luxury Apartments</option>
+                <option value="Luxury Villas">Independent Gated Villas</option>
+                <option value="Penthouses">Sky Penthouses</option>
+                <option value="Plots">Residential Land Plots</option>
               </select>
             </div>
 
             <div class="form-group" style="margin-bottom: 24px;">
-              <label class="form-label">Budget Range</label>
+              <label class="form-label">Target Investment Tier</label>
               <select id="prof-pref-budget" class="form-select">
-                <option value="Under ₹50L">Under ₹50 Lakhs</option>
+                <option value="Under ₹50 Lakhs">Under ₹50 Lakhs</option>
                 <option value="₹50L - ₹80L">₹50L - ₹80 Lakhs</option>
                 <option value="₹80L - ₹1.5 Cr">₹80L - ₹1.5 Crore</option>
-                <option value="Above ₹1.5 Cr">Above ₹1.5 Crore</option>
+                <option value="Above ₹1.5 Cr">Above ₹1.5 Crore (Luxury)</option>
               </select>
             </div>
 
-            <button type="submit" id="btn-save-pref" class="btn btn-primary btn-lg" style="width: 100%;">
-              💾 Save Personalization Criteria
+            <button type="submit" id="btn-update-prefs" class="btn btn-accent btn-lg btn-shimmer" style="width: 100%;">
+              ⚜️ Save &amp; Re-Calibrate Matches
             </button>
           </form>
         </div>
@@ -629,27 +613,69 @@
     </div>
   </main>
 
+  <!-- Criteria Edit Modal -->
+  <div id="criteria-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+        <div>
+          <span class="brand-badge" style="margin-bottom: 6px; display: inline-block;">Preference Tuning</span>
+          <h3 style="font-family: 'Playfair Display', serif; font-size: 1.35rem;">Refine Portfolio Criteria</h3>
+        </div>
+        <button onclick="closePreferencesModal()" style="border: none; background: transparent; font-size: 1.6rem; cursor: pointer; color: var(--text-muted);">&times;</button>
+      </div>
+
+      <form onsubmit="handleModalPreferencesUpdate(event)">
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label class="form-label">Target Metro</label>
+          <select id="modal-pref-location" class="form-select">
+            <option value="Chennai">Chennai, Tamil Nadu</option>
+            <option value="Bangalore">Bangalore, Karnataka</option>
+            <option value="Coimbatore">Coimbatore, Tamil Nadu</option>
+            <option value="Hyderabad">Hyderabad, Telangana</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label class="form-label">Property Typology</label>
+          <select id="modal-pref-type" class="form-select">
+            <option value="Apartments">Luxury Apartments</option>
+            <option value="Luxury Villas">Independent Gated Villas</option>
+            <option value="Penthouses">Sky Penthouses</option>
+            <option value="Plots">Residential Land Plots</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 22px;">
+          <label class="form-label">Investment Bracket</label>
+          <select id="modal-pref-budget" class="form-select">
+            <option value="Under ₹50 Lakhs">Under ₹50 Lakhs</option>
+            <option value="₹50L - ₹80L">₹50L - ₹80 Lakhs</option>
+            <option value="₹80L - ₹1.5 Cr">₹80L - ₹1.5 Crore</option>
+            <option value="Above ₹1.5 Cr">Above ₹1.5 Crore (Luxury)</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-accent btn-lg btn-shimmer" style="width: 100%;">
+          ⚜️ Apply &amp; Refresh Matches
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="footer">
     <div class="container footer-bottom" style="border: none;">
       <div>&copy; 2026 EstateLead Properties. All rights reserved.</div>
-      <div>Zero External Ad Trackers • 100% Privacy & Security Compliant</div>
+      <div style="font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.08em;">SecureEstate Encrypted Session &bull; 100% Privacy</div>
     </div>
   </footer>
 
   <script src="js/main.js"></script>
   <script>
-    let dashboardData = null;
-    let emiChartInstance = null;
     let radarChartInstance = null;
-
-    async function quickSignIn(email, password) {
-      await EstateLead.directLogin(email, password, 'dashboard.html');
-    }
+    let dashData = null;
 
     async function loadDashboard() {
-      EstateLead.init();
-
       if (!EstateLead.token) {
         document.getElementById('guest-preview-banner').style.display = 'block';
         document.getElementById('auth-dashboard-view').style.display = 'none';
@@ -663,233 +689,183 @@
         const res = await fetch(EstateLead.apiUrl('/api/customer/dashboard'), {
           headers: { Authorization: `Bearer ${EstateLead.token}` },
         });
-        const data = await res.json();
 
-        if (!data.success) {
-          EstateLead.showToast('Session expired. Please sign in again.', 'error');
+        if (res.status === 401 || res.status === 403) {
           EstateLead.logout();
           return;
         }
 
-        dashboardData = data;
-        renderDashboardView(data);
-        calculateEMI();
-        renderRadarChart(data.profile);
+        const data = await res.json();
+        if (data.success) {
+          dashData = data;
+          renderDashboardData(data);
+        } else {
+          EstateLead.showToast(data.error || 'Failed to load client suite.', 'error');
+        }
       } catch (err) {
-        console.error('Failed to load dashboard:', err);
+        console.error('Dashboard load error:', err);
       }
     }
 
-    function renderDashboardView(data) {
-      const p = data.profile;
-      document.getElementById('welcome-heading').innerText = `Welcome back, ${p.name.split(' ')[0]}!`;
-      document.getElementById('pref-location-text').innerText = p.preferred_location;
-      document.getElementById('pref-type-text').innerText = p.preferred_property_type;
-      document.getElementById('pref-budget-text').innerText = p.budget_range;
+    function renderDashboardData(data) {
+      const u = data.profile;
+      document.getElementById('welcome-heading').innerHTML = `Welcome, <span>${EstateLead.escapeHTML(u.name.split(' ')[0])}</span>`;
+      
+      // Update Hero preferences pills
+      document.getElementById('pref-location-text').innerText = u.preferred_location || 'All Metros';
+      document.getElementById('pref-type-text').innerText = u.preferred_property_type || 'All Typologies';
+      document.getElementById('pref-budget-text').innerText = u.budget_range || 'All Budgets';
 
-      // Stats counters
-      document.getElementById('stat-recommended-count').innerText = data.stats.recommended_count;
-      document.getElementById('stat-recent-count').innerText = data.stats.recently_viewed_count;
-      document.getElementById('stat-saved-count').innerText = data.stats.saved_count;
-      document.getElementById('stat-enquiries-count').innerText = data.stats.enquiries_count;
+      // Update Top Stats
+      document.getElementById('stat-recommended-count').innerText = data.recommended ? data.recommended.length : 0;
+      document.getElementById('stat-saved-count').innerText = data.saved ? data.saved.length : 0;
+      document.getElementById('stat-enquiry-count').innerText = data.enquiries ? data.enquiries.length : 0;
 
-      // Tab badges
-      document.getElementById('tab-rec-count').innerText = data.stats.recommended_count;
-      document.getElementById('tab-recview-count').innerText = data.stats.recently_viewed_count;
-      document.getElementById('tab-saved-count').innerText = data.stats.saved_count;
-      document.getElementById('tab-enq-count').innerText = data.stats.enquiries_count;
+      // Populate Form inputs
+      document.getElementById('prof-name').value = u.name;
+      document.getElementById('prof-email').value = u.email;
+      document.getElementById('prof-phone').value = u.phone || '';
+      if (u.preferred_location) document.getElementById('prof-pref-location').value = u.preferred_location;
+      if (u.preferred_property_type) document.getElementById('prof-pref-type').value = u.preferred_property_type;
+      if (u.budget_range) document.getElementById('prof-pref-budget').value = u.budget_range;
 
-      // Render Recommendations
-      const recGrid = document.getElementById('recommended-grid');
+      // Render Recommended Properties
+      const recGrid = document.getElementById('recommended-properties-grid');
       if (data.recommended && data.recommended.length > 0) {
-        recGrid.innerHTML = data.recommended.map(prop => {
+        recGrid.innerHTML = data.recommended.map(p => {
+          const matchScore = p.match_score || 85;
+          const scoreClass = matchScore >= 80 ? 'match-high' : matchScore >= 60 ? 'match-mid' : 'match-low';
           return `
             <div style="position: relative;">
-              <div class="match-score-pill" title="Algorithmic Match Score">
-                🎯 ${prop.match_score}% Match
+              <div style="position: absolute; top: 12px; left: 12px; z-index: 10;">
+                <span class="match-badge-large ${scoreClass}">
+                  ⚜️ ${matchScore}% Suitability
+                </span>
               </div>
-              ${EstateLead.renderPropertyCard(prop)}
+              ${EstateLead.renderPropertyCard(p)}
             </div>
           `;
         }).join('');
       } else {
         recGrid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border);">
-            <h3>No exact criteria matches right now</h3>
-            <p style="color: var(--text-muted); margin-top: 6px;">Try expanding your budget range or preferred cities.</p>
+          <div style="grid-column: 1 / -1; text-align: center; padding: 50px; background: #ffffff; border-radius: var(--radius-md); border: 1px dashed var(--border-gold);">
+            <p style="color: var(--text-muted);">No exact matches found for current criteria. Try expanding your preference budget or location.</p>
           </div>
         `;
       }
 
-      // Render Recently Viewed
+      // Render Saved Grid
+      const savedGrid = document.getElementById('saved-grid');
+      if (data.saved && data.saved.length > 0) {
+        savedGrid.innerHTML = data.saved.map(p => EstateLead.renderPropertyCard(p)).join('');
+      } else {
+        savedGrid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 50px; background: #ffffff; border-radius: var(--radius-md); border: 1px dashed var(--border-gold);">
+            <div style="font-size: 2.5rem; margin-bottom: 10px;">❤️</div>
+            <p style="color: var(--text-muted);">You have not shortlisted any properties yet. Explore our portfolio to bookmark favorites.</p>
+            <a href="properties.html" class="btn btn-outline btn-sm" style="margin-top: 14px;">Browse Portfolio</a>
+          </div>
+        `;
+      }
+
+      // Render Recently Viewed Grid
       const recentGrid = document.getElementById('recently-viewed-grid');
       if (data.recently_viewed && data.recently_viewed.length > 0) {
-        recentGrid.innerHTML = data.recently_viewed.map(prop => EstateLead.renderPropertyCard(prop)).join('');
+        recentGrid.innerHTML = data.recently_viewed.map(p => EstateLead.renderPropertyCard(p)).join('');
       } else {
-        recentGrid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-muted);">You haven't viewed any properties yet.</div>`;
-      }
-
-      // Render Saved Shortlist
-      const savedGrid = document.getElementById('saved-grid');
-      if (data.saved_properties && data.saved_properties.length > 0) {
-        savedGrid.innerHTML = data.saved_properties.map(prop => EstateLead.renderPropertyCard(prop)).join('');
-      } else {
-        savedGrid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-muted);">No saved properties in your wishlist.</div>`;
-      }
-
-      // Render Enquiries
-      const enqContainer = document.getElementById('enquiries-list-container');
-      if (data.enquiries && data.enquiries.length > 0) {
-        enqContainer.innerHTML = data.enquiries.map(enq => renderEnquiryCard(enq)).join('');
-      } else {
-        enqContainer.innerHTML = `
-          <div style="text-align: center; padding: 60px 20px; background: #ffffff; border-radius: var(--radius-md); border: 1px solid var(--border);">
-            <div style="font-size: 2.5rem; margin-bottom: 8px;">📋</div>
-            <h3 style="font-size: 1.2rem; margin-bottom: 6px;">No enquiries submitted yet</h3>
-            <p style="color: var(--text-muted); margin-bottom: 18px;">When you request a property callback or site visit, you can track its live progress here.</p>
-            <a href="/properties.html" class="btn btn-primary">Browse Properties</a>
+        recentGrid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 50px; background: #ffffff; border-radius: var(--radius-md); border: 1px dashed var(--border-gold);">
+            <p style="color: var(--text-muted);">No recent property activity recorded. Start exploring our verified catalog!</p>
           </div>
         `;
       }
 
-      // Fill Profile Form
-      document.getElementById('prof-name').value = p.name;
-      document.getElementById('prof-email').value = p.email;
-      document.getElementById('prof-phone').value = p.phone || 'Not provided';
-      document.getElementById('prof-pref-location').value = p.preferred_location;
-      document.getElementById('prof-pref-type').value = p.preferred_property_type;
-      document.getElementById('prof-pref-budget').value = p.budget_range;
-    }
+      // Render Enquiries / Site Visits
+      const enqContainer = document.getElementById('enquiries-list-container');
+      if (data.enquiries && data.enquiries.length > 0) {
+        enqContainer.innerHTML = data.enquiries.map(enq => {
+          const stages = ['New Enquiry', 'Contacted', 'Site Visit', 'Negotiation', 'Closed'];
+          const currentIdx = stages.indexOf(enq.status) !== -1 ? stages.indexOf(enq.status) : 0;
 
-    function renderEnquiryCard(e) {
-      const stages = ['New', 'Contacted', 'Site Visit', 'Negotiation', 'Converted'];
-      const currentIdx = stages.indexOf(e.status);
+          return `
+            <div class="enquiry-card">
+              <div>
+                <span class="brand-badge" style="margin-bottom: 6px; display: inline-block;">#L${enq.id}</span>
+                <div style="font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.82rem; color: var(--primary);">${EstateLead.escapeHTML(enq.enquiry_type || 'Consultation')}</div>
+                <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">${new Date(enq.created_at).toLocaleDateString()}</div>
+              </div>
 
-      return `
-        <div class="enquiry-card">
-          <div>
-            <img src="${EstateLead.escapeHTML(e.property_image || 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=400&q=80')}"
-                 alt="Property" style="width: 100%; height: 95px; object-fit: cover; border-radius: var(--radius-sm);">
-          </div>
-          <div>
-            <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 4px;">
-              <span class="badge badge-purpose">${EstateLead.escapeHTML(e.enquiry_type || 'General Enquiry')}</span>
-              <span style="font-size: 0.8rem; color: var(--text-muted);">Ref #L${e.id} • ${new Date(e.created_at).toLocaleDateString()}</span>
+              <div>
+                <h4 style="font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--primary);">${EstateLead.escapeHTML(enq.property_title || 'General Metro Consultation')}</h4>
+                <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">
+                  <span>📍 ${EstateLead.escapeHTML(enq.location || 'Chennai')}</span> &bull; 
+                  <span>💰 ${EstateLead.escapeHTML(enq.budget || '₹80L - ₹1.5 Cr')}</span> &bull; 
+                  <span>👤 Advisor: <strong>${EstateLead.escapeHTML(enq.assigned_agent || 'Senior Partner')}</strong></span>
+                </div>
+
+                <div class="pipeline-bar">
+                  ${stages.map((st, i) => {
+                    let cls = 'pipeline-step';
+                    if (i < currentIdx) cls += ' active';
+                    if (i === currentIdx) cls += ' current';
+                    return `<span class="${cls}">${i < currentIdx ? '✓ ' : ''}${st}</span>`;
+                  }).join('')}
+                </div>
+              </div>
+
+              <div>
+                <span class="badge ${enq.status === 'Closed' ? 'badge-status' : 'badge-featured'}">${enq.status}</span>
+              </div>
             </div>
-            <h3 style="font-size: 1.15rem;">
-              <a href="/property-details.html?id=${e.property_id || 1}">${EstateLead.escapeHTML(e.property_title || 'General Property Consultation')}</a>
-            </h3>
-            <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 2px;">
-              📍 ${EstateLead.escapeHTML(e.property_location || e.preferred_location || 'Tamil Nadu')} • ${e.property_price ? EstateLead.formatINR(e.property_price) : ''}
-            </p>
-
-            <!-- Sales Progression Bar -->
-            <div class="pipeline-bar">
-              ${stages.map((st, idx) => {
-                let cls = 'pipeline-step';
-                if (idx < currentIdx) cls += ' active';
-                if (idx === currentIdx) cls += ' current';
-                return `<span class="${cls}">${st}</span>`;
-              }).join(' &rarr; ')}
-            </div>
-          </div>
-
-          <div style="text-align: right; border-left: 1px solid var(--border); padding-left: 20px;">
-            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700;">ASSIGNED CONSULTANT</div>
-            <div style="font-weight: 700; color: var(--primary); font-size: 0.95rem; margin-top: 2px;">
-              ${EstateLead.escapeHTML(e.assigned_agent_name || 'Senior Property Consultant')}
-            </div>
-            ${e.assigned_agent_phone ? `
-              <a href="tel:${e.assigned_agent_phone}" class="btn btn-outline btn-sm" style="margin-top: 8px;">
-                📞 Call Agent
-              </a>
-            ` : ''}
-          </div>
-        </div>
-      `;
-    }
-
-    function calculateEMI() {
-      const propVal = parseFloat(document.getElementById('input-emi-property-val').value) || 12000000;
-      const downPct = parseFloat(document.getElementById('input-emi-down-pct').value) || 20;
-      const rateAnnual = parseFloat(document.getElementById('input-emi-interest-rate').value) || 8.5;
-      const tenureYears = parseFloat(document.getElementById('input-emi-tenure-years').value) || 20;
-
-      const downPayment = propVal * (downPct / 100);
-      const principal = propVal - downPayment;
-      const monthlyRate = (rateAnnual / 12) / 100;
-      const totalMonths = tenureYears * 12;
-
-      // EMI Formula: P * r * (1+r)^n / ((1+r)^n - 1)
-      const emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) / (Math.pow(1 + monthlyRate, totalMonths) - 1);
-      const totalPayment = emi * totalMonths;
-      const totalInterest = totalPayment - principal;
-
-      // Update Labels
-      document.getElementById('label-emi-property-val').innerText = EstateLead.formatINR(propVal);
-      document.getElementById('label-emi-down-pct').innerText = `${downPct}% (${EstateLead.formatINR(downPayment)})`;
-      document.getElementById('label-emi-interest-rate').innerText = `${rateAnnual.toFixed(2)}%`;
-      document.getElementById('label-emi-tenure-years').innerText = `${tenureYears} Years`;
-
-      // Update Result Boxes
-      document.getElementById('out-emi-monthly').innerText = EstateLead.formatINR(Math.round(emi));
-      document.getElementById('out-emi-principal').innerText = EstateLead.formatINR(Math.round(principal));
-      document.getElementById('out-emi-interest').innerText = EstateLead.formatINR(Math.round(totalInterest));
-      document.getElementById('out-emi-total').innerText = EstateLead.formatINR(Math.round(totalPayment));
-
-      // Render or Update Doughnut Chart
-      const ctx = document.getElementById('chart-dash-emi');
-      if (!ctx) return;
-
-      if (emiChartInstance) {
-        emiChartInstance.data.datasets[0].data = [Math.round(principal), Math.round(totalInterest)];
-        emiChartInstance.update();
+          `;
+        }).join('');
       } else {
-        emiChartInstance = new Chart(ctx, {
-          type: 'doughnut',
-          data: {
-            labels: ['Principal Loan Amount', 'Total Interest Payable'],
-            datasets: [{
-              data: [Math.round(principal), Math.round(totalInterest)],
-              backgroundColor: ['#0284c7', '#d97706'],
-              borderWidth: 2,
-              borderColor: '#ffffff'
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 11, family: 'Inter' } } }
-            },
-            cutout: '65%'
-          }
-        });
+        enqContainer.innerHTML = `
+          <div style="text-align: center; padding: 50px; background: #ffffff; border-radius: var(--radius-md); border: 1px dashed var(--border-gold);">
+            <div style="font-size: 2.5rem; margin-bottom: 10px;">📜</div>
+            <p style="color: var(--text-muted);">No active enquiries or scheduled tours. Request a private showing on any property page.</p>
+          </div>
+        `;
+      }
+
+      initRadarChart();
+      initDashFinancialSliders();
+    }
+
+    function switchDashTab(tabKey) {
+      document.querySelectorAll('.dash-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
+
+      const btn = document.getElementById(`tab-btn-${tabKey}`);
+      const pane = document.getElementById(`tab-content-${tabKey}`);
+      if (btn) btn.classList.add('active');
+      if (pane) pane.style.display = 'block';
+
+      if (tabKey === 'financial' && radarChartInstance) {
+        setTimeout(() => radarChartInstance.resize(), 100);
       }
     }
 
-    function renderRadarChart(profile) {
+    function initRadarChart() {
       const ctx = document.getElementById('chart-dash-radar');
       if (!ctx) return;
 
-      if (radarChartInstance) {
-        radarChartInstance.destroy();
-      }
+      if (radarChartInstance) radarChartInstance.destroy();
 
       radarChartInstance = new Chart(ctx, {
         type: 'radar',
         data: {
-          labels: ['Metro Hub Location', 'Budget Bandwidth', 'Category Alignment', 'Ready-to-Move', 'Gated Amenities'],
+          labels: ['Location Alignment', 'Budget Efficiency', 'Typology Fit', 'Amenities Spec', 'Move-in Timeline', 'Legal RERA'],
           datasets: [{
-            label: `${(profile && profile.name) ? profile.name.split(' ')[0] : 'Buyer'} Match Fit (%)`,
-            data: [95, 88, 92, 85, 90],
-            backgroundColor: 'rgba(217, 119, 6, 0.2)',
-            borderColor: '#d97706',
-            pointBackgroundColor: '#d97706',
-            pointBorderColor: '#ffffff',
+            label: 'Your Acquisition Match Matrix',
+            data: [95, 88, 92, 85, 90, 100],
+            backgroundColor: 'rgba(197, 160, 89, 0.25)',
+            borderColor: '#c5a059',
+            borderWidth: 2,
+            pointBackgroundColor: '#090d16',
+            pointBorderColor: '#d4af37',
             pointHoverBackgroundColor: '#ffffff',
-            pointHoverBorderColor: '#d97706',
-            borderWidth: 2
+            pointHoverBorderColor: '#c5a059',
           }]
         },
         options: {
@@ -897,52 +873,96 @@
           maintainAspectRatio: false,
           scales: {
             r: {
-              angleLines: { color: 'rgba(226, 232, 240, 0.8)' },
-              grid: { color: 'rgba(226, 232, 240, 0.8)' },
-              pointLabels: { font: { family: 'Inter', size: 11, weight: '600' }, color: '#334155' },
-              suggestedMin: 50,
-              suggestedMax: 100
+              angleLines: { color: 'rgba(197, 160, 89, 0.2)' },
+              grid: { color: 'rgba(197, 160, 89, 0.15)' },
+              pointLabels: {
+                font: { family: 'Cinzel', size: 10, weight: '700' },
+                color: '#090d16',
+              },
+              ticks: {
+                display: false,
+                min: 0,
+                max: 100,
+              }
             }
           },
           plugins: {
-            legend: { position: 'bottom', labels: { font: { family: 'Inter', weight: '600' } } }
+            legend: { display: false }
           }
         }
       });
     }
 
-    function switchDashTab(tabName) {
-      document.querySelectorAll('.dash-tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
+    function initDashFinancialSliders() {
+      const sPrice = document.getElementById('dash-slider-price');
+      const sDP = document.getElementById('dash-slider-dp');
+      const sRate = document.getElementById('dash-slider-rate');
+      const sTenure = document.getElementById('dash-slider-tenure');
 
-      const btn = document.querySelector(`.dash-tab-btn[data-tab="${tabName}"]`);
-      if (btn) btn.classList.add('active');
+      function calculate() {
+        const price = parseFloat(sPrice.value);
+        const dpPct = parseFloat(sDP.value);
+        const rate = parseFloat(sRate.value);
+        const tenure = parseInt(sTenure.value, 10);
 
-      const pane = document.getElementById(`tab-content-${tabName}`);
-      if (pane) pane.style.display = 'block';
+        const dpVal = price * (dpPct / 100);
+        document.getElementById('slider-val-price').innerText = EstateLead.formatINR(price);
+        document.getElementById('slider-val-dp').innerText = `${dpPct}% (${EstateLead.formatINR(dpVal)})`;
+        document.getElementById('slider-val-rate').innerText = `${rate}% p.a.`;
+        document.getElementById('slider-val-tenure').innerText = `${tenure} Years`;
 
-      if (tabName === 'financial') {
-        setTimeout(() => {
-          calculateEMI();
-          if (dashboardData && dashboardData.profile) renderRadarChart(dashboardData.profile);
-        }, 50);
+        const res = EstateLead.calculateEMI(price, dpPct, tenure, rate);
+        document.getElementById('dash-emi-output').innerText = `₹${res.emi.toLocaleString('en-IN')}`;
+        document.getElementById('dash-loan-out').innerText = EstateLead.formatINR(res.loanAmount);
+        document.getElementById('dash-interest-out').innerText = EstateLead.formatINR(res.totalInterest);
       }
+
+      sPrice.addEventListener('input', calculate);
+      sDP.addEventListener('input', calculate);
+      sRate.addEventListener('input', calculate);
+      sTenure.addEventListener('input', calculate);
+
+      calculate();
     }
 
     function openPreferencesModal() {
-      switchDashTab('profile');
+      if (dashData && dashData.profile) {
+        const u = dashData.profile;
+        if (u.preferred_location) document.getElementById('modal-pref-location').value = u.preferred_location;
+        if (u.preferred_property_type) document.getElementById('modal-pref-type').value = u.preferred_property_type;
+        if (u.budget_range) document.getElementById('modal-pref-budget').value = u.budget_range;
+      }
+      document.getElementById('criteria-modal').classList.add('open');
+    }
+
+    function closePreferencesModal() {
+      document.getElementById('criteria-modal').classList.remove('open');
     }
 
     async function handlePreferencesUpdate(e) {
       e.preventDefault();
-      const preferred_location = document.getElementById('prof-pref-location').value;
-      const preferred_property_type = document.getElementById('prof-pref-type').value;
-      const budget_range = document.getElementById('prof-pref-budget').value;
-      const btn = document.getElementById('btn-save-pref');
+      const payload = {
+        preferred_location: document.getElementById('prof-pref-location').value,
+        preferred_property_type: document.getElementById('prof-pref-type').value,
+        budget_range: document.getElementById('prof-pref-budget').value,
+      };
 
-      btn.disabled = true;
-      btn.innerText = 'Updating & Recalculating Matches...';
+      await sendPreferencesUpdate(payload);
+    }
 
+    async function handleModalPreferencesUpdate(e) {
+      e.preventDefault();
+      const payload = {
+        preferred_location: document.getElementById('modal-pref-location').value,
+        preferred_property_type: document.getElementById('modal-pref-type').value,
+        budget_range: document.getElementById('modal-pref-budget').value,
+      };
+
+      closePreferencesModal();
+      await sendPreferencesUpdate(payload);
+    }
+
+    async function sendPreferencesUpdate(payload) {
       try {
         const res = await fetch(EstateLead.apiUrl('/api/customer/preferences'), {
           method: 'PUT',
@@ -950,23 +970,22 @@
             Authorization: `Bearer ${EstateLead.token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ preferred_location, preferred_property_type, budget_range }),
+          body: JSON.stringify(payload),
         });
         const data = await res.json();
-
         if (data.success) {
-          EstateLead.showToast('Criteria saved! Recalculating your matches...', 'success');
-          await loadDashboard();
-          switchDashTab('recommended');
+          EstateLead.showToast('Acquisition criteria updated! Re-calibrating matches...', 'success');
+          loadDashboard();
         } else {
-          EstateLead.showToast(data.error || 'Failed to update preferences.', 'error');
+          EstateLead.showToast(data.error || 'Failed to update criteria.', 'error');
         }
       } catch (err) {
-        EstateLead.showToast('Network error while saving preferences.', 'error');
-      } finally {
-        btn.disabled = false;
-        btn.innerText = '💾 Save Personalization Criteria';
+        EstateLead.showToast('Network error updating parameters.', 'error');
       }
+    }
+
+    async function quickSignIn(email, password) {
+      await EstateLead.directLogin(email, password, 'dashboard.html');
     }
 
     document.addEventListener('DOMContentLoaded', loadDashboard);
